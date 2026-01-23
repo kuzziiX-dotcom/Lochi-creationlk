@@ -1,5 +1,3 @@
---- START OF FILE ai_studio_code (71).html ---
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,105 +15,141 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <style>
-        /* 
-           LOCHI CREATION - GLOBAL STYLES
-           Theme: Cyber-Neon / Futuristic Flower Shop
-        */
         :root { 
             --neon-blue: #00f3ff; 
             --neon-dark-blue: #0077ff; 
             --bg-color: #050505; 
-            --card-bg: rgba(255, 255, 255, 0.05); 
+            --card-bg: rgba(255, 255, 255, 0.03); 
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        .light-mode { 
-            --neon-blue: #0077ff; 
-            --neon-dark-blue: #0055aa; 
-            --bg-color: #f8f9fa; 
-            --card-bg: rgba(0, 0, 0, 0.05); 
-            --glass-border: rgba(0, 0, 0, 0.1);
-            color: #1a1a1a !important; 
-        }
-        
         body { 
             font-family: 'Poppins', sans-serif; 
             background-color: var(--bg-color); 
+            background-image: radial-gradient(circle at 50% 50%, #001f3f 0%, #050505 100%);
             color: white; 
             scroll-behavior: smooth; 
             overflow-x: hidden; 
-            transition: background 0.3s ease;
         }
 
         .orbitron { font-family: 'Orbitron', sans-serif; }
         .neon-text { color: var(--neon-blue); text-shadow: 0 0 15px var(--neon-blue); }
         .neon-border { border: 1px solid var(--neon-blue); box-shadow: 0 0 20px rgba(0, 243, 255, 0.2); }
-        .glass { background: var(--card-bg); backdrop-filter: blur(15px); border: 1px solid var(--glass-border); }
+        .glass { background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); }
         
+        /* Premium Buttons */
         .blue-btn { 
             background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-dark-blue) 100%) !important; 
             color: #000 !important; 
-            font-weight: bold; 
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 800; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .blue-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0, 243, 255, 0.5); }
+        .blue-btn:hover { 
+            transform: scale(1.02); 
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.6); 
+        }
+
+        /* Input Styling */
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--neon-blue); font-size: 14px; }
+        input, select, textarea { 
+            width: 100%;
+            background: rgba(255,255,255,0.05) !important; 
+            border: 1px solid var(--glass-border) !important; 
+            color: white !important; 
+            padding: 12px 12px 12px 45px !important; 
+            border-radius: 15px !important; 
+            outline: none !important; 
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--neon-blue) !important; background: rgba(0, 243, 255, 0.05) !important; box-shadow: 0 0 15px rgba(0, 243, 255, 0.1); }
         
+        /* Auth Tabs */
+        .auth-tab { transition: 0.4s; position: relative; cursor: pointer; }
+        .active-tab { color: var(--neon-blue); border-bottom: 2px solid var(--neon-blue); }
+
         /* Ticker Animation */
-        .ticker-container { background: rgba(0, 243, 255, 0.15); border-bottom: 1px solid var(--neon-blue); overflow: hidden; white-space: nowrap; padding: 12px 0; }
-        .ticker-content { display: inline-block; animation: scroll-ticker 40s linear infinite; font-size: 13px; font-weight: 600; text-transform: uppercase; color: var(--neon-blue); }
+        .ticker-container { background: rgba(0, 243, 255, 0.1); border-bottom: 1px solid var(--neon-blue); overflow: hidden; white-space: nowrap; padding: 10px 0; }
+        .ticker-content { display: inline-block; animation: scroll-ticker 30s linear infinite; font-size: 11px; font-weight: bold; color: var(--neon-blue); }
         @keyframes scroll-ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* UI Helpers */
-        .hidden { display: none !important; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        input, select, textarea { background: rgba(255,255,255,0.05) !important; border: 1px solid var(--glass-border) !important; color: inherit !important; padding: 15px !important; border-radius: 12px !important; outline: none !important; }
-        input:focus { border-color: var(--neon-blue) !important; box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
+        /* Scroller */
+        .update-scroll::-webkit-scrollbar { height: 4px; }
+        .update-scroll::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 10px; }
         
-        /* Sidebar Navigation */
-        #side-menu { position: fixed; top: 0; right: -320px; width: 300px; height: 100%; background: rgba(5, 5, 5, 0.98); z-index: 2000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-left: 1px solid var(--neon-blue); }
+        .update-item { min-width: 250px; height: 350px; border-radius: 25px; overflow: hidden; position: relative; border: 1px solid var(--glass-border); transition: 0.3s; }
+        .update-item:hover { border-color: var(--neon-blue); transform: translateY(-5px); }
+
+        /* Side Menu */
+        #side-menu { position: fixed; top: 0; right: -320px; width: 300px; height: 100%; background: rgba(5, 5, 5, 0.98); z-index: 2000; transition: 0.5s; border-left: 1px solid var(--neon-blue); box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
         .menu-open { right: 0 !important; }
-        
-        /* Smooth Fade In */
-        .fade-in { animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Update Scroller */
-        .update-item { min-width: 280px; height: 380px; border-radius: 20px; overflow: hidden; position: relative; border: 1px solid var(--glass-border); flex-shrink: 0; margin-right: 15px; }
-        .update-scroll { display: flex; overflow-x: auto; padding: 20px; scroll-behavior: smooth; }
-
-        /* Chat UI */
-        .chat-bubble { padding: 12px 18px; border-radius: 18px; margin-bottom: 12px; max-width: 85%; font-size: 14px; position: relative; }
-        .msg-user { align-self: flex-end; background: var(--neon-dark-blue); color: white; border-bottom-right-radius: 2px; }
-        .msg-admin { align-self: flex-start; background: #222; color: #fff; border-bottom-left-radius: 2px; border: 1px solid var(--neon-blue); }
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body onload="initApp()">
 
     <!-- AUTHENTICATION VIEW -->
-    <section id="page-auth" class="min-h-screen flex items-center justify-center p-6">
-        <div class="glass w-full max-w-md p-10 rounded-[2.5rem] neon-border text-center shadow-2xl">
-            <img src="https://res.cloudinary.com/deljgkppf/image/upload/v1767954170/IMG-20260109-WA0123_kegi8a.jpg" class="w-24 h-24 rounded-full mx-auto mb-6 border-2 border-[#00f3ff] shadow-lg object-cover">
-            <h1 class="orbitron text-2xl font-bold neon-text mb-6">LOCHI CREATION</h1>
+    <section id="page-auth" class="min-h-screen flex items-center justify-center p-6 bg-cover bg-center">
+        <div class="glass w-full max-w-md p-8 rounded-[2.5rem] neon-border text-center shadow-2xl fade-in">
+            <!-- Logo Section -->
+            <div class="relative inline-block mb-6">
+                <div class="absolute -inset-1 bg-[#00f3ff] rounded-full blur opacity-30 animate-pulse"></div>
+                <img src="https://res.cloudinary.com/deljgkppf/image/upload/v1767954170/IMG-20260109-WA0123_kegi8a.jpg" 
+                     class="relative w-24 h-24 rounded-full border-2 border-[#00f3ff] object-cover mx-auto">
+            </div>
             
-            <div class="flex mb-6 bg-white/5 rounded-2xl p-1 border border-white/10">
-                <button id="signupTabBtn" onclick="switchAuth('signup')" class="flex-1 py-3 text-sm font-bold rounded-xl transition blue-btn">SIGN UP</button>
-                <button id="loginTabBtn" onclick="switchAuth('login')" class="flex-1 py-3 text-sm font-bold rounded-xl transition text-gray-400">SIGN IN</button>
+            <h1 class="orbitron text-2xl font-bold neon-text mb-2">LOCHI CREATION</h1>
+            <p class="text-xs text-gray-400 mb-8 tracking-[3px] uppercase">Elite Neon Florals</p>
+            
+            <!-- Custom Tabs -->
+            <div class="flex justify-around mb-8 border-b border-white/10 pb-2">
+                <div id="loginTabBtn" onclick="switchAuth('login')" class="auth-tab active-tab font-bold text-sm tracking-widest px-4 py-2 uppercase">Login</div>
+                <div id="signupTabBtn" onclick="switchAuth('signup')" class="auth-tab font-bold text-sm tracking-widest px-4 py-2 uppercase text-gray-500">Register</div>
             </div>
 
-            <form id="signupForm" class="space-y-4 text-left">
-                <input type="text" id="sName" placeholder="Full Name" required>
-                <input type="email" id="sEmail" placeholder="Email Address" required>
-                <input type="text" id="sPhone" placeholder="Mobile Number" required>
-                <textarea id="sAddress" placeholder="Home Address" rows="2" required></textarea>
-                <input type="password" id="sPass" placeholder="Password" required>
-                <button type="submit" class="w-full blue-btn py-4 rounded-xl font-bold uppercase mt-2">Get Started</button>
+            <!-- Signup Form -->
+            <form id="signupForm" class="space-y-1 hidden">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="sName" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="sEmail" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-phone"></i>
+                    <input type="text" id="sPhone" placeholder="Phone Number" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <textarea id="sAddress" placeholder="Delivery Address" rows="2" style="padding-top: 10px !important;" required></textarea>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="sPass" placeholder="Password" required>
+                </div>
+                <button type="submit" class="w-full blue-btn py-4 rounded-2xl mt-4">Create Account</button>
             </form>
 
-            <form id="loginForm" class="space-y-4 text-left hidden">
-                <input type="text" id="lUser" placeholder="Email or Phone" required>
-                <input type="password" id="lPass" placeholder="Password" required>
-                <button type="submit" class="w-full blue-btn py-4 rounded-xl font-bold uppercase mt-2">Login Now</button>
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-4">
+                <div class="input-group">
+                    <i class="fas fa-user-circle"></i>
+                    <input type="text" id="lUser" placeholder="Email or Phone" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="lPass" placeholder="Password" required>
+                </div>
+                <button type="submit" class="w-full blue-btn py-4 rounded-2xl mt-4">Sign In Now</button>
+                <p class="mt-6 text-[10px] text-gray-500 italic">"Glow with every petal, Bloom with Every Choice"</p>
             </form>
         </div>
     </section>
@@ -126,162 +160,189 @@
             <h2 class="orbitron font-bold neon-text">NAVIGATION</h2>
             <button onclick="toggleMenu()" class="text-white hover:text-[#00f3ff]"><i class="fas fa-times text-2xl"></i></button>
         </div>
-        <nav class="flex flex-col gap-5">
-            <button onclick="navigateTo('home'); toggleMenu()" class="text-left py-2 border-b border-white/5 hover:text-[#00f3ff] transition uppercase text-xs tracking-widest"><i class="fas fa-home mr-3"></i> Store Home</button>
-            <button onclick="navigateTo('history'); toggleMenu()" class="text-left py-2 border-b border-white/5 hover:text-[#00f3ff] transition uppercase text-xs tracking-widest"><i class="fas fa-shopping-bag mr-3"></i> My Orders</button>
-            <button onclick="navigateTo('service'); toggleMenu()" class="text-left py-3 bg-cyan-900/30 rounded-lg px-2 text-[#00f3ff] uppercase text-xs tracking-widest font-bold"><i class="fas fa-headset mr-3"></i> Customer Service</button>
-            <button onclick="navigateTo('profile'); toggleMenu()" class="text-left py-2 border-b border-white/5 hover:text-[#00f3ff] transition uppercase text-xs tracking-widest"><i class="fas fa-user-circle mr-3"></i> My Profile</button>
-            <button onclick="navigateTo('help'); toggleMenu()" class="text-left py-2 border-b border-white/5 hover:text-[#00f3ff] transition uppercase text-xs tracking-widest"><i class="fas fa-info-circle mr-3"></i> Help & FAQ</button>
-            <button onclick="navigateTo('settings'); toggleMenu()" class="text-left py-2 border-b border-white/5 hover:text-[#00f3ff] transition uppercase text-xs tracking-widest"><i class="fas fa-cog mr-3"></i> Settings</button>
+        <nav class="flex flex-col gap-6">
+            <button onclick="navigateTo('home'); toggleMenu()" class="text-left py-2 hover:text-[#00f3ff] transition uppercase text-xs tracking-[2px]"><i class="fas fa-home mr-3"></i> Home</button>
+            <button onclick="navigateTo('history'); toggleMenu()" class="text-left py-2 hover:text-[#00f3ff] transition uppercase text-xs tracking-[2px]"><i class="fas fa-shopping-bag mr-3"></i> My Orders</button>
+            <button onclick="navigateTo('service'); toggleMenu()" class="text-left py-4 bg-cyan-900/20 rounded-xl px-4 text-[#00f3ff] uppercase text-xs tracking-[2px] font-bold"><i class="fas fa-headset mr-3"></i> Customer Service</button>
+            <button onclick="navigateTo('help'); toggleMenu()" class="text-left py-2 hover:text-[#00f3ff] transition uppercase text-xs tracking-[2px]"><i class="fas fa-question-circle mr-3"></i> Help Center</button>
+            <button onclick="navigateTo('profile'); toggleMenu()" class="text-left py-2 hover:text-[#00f3ff] transition uppercase text-xs tracking-[2px]"><i class="fas fa-user-circle mr-3"></i> Profile</button>
         </nav>
-        <button onclick="signOut()" class="mt-auto py-3 text-red-500 font-bold border border-red-500/30 rounded-xl hover:bg-red-500/10">LOGOUT</button>
+        <button onclick="signOut()" class="mt-auto py-4 text-red-500 font-bold border border-red-500/30 rounded-2xl hover:bg-red-500/10">LOGOUT</button>
     </div>
 
     <!-- MAIN DASHBOARD -->
     <div id="main-app" class="hidden min-h-screen flex flex-col">
-        <!-- NEWS TICKER -->
         <div class="ticker-container">
-            <div id="moving-ticker" class="ticker-content">Loading latest updates from Lochi Creation...</div>
+            <div id="moving-ticker" class="ticker-content uppercase">Premium Hand-crafted Neon Flowers • Same day delivery within City • Premium Packaging • Order Now!</div>
         </div>
 
-        <!-- TOP NAVIGATION -->
-        <nav class="p-4 glass sticky top-0 z-50 flex justify-between items-center px-6 border-b border-white/5">
+        <nav class="p-5 glass sticky top-0 z-50 flex justify-between items-center px-8">
             <h1 class="orbitron text-xl font-bold neon-text" onclick="navigateTo('home')">LOCHI</h1>
-            <div class="flex items-center gap-4">
-                <button onclick="toggleMenu()" class="text-[#00f3ff] text-xl"><i class="fas fa-bars"></i></button>
-                <div onclick="navigateTo('profile')" class="w-10 h-10 rounded-full border-2 border-[#00f3ff] overflow-hidden cursor-pointer bg-gray-800">
+            <div class="flex items-center gap-5">
+                <button onclick="toggleMenu()" class="text-[#00f3ff] text-2xl hover:scale-110 transition"><i class="fas fa-bars-staggered"></i></button>
+                <div onclick="navigateTo('profile')" class="w-10 h-10 rounded-full border-2 border-[#00f3ff] overflow-hidden bg-gray-900 cursor-pointer">
                     <img id="navProfilePic" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-full h-full object-cover">
                 </div>
             </div>
         </nav>
 
-        <!-- CONTENT AREA -->
         <div id="content-views">
             <!-- HOME VIEW -->
             <main id="view-home" class="p-6 fade-in">
                 <div class="max-w-7xl mx-auto">
-                    <h3 class="orbitron text-xs font-bold text-gray-400 mb-4 uppercase tracking-widest">Featured Creations</h3>
-                    <div id="photo-updates-scroller" class="update-scroll">
-                        <!-- Updates loaded via JS -->
+                    <h3 class="orbitron text-[10px] text-gray-500 mb-6 uppercase tracking-[4px]">Latest Creations</h3>
+                    <div id="photo-updates-scroller" class="update-scroll flex overflow-x-auto gap-4 pb-6 no-scrollbar">
+                        <!-- Updates -->
                     </div>
 
-                    <h3 class="orbitron text-xl font-bold mt-10 mb-6 border-l-4 border-[#00f3ff] pl-3 uppercase italic">Our Collection</h3>
-                    <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-                        <!-- Products loaded via JS -->
+                    <h3 class="orbitron text-xl font-bold mt-10 mb-8 border-l-4 border-[#00f3ff] pl-4 uppercase tracking-widest">Store Collection</h3>
+                    <div id="product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <!-- Products -->
                     </div>
                 </div>
             </main>
 
             <!-- CUSTOMER SERVICE VIEW -->
             <main id="view-service" class="hidden p-6 fade-in h-full flex-grow">
-                <div class="max-w-2xl mx-auto w-full h-[650px] glass rounded-[2.5rem] flex flex-col border border-white/10 shadow-2xl">
-                    <div class="p-5 blue-btn text-center font-bold uppercase tracking-widest">
-                        <i class="fas fa-comments mr-2"></i> Support Center
+                <div class="max-w-xl mx-auto w-full h-[550px] glass rounded-[2.5rem] flex flex-col border border-white/10 shadow-2xl overflow-hidden">
+                    <div class="p-5 blue-btn text-center font-bold tracking-[2px]">CUSTOMER SERVICE</div>
+                    <div id="chat-box-service" class="flex-grow p-6 overflow-y-auto space-y-4 no-scrollbar">
+                        <!-- Messages are loaded here -->
                     </div>
-                    <div id="chat-box-service" class="flex-grow p-6 overflow-y-auto flex flex-col no-scrollbar">
-                        <!-- Messages render here -->
-                    </div>
-                    <div class="p-4 flex gap-3 bg-black/20 border-t border-white/10">
-                        <input type="text" id="serviceChatInput" placeholder="How can we help?" class="flex-grow">
+                    <div class="p-4 flex gap-3 bg-white/5 border-t border-white/10">
+                        <input type="text" id="serviceChatInput" placeholder="How can we help you?" class="flex-grow !pl-5">
                         <button onclick="sendServiceMsg()" class="blue-btn px-6 rounded-2xl"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
             </main>
 
-            <!-- ORDER HISTORY VIEW -->
+            <!-- HELP CENTER VIEW -->
+            <main id="view-help" class="hidden p-8 fade-in">
+                <div class="max-w-lg mx-auto glass p-10 rounded-[3rem] text-center neon-border">
+                    <h2 class="orbitron text-xl font-bold neon-text mb-8 uppercase tracking-widest">Help Center</h2>
+                    <div class="space-y-6 text-left">
+                        <!-- WhatsApp Link 1 -->
+                        <a href="https://wa.me/94755235773?text=Can%20you%20help%20me%3F" target="_blank" class="block bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition">
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2"><i class="fab fa-whatsapp text-green-500 mr-2"></i> WhatsApp (1)</p>
+                            <p class="text-white text-sm font-bold">+94 75 523 5773</p>
+                        </a>
+                        <!-- WhatsApp Link 2 -->
+                        <a href="https://wa.me/94722014353?text=Can%20you%20help%20me%3F" target="_blank" class="block bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition">
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2"><i class="fab fa-whatsapp text-green-500 mr-2"></i> WhatsApp (2)</p>
+                            <p class="text-white text-sm font-bold">+94 72 201 4353</p>
+                        </a>
+                        <!-- Telegram Link -->
+                        <a href="https://t.me/+94775497858" target="_blank" class="block bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition">
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2"><i class="fab fa-telegram text-blue-400 mr-2"></i> Telegram</p>
+                            <p class="text-white text-sm font-bold">+94 77 549 7858</p>
+                        </a>
+                        <!-- Email Link -->
+                        <a href="mailto:lochicreation@gmail.com?body=Can%20you%20help%20me%3F" class="block bg-white/5 p-5 rounded-2xl border border-white/5 hover:bg-white/10 transition">
+                            <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-2"><i class="fas fa-envelope text-red-400 mr-2"></i> Email Address</p>
+                            <p class="text-white text-sm font-bold">lochicreation@gmail.com</p>
+                        </a>
+                    </div>
+                    <p class="mt-8 text-[10px] text-gray-500 italic">Our support team is available 24/7 to assist you.</p>
+                </div>
+            </main>
+
+            <!-- HISTORY VIEW -->
             <main id="view-history" class="hidden p-8 fade-in">
                 <div class="max-w-4xl mx-auto">
-                    <h2 class="orbitron text-2xl font-bold neon-text mb-8">MY ORDERS</h2>
+                    <h2 class="orbitron text-2xl font-bold neon-text mb-10 text-center uppercase tracking-[5px]">Orders History</h2>
                     <div id="historyList" class="space-y-4"></div>
                 </div>
             </main>
 
             <!-- PROFILE VIEW -->
             <main id="view-profile" class="hidden p-8 fade-in">
-                <div class="max-w-xl mx-auto glass p-10 rounded-[3rem] text-center border border-white/10">
-                    <div class="relative w-32 h-32 mx-auto mb-8">
+                <div class="max-w-lg mx-auto glass p-10 rounded-[3rem] text-center neon-border">
+                    <div class="relative w-36 h-36 mx-auto mb-10">
                         <img id="mainProfilePic" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-full h-full rounded-full border-4 border-[#00f3ff] p-1 object-cover">
-                        <label class="absolute bottom-0 right-0 bg-white text-black p-2 rounded-full cursor-pointer shadow-lg hover:bg-cyan-400">
+                        <label class="absolute bottom-1 right-1 bg-white text-black w-10 h-10 flex items-center justify-center rounded-full cursor-pointer hover:bg-cyan-400 transition">
                             <i class="fas fa-camera"></i>
                             <input type="file" class="hidden" accept="image/*" onchange="uploadUserPic(event)">
                         </label>
                     </div>
                     <div class="space-y-4">
-                        <div class="bg-white/5 p-4 rounded-2xl text-left">
-                            <span class="text-xs text-cyan-400 font-bold uppercase">Full Name</span>
-                            <input type="text" id="editName" class="w-full bg-transparent border-none p-0 mt-1">
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="editName" placeholder="Full Name">
                         </div>
-                        <div class="bg-white/5 p-4 rounded-2xl text-left">
-                            <span class="text-xs text-cyan-400 font-bold uppercase">Phone Number</span>
-                            <input type="text" id="editPhone" class="w-full bg-transparent border-none p-0 mt-1" readonly>
+                        <div class="input-group">
+                            <i class="fas fa-phone"></i>
+                            <input type="text" id="editPhone" readonly class="opacity-60">
                         </div>
-                        <div class="bg-white/5 p-4 rounded-2xl text-left">
-                            <span class="text-xs text-cyan-400 font-bold uppercase">Address</span>
-                            <textarea id="editAddress" class="w-full bg-transparent border-none p-0 mt-1"></textarea>
+                        <div class="input-group">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <textarea id="editAddress" rows="2" style="padding-top: 10px !important;"></textarea>
                         </div>
                     </div>
-                    <button onclick="updateProfile()" class="w-full blue-btn py-4 rounded-2xl mt-8">UPDATE PROFILE</button>
+                    <button onclick="updateProfile()" class="w-full blue-btn py-4 rounded-2xl mt-8">Save Profile</button>
                 </div>
             </main>
         </div>
-
-        <footer class="p-8 text-center text-gray-600 text-xs tracking-widest">
-            DESIGNED BY LOCHI CREATION &copy; 2026
-        </footer>
     </div>
 
     <!-- ORDERING MODAL -->
-    <div id="orderModal" class="hidden fixed inset-0 z-[3000] bg-black/95 flex items-center justify-center p-4">
-        <div class="glass w-full max-w-lg p-8 rounded-[2rem] neon-border">
+    <div id="orderModal" class="hidden fixed inset-0 z-[3000] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass w-full max-w-lg p-8 rounded-[3rem] border border-[#00f3ff]/30 shadow-[0_0_50px_rgba(0,243,255,0.1)]">
             <div id="checkoutForm">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="orbitron text-xl font-bold">PLACE ORDER</h2>
-                    <button onclick="closeModal()"><i class="fas fa-times text-xl"></i></button>
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="orbitron text-xl font-bold neon-text uppercase tracking-widest">Checkout</h2>
+                    <button onclick="closeModal()" class="text-white hover:text-red-500 transition"><i class="fas fa-times-circle text-2xl"></i></button>
                 </div>
-                <div class="space-y-4 mb-6">
-                    <p class="text-xs text-gray-400 uppercase font-bold" id="modalItemName"></p>
-                    <textarea id="orderAddress" rows="2" placeholder="Confirm Delivery Address"></textarea>
-                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-xl">
-                        <span>Quantity:</span>
-                        <div class="flex items-center gap-4">
-                            <button onclick="changeQty(-1)" class="w-10 h-10 bg-gray-800 rounded-lg">-</button>
-                            <span id="mQty" class="text-xl font-bold">1</span>
-                            <button onclick="changeQty(1)" class="w-10 h-10 bg-gray-800 rounded-lg">+</button>
+                <div class="space-y-5">
+                    <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Product</p>
+                        <p id="modalItemName" class="font-bold text-lg text-white"></p>
+                    </div>
+                    <textarea id="orderAddress" rows="2" placeholder="Confirm Delivery Address" style="padding-left: 20px !important;"></textarea>
+                    
+                    <div class="flex justify-between items-center bg-white/5 p-5 rounded-2xl">
+                        <span class="text-sm font-bold uppercase tracking-widest">Qty</span>
+                        <div class="flex items-center gap-6">
+                            <button onclick="changeQty(-1)" class="w-10 h-10 glass rounded-full hover:bg-white/10 transition">-</button>
+                            <span id="mQty" class="text-xl font-bold text-cyan-400">1</span>
+                            <button onclick="changeQty(1)" class="w-10 h-10 glass rounded-full hover:bg-white/10 transition">+</button>
                         </div>
                     </div>
-                    <div class="flex justify-between font-bold text-xl">
-                        <span>Total Payable:</span>
-                        <span class="text-[#00f3ff]">Rs. <span id="mTotal">0</span></span>
+
+                    <div class="flex justify-between items-center px-4 py-2 border-t border-white/10 pt-6">
+                        <span class="orbitron text-gray-400">Grand Total</span>
+                        <span class="text-2xl font-bold text-[#00f3ff]">Rs. <span id="mTotal">0</span></span>
                     </div>
+
+                    <select id="mPay" onchange="updateUI()" class="!pl-5">
+                        <option value="cod">Cash on Delivery</option>
+                        <option value="bank">Bank Deposit (BOC)</option>
+                    </select>
+                    
+                    <button onclick="finalizeOrder()" class="w-full blue-btn py-5 rounded-2xl mt-4 shadow-xl">Complete Order</button>
                 </div>
-                <select id="mPay" onchange="updateUI()" class="mb-6">
-                    <option value="cod">Cash on Delivery</option>
-                    <option value="bank">Bank Deposit (BOC)</option>
-                </select>
-                <button onclick="finalizeOrder()" id="finalOrderBtn" class="w-full blue-btn py-4 rounded-xl">CHECKOUT</button>
             </div>
 
+            <!-- BANK VIEW -->
             <div id="bankView" class="hidden text-center fade-in">
-                <h3 class="font-bold text-yellow-500 mb-4 uppercase">Bank Transfer Details</h3>
-                <div class="bg-black/50 p-4 rounded-xl text-left text-sm mb-6 border border-white/5">
-                    <p>Bank: Bank of Ceylon (BOC)</p>
-                    <p>Acc No: 95637863</p>
-                    <p>Name: H.V.M.PEHESARA</p>
+                <h3 class="font-bold text-yellow-500 mb-6 uppercase tracking-widest">Bank Details</h3>
+                <div class="bg-black/40 p-6 rounded-3xl text-left text-sm mb-8 border border-white/10 leading-relaxed">
+                    <p class="mb-2">Bank: <span class="text-white font-bold">Bank of Ceylon (BOC)</span></p>
+                    <p class="mb-2">Account No: <span class="text-white font-bold tracking-widest">95637863</span></p>
+                    <p>Name: <span class="text-white font-bold uppercase">H.V.M.PEHESARA</span></p>
                 </div>
                 
-                <!-- STYLED BANK SLIP UPLOAD -->
-                <div class="mb-6">
+                <div class="mb-8">
                     <label for="bank-slip-input" class="cursor-pointer group">
-                        <div class="border-2 border-dashed border-white/20 rounded-2xl p-6 transition-all group-hover:border-[#00f3ff] group-hover:bg-[#00f3ff]/5 bg-white/5">
-                            <i class="fas fa-cloud-upload-alt text-3xl mb-2 text-gray-400 group-hover:text-[#00f3ff]"></i>
-                            <p class="text-xs font-bold uppercase text-gray-400 group-hover:text-white">Upload Bank Slip Photo</p>
-                            <p id="file-name-display" class="text-[10px] text-cyan-500 mt-2 italic font-semibold"></p>
+                        <div class="border-2 border-dashed border-white/10 rounded-[2rem] p-8 transition-all group-hover:border-[#00f3ff] group-hover:bg-[#00f3ff]/5 bg-white/5">
+                            <i class="fas fa-cloud-upload-alt text-4xl mb-4 text-gray-400 group-hover:text-[#00f3ff] transition"></i>
+                            <p class="text-xs font-bold uppercase text-gray-400 group-hover:text-white transition">Upload Deposit Slip</p>
+                            <p id="file-name-display" class="text-[10px] text-cyan-400 mt-4 italic font-bold"></p>
                         </div>
                         <input type="file" id="bank-slip-input" accept="image/*" class="hidden" onchange="handleSlipSelected(event)">
                     </label>
                 </div>
 
-                <button onclick="submitBankOrder()" class="w-full blue-btn py-4 rounded-xl mt-2">SUBMIT ORDER</button>
+                <button onclick="submitBankOrder()" class="w-full blue-btn py-5 rounded-2xl">SUBMIT ORDER</button>
             </div>
         </div>
     </div>
@@ -306,34 +367,38 @@
         let currentOrder = { item: "", price: 0, qty: 1, deliveryFee: 0 };
         let slipData = "";
 
+        // --- AUTH LOGIC ---
+        function switchAuth(mode) {
+            const signupForm = document.getElementById('signupForm');
+            const loginForm = document.getElementById('loginForm');
+            const signupTab = document.getElementById('signupTabBtn');
+            const loginTab = document.getElementById('loginTabBtn');
+
+            if(mode === 'signup') {
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                signupTab.classList.add('active-tab'); signupTab.classList.remove('text-gray-500');
+                loginTab.classList.remove('active-tab'); loginTab.classList.add('text-gray-500');
+            } else {
+                signupForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                signupTab.classList.remove('active-tab'); signupTab.classList.add('text-gray-500');
+                loginTab.classList.add('active-tab'); loginTab.classList.remove('text-gray-500');
+            }
+        }
+
         // --- CORE FUNCTIONS ---
         function initApp() {
             const saved = localStorage.getItem('lochi_session');
-            if(saved) {
-                sessionUser = JSON.parse(saved);
-                showMain();
-            }
-            loadProducts();
-            loadUpdates();
-            loadTicker();
-        }
-
-        function switchAuth(mode) {
-            document.getElementById('signupForm').classList.toggle('hidden', mode === 'login');
-            document.getElementById('loginForm').classList.toggle('hidden', mode === 'signup');
-            document.getElementById('signupTabBtn').style.opacity = mode === 'signup' ? '1' : '0.5';
-            document.getElementById('loginTabBtn').style.opacity = mode === 'login' ? '1' : '0.5';
+            if(saved) { sessionUser = JSON.parse(saved); showMain(); }
+            loadProducts(); loadUpdates(); loadTicker();
         }
 
         document.getElementById('signupForm').onsubmit = (e) => {
             e.preventDefault();
             const newUser = {
-                name: sName.value,
-                email: sEmail.value,
-                phone: sPhone.value,
-                address: sAddress.value,
-                pass: sPass.value,
-                profilePic: ""
+                name: sName.value, email: sEmail.value, phone: sPhone.value,
+                address: sAddress.value, pass: sPass.value, profilePic: ""
             };
             database.ref('users/' + newUser.phone).set(newUser).then(() => {
                 allUsers.push(newUser);
@@ -355,26 +420,38 @@
         }
 
         function showMain() {
-            document.getElementById('page-auth').classList.add('hidden');
-            document.getElementById('main-app').classList.remove('hidden');
-            document.getElementById('navProfilePic').src = sessionUser.profilePic || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
-            document.getElementById('mainProfilePic').src = sessionUser.profilePic || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+            const authPage = document.getElementById('page-auth');
+            const mainApp = document.getElementById('main-app');
+            if(authPage) authPage.classList.add('hidden');
+            if(mainApp) mainApp.classList.remove('hidden');
+            
+            const navPic = document.getElementById('navProfilePic');
+            const mainPic = document.getElementById('mainProfilePic');
+            if(navPic) navPic.src = sessionUser.profilePic || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+            if(mainPic) mainPic.src = sessionUser.profilePic || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+            
+            document.getElementById('editName').value = sessionUser.name;
+            document.getElementById('editPhone').value = sessionUser.phone;
+            document.getElementById('editAddress').value = sessionUser.address;
             navigateTo('home');
         }
 
         function toggleMenu() { document.getElementById('side-menu').classList.toggle('menu-open'); }
-        function toggleNavMenu() { const d = document.getElementById('nav-dropdown'); d.style.display = d.style.display === 'block' ? 'none' : 'block'; }
 
         function navigateTo(p) {
-            const views = ['home', 'profile', 'history', 'help', 'service', 'settings'];
-            views.forEach(v => document.getElementById('view-' + v)?.classList.add('hidden'));
-            document.getElementById('view-' + p).classList.remove('hidden');
+            const views = ['home', 'profile', 'history', 'service', 'help'];
+            views.forEach(v => {
+                const view = document.getElementById('view-' + v);
+                if(view) view.classList.add('hidden');
+            });
+            const target = document.getElementById('view-' + p);
+            if(target) target.classList.remove('hidden');
             if(p === 'history') loadHistory();
             if(p === 'service') loadServiceChat();
             window.scrollTo(0,0);
         }
 
-        // --- DATA LOADING ---
+        // --- DATA ---
         function loadProducts() {
             database.ref('products').on('value', snap => {
                 const products = snap.val();
@@ -383,15 +460,16 @@
                     Object.keys(products).forEach(key => {
                         const p = products[key];
                         html += `
-                        <div class="glass p-3 rounded-3xl border border-white/5">
-                            <img src="${p.image}" class="w-full h-32 object-cover rounded-2xl mb-3">
-                            <p class="text-[11px] font-bold uppercase truncate">${p.name}</p>
-                            <p class="text-cyan-400 font-bold mb-3">Rs. ${p.price}</p>
-                            <button onclick="startOrder('${p.name}', ${p.price}, ${p.deliveryFee || 0})" class="w-full blue-btn py-2 rounded-xl text-[10px]">ORDER NOW</button>
+                        <div class="glass p-4 rounded-[2.5rem] border border-white/5 hover:border-[#00f3ff]/40 transition">
+                            <img src="${p.image}" class="w-full h-40 object-cover rounded-[2rem] mb-4">
+                            <p class="text-[12px] font-bold uppercase mb-1 truncate px-2">${p.name}</p>
+                            <p class="text-[#00f3ff] font-bold text-lg mb-4 px-2">Rs. ${p.price}</p>
+                            <button onclick="startOrder('${p.name}', ${p.price}, ${p.deliveryFee || 0})" class="w-full blue-btn py-3 rounded-2xl text-[10px]">Order Now</button>
                         </div>`;
                     });
                 }
-                document.getElementById('product-grid').innerHTML = html;
+                const grid = document.getElementById('product-grid');
+                if(grid) grid.innerHTML = html;
             });
         }
 
@@ -400,42 +478,31 @@
                 const updates = snap.val();
                 let html = '';
                 if(updates) {
-                    Object.keys(updates).forEach(key => {
-                        const u = updates[key];
+                    Object.values(updates).forEach(u => {
                         html += `
                         <div class="update-item shadow-2xl">
                             <img src="${u.image}" class="w-full h-full object-cover">
-                            <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                                <p class="text-[10px] text-cyan-300 font-bold italic">${u.caption}</p>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                            <div class="absolute bottom-0 p-5 w-full">
+                                <p class="text-[10px] text-cyan-400 font-bold italic tracking-widest">${u.caption}</p>
                             </div>
                         </div>`;
                     });
-                    document.getElementById('photo-updates-scroller').innerHTML = html;
-                    initAutoScroll();
+                    const scroller = document.getElementById('photo-updates-scroller');
+                    if(scroller) scroller.innerHTML = html;
                 }
             });
-        }
-
-        function initAutoScroll() {
-            const el = document.getElementById('photo-updates-scroller');
-            let scrollDir = 1;
-            setInterval(() => {
-                if(el) {
-                    el.scrollLeft += scrollDir;
-                    if(el.scrollLeft >= el.scrollWidth - el.clientWidth) scrollDir = -1;
-                    if(el.scrollLeft <= 0) scrollDir = 1;
-                }
-            }, 30);
         }
 
         function loadTicker() {
             database.ref('updates').on('value', snap => {
                 const d = snap.val();
-                if(d) document.getElementById('moving-ticker').innerText = Object.values(d).map(x => x.caption).join(' | ');
+                const ticker = document.getElementById('moving-ticker');
+                if(d && ticker) ticker.innerText = Object.values(d).map(x => x.caption).join(' • ') + " • ORDER NOW VIA APP!";
             });
         }
 
-        // --- ORDERING LOGIC ---
+        // --- ORDER ---
         function startOrder(name, price, fee) {
             currentOrder = { item: name, price: price, qty: 1, deliveryFee: fee };
             document.getElementById('modalItemName').innerText = name;
@@ -444,33 +511,25 @@
             document.getElementById('orderModal').classList.remove('hidden');
         }
 
-        function changeQty(n) {
-            currentOrder.qty = Math.max(1, currentOrder.qty + n);
-            updateUI();
-        }
+        function changeQty(n) { currentOrder.qty = Math.max(1, currentOrder.qty + n); updateUI(); }
 
         function updateUI() {
             const total = (currentOrder.price * currentOrder.qty) + currentOrder.deliveryFee;
             document.getElementById('mQty').innerText = currentOrder.qty;
             document.getElementById('mTotal').innerText = total.toLocaleString();
-            currentOrder.total = total;
         }
 
         function finalizeOrder() {
-            if(mPay.value === 'bank') {
+            if(document.getElementById('mPay').value === 'bank') {
                 document.getElementById('checkoutForm').classList.add('hidden');
                 document.getElementById('bankView').classList.remove('hidden');
-            } else {
-                saveToDb('COD', '');
-            }
+            } else { saveToDb('COD', ''); }
         }
 
         function handleSlipSelected(e) {
             const file = e.target.files[0];
             if(file) {
-                // Show filename on screen
-                document.getElementById('file-name-display').innerText = "Selected: " + file.name;
-                
+                document.getElementById('file-name-display').innerText = "SELECTED: " + file.name;
                 const reader = new FileReader();
                 reader.onload = () => { slipData = reader.result; };
                 reader.readAsDataURL(file);
@@ -484,19 +543,13 @@
 
         function saveToDb(method, slip) {
             const data = {
-                ...currentOrder,
-                customer: sessionUser.name,
-                phone: sessionUser.phone,
+                ...currentOrder, customer: sessionUser.name, phone: sessionUser.phone,
                 address: document.getElementById('orderAddress').value,
-                payment: method,
-                slip: slip,
-                status: 'Pending',
-                time: new Date().toLocaleString()
+                payment: method, slip: slip, status: 'Pending', time: new Date().toLocaleString()
             };
             database.ref('orders').push(data).then(() => {
                 alert("Order Placed Successfully!");
-                closeModal();
-                navigateTo('history');
+                closeModal(); navigateTo('history');
             });
         }
 
@@ -504,19 +557,37 @@
             document.getElementById('orderModal').classList.add('hidden');
             document.getElementById('checkoutForm').classList.remove('hidden');
             document.getElementById('bankView').classList.add('hidden');
-            document.getElementById('file-name-display').innerText = ""; // Clear file name
+            document.getElementById('file-name-display').innerText = "";
             slipData = "";
         }
 
-        // --- CHAT LOGIC ---
+        // --- HISTORY & CHAT ---
+        function loadHistory() {
+            database.ref('orders').orderByChild('phone').equalTo(sessionUser.phone).on('value', snap => {
+                const data = snap.val();
+                const list = document.getElementById('historyList');
+                if(!list) return;
+                if(!data) { list.innerHTML = `<p class="text-center text-gray-600">No orders found.</p>`; return; }
+                list.innerHTML = Object.values(data).reverse().map(o => `
+                    <div class="glass p-6 rounded-3xl flex justify-between items-center border-l-4 ${o.status === 'Pending' ? 'border-yellow-500' : 'border-green-500'}">
+                        <div>
+                            <p class="font-bold text-white tracking-widest">${o.item} (x${o.qty})</p>
+                            <p class="text-[10px] text-gray-500 mt-1">${o.time}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-bold ${o.status === 'Pending' ? 'text-yellow-500' : 'text-green-500'} uppercase">${o.status}</p>
+                            <p class="text-[10px] text-white/50 mt-1">${o.payment}</p>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
         function sendServiceMsg() {
             const input = document.getElementById('serviceChatInput');
-            const txt = input.value.trim();
-            if(!txt) return;
+            if(!input.value.trim()) return;
             database.ref('chats/' + sessionUser.phone).push({
-                sender: 'user',
-                text: txt,
-                time: new Date().toLocaleTimeString()
+                sender: 'user', text: input.value, time: new Date().toLocaleTimeString()
             });
             input.value = "";
         }
@@ -525,32 +596,16 @@
             database.ref('chats/' + sessionUser.phone).on('value', snap => {
                 const msgs = snap.val();
                 const container = document.getElementById('chat-box-service');
-                if(!msgs) {
-                    container.innerHTML = `<div class="msg-admin chat-bubble">Hello ${sessionUser.name}, how can we help you?</div>`;
-                    return;
-                }
+                if(!container) return;
+                if(!msgs) { container.innerHTML = `<p class="bg-[#00f3ff]/10 p-4 rounded-2xl text-[12px] border border-[#00f3ff]/20">Hello ${sessionUser.name}, how can we assist you today?</p>`; return; }
                 container.innerHTML = Object.values(msgs).map(m => `
-                    <div class="chat-bubble ${m.sender === 'user' ? 'msg-user ml-auto' : 'msg-admin'}">
-                        ${m.text}
+                    <div class="flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}">
+                        <div class="p-4 rounded-2xl max-w-[80%] text-sm ${m.sender === 'user' ? 'bg-[#0077ff] text-white rounded-br-none' : 'glass border-[#00f3ff]/30 text-white rounded-bl-none'}">
+                            ${m.text}
+                        </div>
                     </div>
                 `).join('');
                 container.scrollTop = container.scrollHeight;
-            });
-        }
-
-        function loadHistory() {
-            database.ref('orders').orderByChild('phone').equalTo(sessionUser.phone).on('value', snap => {
-                const data = snap.val();
-                if(!data) return;
-                document.getElementById('historyList').innerHTML = Object.values(data).reverse().map(o => `
-                    <div class="glass p-5 rounded-2xl flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-sm">${o.item} (x${o.qty})</p>
-                            <p class="text-[10px] text-gray-500">${o.time}</p>
-                        </div>
-                        <p class="text-xs font-bold text-cyan-400">${o.status}</p>
-                    </div>
-                `).join('');
             });
         }
 
@@ -561,8 +616,10 @@
                 database.ref('users/' + sessionUser.phone).update({ profilePic: base64 });
                 sessionUser.profilePic = base64;
                 localStorage.setItem('lochi_session', JSON.stringify(sessionUser));
-                document.getElementById('navProfilePic').src = base64;
-                document.getElementById('mainProfilePic').src = base64;
+                const navPic = document.getElementById('navProfilePic');
+                const mainPic = document.getElementById('mainProfilePic');
+                if(navPic) navPic.src = base64;
+                if(mainPic) mainPic.src = base64;
             };
             reader.readAsDataURL(e.target.files[0]);
         }
@@ -572,10 +629,9 @@
             database.ref('users/' + sessionUser.phone).update(update);
             Object.assign(sessionUser, update);
             localStorage.setItem('lochi_session', JSON.stringify(sessionUser));
-            alert("Updated!");
+            alert("Profile Updated Successfully!");
         }
 
-        function toggleTheme() { document.body.classList.toggle('light-mode'); }
         function signOut() { localStorage.removeItem('lochi_session'); location.reload(); }
     </script>
 </body>
