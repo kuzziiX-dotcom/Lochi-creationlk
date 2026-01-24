@@ -1,10 +1,13 @@
 {
   "name": "Lochi Creation",
   "short_name": "Lochi",
+  "description": "Premium Neon Floral Boutique and Gift Shop in Sri Lanka. Order your handcrafted neon flowers today.",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#050505",
   "theme_color": "#00f3ff",
+  "orientation": "portrait",
+  "scope": "/",
   "icons": [
     {
       "src": "https://res.cloudinary.com/deljgkppf/image/upload/v1769218185/Gemini_Generated_Image_r90uezr90uezr90u_canlmu.png",
