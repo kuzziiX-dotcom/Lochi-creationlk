@@ -324,6 +324,10 @@
         function closeModal() { document.getElementById('orderModal').classList.add('hidden'); }
         function toggleMenu() { document.getElementById('side-menu').classList.toggle('menu-open'); }
         function signOut() { localStorage.clear(); location.reload(); }
+
+        if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
     </script>
 </body>
 </html>
