@@ -1,0 +1,16 @@
+{
+  "name": "Lochi Creation",
+  "short_name": "Lochi",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#00f3ff",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/deljgkppf/image/upload/v1769218185/Gemini_Generated_Image_r90uezr90uezr90u_canlmu.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
