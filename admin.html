@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Lochi Master | Ultimate Admin Panel</title>
+    <title>Lochi Master | Super Valentine Admin</title>
     
-    <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
@@ -14,120 +13,105 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        :root { --neon-blue: #00f3ff; --neon-glow: rgba(0, 243, 255, 0.4); }
-        body { background-color: #020202; color: white; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
+        :root { --neon-rose: #ff007f; --neon-glow: rgba(255, 0, 127, 0.5); }
+        body { background-color: #050002; color: white; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
         .orbitron { font-family: 'Orbitron', sans-serif; }
-        .neon-text { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
-        .neon-border { border: 1px solid var(--neon-blue); box-shadow: 0 0 15px var(--neon-glow); }
+        .neon-text { color: var(--neon-rose); text-shadow: 0 0 15px var(--neon-rose); }
         .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* Buttons */
-        .blue-btn { background: var(--neon-blue); color: black !important; font-weight: 900 !important; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
-        .blue-btn:active { transform: scale(0.95); }
-        
         /* Navigation Tabs */
-        .tab-btn { padding: 10px 18px; border-radius: 50px; font-size: 9px; font-weight: bold; transition: 0.3s; color: #666; white-space: nowrap; border: 1px solid transparent; text-transform: uppercase; }
-        .active-tab { background: var(--neon-blue); color: black !important; }
+        .tab-btn { padding: 12px 20px; border-radius: 50px; font-size: 10px; font-weight: bold; transition: 0.3s; color: #888; white-space: nowrap; border: 1px solid transparent; text-transform: uppercase; }
+        .active-tab { background: var(--neon-rose); color: white !important; box-shadow: 0 0 15px var(--neon-rose); }
 
-        /* Inputs */
-        input, select, textarea { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; padding: 14px !important; border-radius: 15px !important; outline: none; width: 100%; margin-bottom: 12px; font-size: 13px; }
-        input:focus { border-color: var(--neon-blue) !important; }
+        /* Modern Inputs */
+        input, select, textarea { background: rgba(255,255,255,0.05) !important; border: 1px solid #3d001e !important; color: white !important; padding: 14px !important; border-radius: 15px !important; outline: none; width: 100%; margin-bottom: 12px; font-size: 13px; transition: 0.3s; }
+        input:focus { border-color: var(--neon-rose) !important; box-shadow: 0 0 10px var(--neon-glow); }
 
+        .rose-btn { background: var(--neon-rose); color: white !important; font-weight: 900 !important; cursor: pointer; transition: 0.3s; text-transform: uppercase; border-radius: 15px; }
+        .rose-btn:active { transform: scale(0.95); }
+
+        .status-badge { font-size: 8px; padding: 3px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .fade-in { animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Card Status */
-        .status-badge { position: absolute; top: 15px; right: 15px; font-size: 7px; padding: 3px 8px; border-radius: 4px; font-weight: 900; text-transform: uppercase; }
     </style>
 </head>
 <body onload="checkAuth()">
 
-    <!-- 1. LOGIN PAGE -->
+    <!-- 1. LOGIN SCREEN -->
     <div id="adminAuth" class="fixed inset-0 bg-black z-[2000] flex items-center justify-center p-6">
-        <div class="glass-card p-10 rounded-[3rem] neon-border w-full max-w-sm text-center shadow-2xl fade-in">
-            <div class="relative inline-block mb-6">
-                <img src="https://res.cloudinary.com/deljgkppf/image/upload/v1767954170/IMG-20260109-WA0123_kegi8a.jpg" class="w-24 h-24 rounded-full border-2 border-[#00f3ff] shadow-xl object-cover">
-                <div class="absolute inset-0 rounded-full animate-pulse border border-cyan-400 opacity-50 scale-110"></div>
-            </div>
-            <h2 class="orbitron text-xl font-bold neon-text mb-2 uppercase tracking-widest">Master Panel</h2>
-            <p class="text-[10px] text-gray-500 mb-8 uppercase tracking-widest italic">Lochi Creation Elite Control</p>
-            <input type="password" id="adminPass" placeholder="Enter Master Key" class="text-center">
-            <button onclick="login()" class="w-full blue-btn py-4 rounded-2xl font-bold shadow-lg">Login</button>
+        <div class="glass-card p-10 rounded-[3rem] border border-[#ff007f]/30 w-full max-w-sm text-center shadow-2xl fade-in">
+            <h2 class="orbitron text-2xl font-bold neon-text mb-2 uppercase italic">MASTER</h2>
+            <p class="text-[9px] text-gray-500 mb-8 uppercase tracking-[3px]">Lochi Creation Control</p>
+            <input type="password" id="adminPass" placeholder="ENTER MASTER KEY" class="text-center orbitron">
+            <button onclick="login()" class="w-full rose-btn py-4 shadow-lg">UNLOCK SYSTEM</button>
         </div>
     </div>
 
     <!-- 2. MAIN DASHBOARD -->
     <div id="adminDashboard" class="hidden min-h-screen flex flex-col">
-        <!-- APP HEADER -->
-        <header class="p-6 glass-card sticky top-0 z-[100] border-b border-white/5 backdrop-blur-xl">
+        <header class="p-6 glass-card sticky top-0 z-[100] border-b border-[#ff007f]/20">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="orbitron text-xl font-bold neon-text italic">LOCHI MASTER</h1>
-                <button onclick="signOut()" class="text-red-500 text-[10px] font-bold uppercase tracking-widest border border-red-500/30 px-3 py-1 rounded-lg">Logout</button>
+                <h1 class="orbitron text-xl font-bold neon-text italic">LOCHI MASTER 🌹</h1>
+                <button onclick="signOut()" class="text-red-500 text-[10px] font-bold border border-red-500/20 px-3 py-1 rounded-lg">EXIT</button>
             </div>
-            <!-- Horizontal Navigation -->
+            <!-- Scrollable Tabs -->
             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                 <button onclick="switchTab('orders')" id="tab-orders" class="tab-btn active-tab">Orders</button>
-                <button onclick="switchTab('products')" id="tab-products" class="tab-btn">Catalog</button>
+                <button onclick="switchTab('edit')" id="tab-edit" class="tab-btn">Edit/Offers</button>
                 <button onclick="switchTab('add')" id="tab-add" class="tab-btn">Add Product</button>
-                <button onclick="switchTab('updates')" id="tab-updates" class="tab-btn">Live Posts</button>
+                <button onclick="switchTab('updates')" id="tab-updates" class="tab-btn">Post Update</button>
                 <button onclick="switchTab('chats')" id="tab-chats" class="tab-btn">Messages</button>
             </div>
         </header>
 
         <div class="p-4 flex-grow">
             
-            <!-- VIEW: ORDERS -->
-            <main id="view-orders" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 fade-in"></main>
+            <!-- ORDERS VIEW -->
+            <main id="view-orders" class="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in"></main>
 
-            <!-- VIEW: MANAGE PRODUCTS -->
-            <main id="view-products" class="hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 fade-in"></main>
+            <!-- EDIT/OFFERS VIEW -->
+            <main id="view-edit" class="hidden space-y-4 fade-in">
+                <p class="orbitron text-center text-xs text-gray-500 mb-6">Price & Delivery Management</p>
+                <div id="edit-list" class="space-y-4"></div>
+            </main>
 
-            <!-- VIEW: ADD PRODUCT -->
-            <main id="view-add" class="hidden max-w-lg mx-auto glass-card p-8 rounded-[2.5rem] border border-cyan-400/20 shadow-2xl fade-in">
-                <h2 class="orbitron text-center text-lg font-bold neon-text mb-6">PUBLISH PRODUCT</h2>
+            <!-- ADD PRODUCT VIEW -->
+            <main id="view-add" class="hidden max-w-lg mx-auto glass-card p-8 rounded-[2.5rem] border border-[#ff007f]/20 fade-in">
+                <h2 class="orbitron text-center text-lg font-bold neon-text mb-6">Publish New Product</h2>
                 <div class="space-y-2">
-                    <div class="border-2 border-dashed border-white/10 rounded-2xl p-4 text-center cursor-pointer hover:border-cyan-400 transition" onclick="document.getElementById('pImg').click()">
-                        <img id="pPreview" src="" class="hidden w-full h-40 object-cover rounded-xl mb-2">
-                        <div id="pUploadText"><i class="fas fa-camera text-2xl text-gray-600"></i><p class="text-[10px] text-gray-500 mt-2">PRODUCT PHOTO</p></div>
-                        <input type="file" id="pImg" class="hidden" accept="image/*" onchange="handleImgSelect(event, 'product')">
-                    </div>
+                    <input type="file" id="pImg" accept="image/*" onchange="handleImg(event, 'p')">
                     <input type="text" id="pName" placeholder="Product Name">
                     <div class="grid grid-cols-2 gap-3">
-                        <input type="number" id="pPrice" placeholder="Price">
-                        <input type="number" id="pDeli" placeholder="Delivery Fee">
+                        <input type="number" id="pPrice" placeholder="Price (Rs)">
+                        <input type="number" id="pDeli" placeholder="Deli Fee (0=Free)">
                     </div>
-                    <input type="text" id="pColors" placeholder="Colors (Ex: Red, White, Pink)">
-                    <input type="text" id="pTypes" placeholder="Types (Ex: Neon, LED, Ribbon)">
-                    <button onclick="uploadProduct()" id="addBtn" class="w-full blue-btn py-4 rounded-xl mt-4">Add to Store</button>
+                    <input type="text" id="pColors" placeholder="Colors (Ex: Red, Pink)">
+                    <input type="text" id="pTypes" placeholder="Types (Ex: Ribbon, Box)">
+                    <button onclick="uploadProduct()" id="addBtn" class="w-full rose-btn py-4 mt-4">Publish Now</button>
                 </div>
             </main>
 
-            <!-- VIEW: LIVE UPDATES (The section you asked for) -->
-            <main id="view-updates" class="hidden max-w-lg mx-auto glass-card p-8 rounded-[2.5rem] border border-cyan-400/20 shadow-2xl fade-in">
-                <h2 class="orbitron text-center text-lg font-bold text-yellow-500 mb-6">POST LIVE UPDATE</h2>
-                <div class="space-y-4">
-                    <div class="border-2 border-dashed border-white/10 rounded-2xl p-4 text-center cursor-pointer hover:border-yellow-500 transition" onclick="document.getElementById('uImg').click()">
-                        <img id="uPreview" src="" class="hidden w-full h-40 object-cover rounded-xl mb-2">
-                        <div id="uUploadText"><i class="fas fa-image text-2xl text-gray-600"></i><p class="text-[10px] text-gray-500 mt-2">SELECT IMAGE FOR POST</p></div>
-                        <input type="file" id="uImg" class="hidden" accept="image/*" onchange="handleImgSelect(event, 'update')">
-                    </div>
-                    <textarea id="uCaption" placeholder="Type caption for ticker and scroller..." rows="3"></textarea>
-                    <button onclick="uploadUpdate()" id="updBtn" class="w-full bg-yellow-500 text-black py-4 rounded-xl font-bold uppercase">Post to App Now</button>
+            <!-- POST UPDATE VIEW -->
+            <main id="view-updates" class="hidden max-w-lg mx-auto glass-card p-8 rounded-[2.5rem] border border-[#ff007f]/20 fade-in">
+                <h2 class="orbitron text-center text-lg font-bold text-yellow-500 mb-6">Create Life Update</h2>
+                <div class="space-y-2">
+                    <input type="file" id="uImg" accept="image/*" onchange="handleImg(event, 'u')">
+                    <input type="text" id="uCaption" placeholder="Update Title (for scroller)">
+                    <textarea id="uDesc" placeholder="Full Details for users..." rows="4"></textarea>
+                    <input type="text" id="uLink" placeholder="External Link (Optional)">
+                    <button onclick="uploadUpdate()" id="updBtn" class="w-full rose-btn bg-yellow-600 py-4 mt-4">Post Live</button>
                 </div>
-                <div id="admin-update-list" class="mt-8 space-y-3"></div>
+                <div id="admin-up-list" class="mt-8 space-y-3"></div>
             </main>
 
-            <!-- VIEW: CHATS -->
-            <main id="view-chats" class="hidden max-w-5xl mx-auto flex flex-col md:flex-row gap-6 h-[70vh] fade-in">
-                <div id="chatUsers" class="w-full md:w-1/3 glass-card rounded-3xl p-4 overflow-y-auto no-scrollbar"></div>
-                <div class="flex-grow glass-card rounded-[2rem] flex flex-col overflow-hidden shadow-2xl">
-                    <div id="chatWith" class="p-5 border-b border-white/5 font-bold text-[10px] uppercase neon-text tracking-widest bg-black/40">Select User</div>
-                    <div id="chatMsgs" class="flex-grow p-6 overflow-y-auto no-scrollbar flex flex-col gap-3"></div>
-                    <div class="p-4 bg-black/40 flex gap-3">
-                        <input type="text" id="repInput" placeholder="Reply..." class="!mb-0 !py-3">
-                        <button onclick="adminSend()" class="blue-btn px-6 rounded-xl"><i class="fas fa-paper-plane"></i></button>
-                    </div>
+            <!-- CHATS VIEW -->
+            <main id="view-chats" class="hidden flex flex-col gap-4 h-[70vh]">
+                <div id="chatUsers" class="flex gap-2 overflow-x-auto no-scrollbar pb-2"></div>
+                <div class="flex-grow glass-card rounded-[2rem] flex flex-col overflow-hidden relative">
+                    <div id="chatWith" class="p-4 bg-white/5 font-bold text-[10px] uppercase neon-text border-b border-white/5">Select User</div>
+                    <div id="chatMsgs" class="flex-grow p-4 overflow-y-auto no-scrollbar flex flex-col gap-3"></div>
+                    <div class="p-4 flex gap-3"><input type="text" id="repInput" class="!mb-0"><button onclick="adminSend()" class="rose-btn px-6">Send</button></div>
                 </div>
             </main>
 
@@ -135,132 +119,132 @@
     </div>
 
     <script>
-        // --- FIREBASE CONFIG ---
         const firebaseConfig = { apiKey: "AIzaSyAHP6jCiOZ3yBTMogJ-8lGWb26U_SfeXts", authDomain: "lochi-creation-bc929.firebaseapp.com", databaseURL: "https://lochi-creation-bc929-default-rtdb.firebaseio.com", projectId: "lochi-creation-bc929", storageBucket: "lochi-creation-bc929.firebasestorage.app", messagingSenderId: "636349455142", appId: "1:636349455142:web:01964aef83ad25fb59ffe7" };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let curChat = "", prodBase64 = "", updateBase64 = "";
+        let pBase64 = "", uBase64 = "", curChat = "";
 
-        // AUTH
         function login() { if(adminPass.value === "lochi2026") { localStorage.setItem('lochi_master', 'true'); location.reload(); } else alert("Wrong Key!"); }
         function checkAuth() { if(localStorage.getItem('lochi_master')) { adminAuth.classList.add('hidden'); adminDashboard.classList.remove('hidden'); initAdmin(); } }
         function signOut() { localStorage.removeItem('lochi_master'); location.reload(); }
 
-        // NAVIGATION
         function switchTab(t) {
-            ['orders','products','add','updates','chats'].forEach(v => document.getElementById('view-'+v).classList.add('hidden'));
-            ['tab-orders','tab-products','tab-add','tab-updates','tab-chats'].forEach(b => document.getElementById(b).classList.remove('active-tab'));
+            ['orders','edit','add','updates','chats'].forEach(v => document.getElementById('view-'+v).classList.add('hidden'));
+            ['tab-orders','tab-edit','tab-add','tab-updates','tab-chats'].forEach(b => document.getElementById(b).classList.remove('active-tab'));
             document.getElementById('view-'+t).classList.remove('hidden');
             document.getElementById('tab-'+t).classList.add('active-tab');
         }
 
-        // IMAGE HANDLER (With Auto-Compression)
-        function handleImgSelect(e, mode) {
+        function handleImg(e, mode) {
             const file = e.target.files[0];
             const reader = new FileReader();
-            reader.readAsDataURL(file);
             reader.onload = (res) => {
-                const img = new Image(); img.src = res.target.result;
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    const MAX_WIDTH = 600; const scale = MAX_WIDTH / img.width;
-                    canvas.width = MAX_WIDTH; canvas.height = img.height * scale;
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    const finalData = canvas.toDataURL('image/jpeg', 0.6);
-                    if(mode === 'product') { prodBase64 = finalData; document.getElementById('pPreview').src = finalData; document.getElementById('pPreview').classList.remove('hidden'); document.getElementById('pUploadText').classList.add('hidden'); }
-                    else { updateBase64 = finalData; document.getElementById('uPreview').src = finalData; document.getElementById('uPreview').classList.remove('hidden'); document.getElementById('uUploadText').classList.add('hidden'); }
-                };
+                if(mode === 'p') pBase64 = res.target.result;
+                else uBase64 = res.target.result;
             };
+            reader.readAsDataURL(file);
         }
 
         function initAdmin() {
-            // Live Orders
+            // LIVE ORDERS
             database.ref('orders').on('value', s => {
                 const data = s.val(); if(!data) return;
                 document.getElementById('view-orders').innerHTML = Object.entries(data).reverse().map(([id, o]) => `
-                    <div class="glass-card p-6 rounded-[2rem] border border-white/10 relative fade-in">
-                        <span class="status-badge ${o.status==='Shipped'?'bg-blue-600':'bg-cyan-600'} text-black">${o.status}</span>
-                        <h3 class="font-bold text-white uppercase text-xs mb-2">${o.item} (x${o.qty})</h3>
-                        <div class="text-[9px] text-gray-400 space-y-1 mb-4">
-                            <p>SIZE: <span class="text-white">${o.size}</span> | COLOR: <span class="text-white">${o.color}</span></p>
-                            <p>TOTAL: <span class="text-cyan-400 font-bold">Rs. ${o.total}</span></p>
-                            <p>CUSTOMER: ${o.customerName} (${o.phone})</p>
-                            <p class="lowercase italic opacity-50">Addr: ${o.address}</p>
+                    <div class="glass-card p-5 rounded-3xl relative border-white/5">
+                        <span class="status-badge bg-pink-900/40 text-pink-400 absolute top-4 right-4">${o.status}</span>
+                        <h3 class="font-bold text-sm uppercase mb-1">${o.item}</h3>
+                        <p class="text-[10px] text-gray-400 mb-3">${o.customerName} (${o.phone})</p>
+                        <div class="bg-white/5 p-3 rounded-xl text-[9px] space-y-1 mb-4">
+                            <p>COLOR: ${o.color} | QTY: ${o.qty}</p>
+                            <p class="text-pink-400 font-bold">TOTAL: Rs. ${o.total}</p>
+                            <p class="opacity-60">ADDR: ${o.address}</p>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 mt-4">
-                            ${o.slip ? `<button onclick="viewSlip('${id}')" class="col-span-2 bg-yellow-600 text-black text-[8px] font-bold py-2 rounded-xl">VIEW BANK SLIP</button>` : ''}
-                            <button onclick="updateStatus('${id}', 'Shipped')" class="bg-blue-600 text-white text-[8px] font-bold py-2 rounded-xl uppercase">Ship Now</button>
-                            <button onclick="downloadPDF('${id}', ${JSON.stringify(o).replace(/"/g, '&quot;')})" class="bg-white text-black text-[8px] font-bold py-2 rounded-xl uppercase">Invoice</button>
-                            <button onclick="database.ref('orders/${id}').remove()" class="col-span-2 text-red-500 text-[8px] font-bold py-2 uppercase">Delete</button>
+                        <div class="grid grid-cols-2 gap-2">
+                            ${o.slip ? `<button onclick="viewSlip('${id}')" class="col-span-2 bg-yellow-600 text-black py-2 rounded-xl font-bold text-[9px]">VIEW BANK SLIP</button>` : ''}
+                            <button onclick="updateStatus('${id}', 'Shipped')" class="bg-blue-600 py-2 rounded-xl font-bold text-[9px]">SHIP</button>
+                            <button onclick="downloadInvoice('${id}', ${JSON.stringify(o).replace(/"/g, '&quot;')})" class="bg-white text-black py-2 rounded-xl font-bold text-[9px]">INVOICE</button>
+                            <button onclick="database.ref('orders/${id}').remove()" class="col-span-2 text-red-500 font-bold text-[9px] mt-2">DELETE ORDER</button>
                         </div>
                     </div>`).join('');
             });
 
-            // Live Products
+            // EDIT/CATALOG
             database.ref('products').on('value', s => {
                 const d = s.val(); if(!d) return;
-                document.getElementById('view-products').innerHTML = Object.entries(d).reverse().map(([id, p]) => `
-                    <div class="glass-card p-3 rounded-3xl text-center border border-white/5">
-                        <img src="${p.image}" class="h-24 w-full object-cover rounded-2xl mb-2">
-                        <p class="text-[9px] uppercase font-bold truncate">${p.name}</p>
-                        <button onclick="database.ref('products/${id}').remove()" class="text-red-500 text-[8px] font-bold mt-1 underline">Remove</button>
+                document.getElementById('edit-list').innerHTML = Object.entries(d).map(([id, p]) => `
+                    <div class="glass-card p-4 rounded-2xl flex items-center gap-4">
+                        <img src="${p.image}" class="w-12 h-12 rounded-lg object-cover border border-white/10">
+                        <div class="flex-grow">
+                            <input type="text" id="en-${id}" value="${p.name}" class="!p-1 !mb-1 !text-[10px] !border-none">
+                            <div class="flex gap-2">
+                                <div class="w-1/2"><label class="text-[8px] opacity-40">PRICE</label><input type="number" id="ep-${id}" value="${p.price}" class="!p-1 !mb-0 !text-[10px]"></div>
+                                <div class="w-1/2"><label class="text-[8px] opacity-40">DELI</label><input type="number" id="ed-${id}" value="${p.deliveryFee}" class="!p-1 !mb-0 !text-[10px]"></div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <button onclick="saveEdit('${id}')" class="bg-green-600 p-2 rounded-lg"><i class="fas fa-check"></i></button>
+                            <button onclick="database.ref('products/${id}').remove()" class="bg-red-600 p-2 rounded-lg"><i class="fas fa-trash"></i></button>
+                        </div>
                     </div>`).join('');
             });
 
-            // Live Posts (Updates)
+            // LIVE UPDATES LIST
             database.ref('updates').on('value', s => {
                 const d = s.val(); if(!d) return;
-                document.getElementById('admin-update-list').innerHTML = Object.entries(d).reverse().map(([id, u]) => `
-                    <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl border border-white/5">
-                        <img src="${u.image}" class="w-10 h-10 object-cover rounded-lg">
-                        <p class="text-[10px] text-gray-400 flex-grow px-3 truncate">"${u.caption}"</p>
-                        <button onclick="database.ref('updates/${id}').remove()" class="text-red-500 text-[10px] font-bold">X</button>
+                document.getElementById('admin-up-list').innerHTML = Object.entries(d).reverse().map(([id, u]) => `
+                    <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
+                        <p class="text-[10px] truncate w-40">${u.caption}</p>
+                        <button onclick="database.ref('updates/${id}').remove()" class="text-red-500 text-[10px]">Delete</button>
                     </div>`).join('');
             });
 
-            // Chats List
+            // CHAT USERS
             database.ref('chats').on('value', s => {
                 const chats = s.val(); if(!chats) return;
                 document.getElementById('chatUsers').innerHTML = Object.keys(chats).map(ph => `
-                    <div onclick="openChat('${ph}')" class="p-4 bg-white/5 rounded-2xl mb-3 cursor-pointer border-l-4 transition ${curChat === ph ? 'border-cyan-400 bg-cyan-400/10' : 'border-transparent'}">
-                        <p class="text-[10px] font-bold uppercase tracking-widest">${ph}</p>
+                    <div onclick="openChat('${ph}')" class="px-4 py-2 bg-white/5 rounded-full cursor-pointer border border-pink-900/30 transition ${curChat === ph ? 'active-tab' : ''}">
+                        <p class="text-[10px] font-bold">${ph}</p>
                     </div>`).join('');
             });
         }
 
         // ACTIONS
+        function saveEdit(id) {
+            const name = document.getElementById('en-'+id).value;
+            const price = document.getElementById('ep-'+id).value;
+            const deli = document.getElementById('ed-'+id).value;
+            database.ref('products/'+id).update({ name, price: parseInt(price), deliveryFee: parseInt(deli) });
+            alert("Changes Saved!");
+        }
+
         function uploadProduct() {
-            if(!prodBase64 || !pName.value) return alert("Fill Name and Photo!");
-            const d = { name: pName.value, price: parseInt(pPrice.value), deliveryFee: parseInt(pDeli.value), colors: pColors.value, types: pTypes.value, image: prodBase64 };
+            if(!pBase64 || !pName.value) return alert("Photo & Name Required!");
+            const d = { name: pName.value, price: parseInt(pPrice.value), deliveryFee: parseInt(pDeli.value), colors: pColors.value, types: pTypes.value, image: pBase64 };
             database.ref('products').push(d).then(() => { alert("Published!"); location.reload(); });
         }
 
         function uploadUpdate() {
-            if(!updateBase64 || !uCaption.value) return alert("Select Image and type Caption!");
-            const d = { image: updateBase64, caption: uCaption.value, time: new Date().toLocaleDateString() };
-            database.ref('updates').push(d).then(() => { alert("Posted Update!"); location.reload(); });
-        }
-
-        function viewSlip(id) {
-            database.ref('orders/' + id + '/slip').once('value', s => {
-                const slip = s.val(); if(slip) {
-                    const win = window.open();
-                    win.document.write('<img src="' + slip + '" style="width:100%; border-radius: 20px;">');
-                }
-            });
+            if(!uBase64 || !uCaption.value) return alert("Caption & Photo Required!");
+            const d = { image: uBase64, caption: uCaption.value, desc: uDesc.value, link: uLink.value, time: new Date().toLocaleDateString() };
+            database.ref('updates').push(d).then(() => { alert("Post Added!"); location.reload(); });
         }
 
         function updateStatus(id, s) { database.ref('orders/' + id).update({ status: s }); }
 
+        function viewSlip(id) {
+            database.ref('orders/'+id+'/slip').once('value', s => {
+                const slip = s.val(); if(slip) { const w = window.open(); w.document.write('<img src="'+slip+'" style="width:100%">'); }
+            });
+        }
+
         function openChat(ph) {
-            curChat = ph; document.getElementById('chatWith').innerText = "CHAT: " + ph;
-            database.ref('chats/' + ph).on('value', s => {
+            curChat = ph; document.getElementById('chatWith').innerText = "CHAT WITH: " + ph;
+            database.ref('chats/'+ph).on('value', s => {
                 const d = s.val(); if(!d) return;
                 document.getElementById('chatMsgs').innerHTML = Object.values(d).map(m => `
                     <div class="flex ${m.sender==='admin'?'justify-end':'justify-start'}">
-                        <div class="p-3 rounded-2xl max-w-[85%] text-xs ${m.sender==='admin'?'bg-cyan-400 text-black':'glass-card'}">${m.text}</div>
+                        <div class="p-3 rounded-2xl max-w-[85%] text-[10px] ${m.sender==='admin'?'bg-pink-600':'glass-card border-pink-900/30'}">${m.text}</div>
                     </div>`).join('');
                 document.getElementById('chatMsgs').scrollTop = document.getElementById('chatMsgs').scrollHeight;
             });
@@ -268,19 +252,17 @@
 
         function adminSend() {
             const t = repInput.value; if(!t || !curChat) return;
-            database.ref('chats/' + curChat).push({ sender: 'admin', text: t });
-            repInput.value = "";
+            database.ref('chats/' + curChat).push({ sender: 'admin', text: t }); repInput.value = "";
         }
 
-        async function downloadPDF(id, o) {
+        async function downloadInvoice(id, o) {
             const { jsPDF } = window.jspdf; const doc = new jsPDF();
-            doc.setFontSize(22); doc.setTextColor(0, 243, 255); doc.text("LOCHI CREATION", 105, 20, null, null, "center");
+            doc.setFontSize(22); doc.setTextColor(255, 0, 127); doc.text("LOCHI CREATION", 105, 20, null, null, "center");
             doc.setFontSize(10); doc.setTextColor(0,0,0);
-            doc.text([`Order ID: ${id}`, `Date: ${o.time}`, `---------------------------------------`, 
-                      `Customer: ${o.customerName}`, `Phone: ${o.phone}`, `Address: ${o.address}`, 
-                      `---------------------------------------`, `Product: ${o.item}`, `Qty: ${o.qty}`, 
-                      `Color: ${o.color} | Type: ${o.type}`, `Total: Rs. ${o.total}/=`, `Payment: ${o.payment}`], 20, 40);
-            doc.save(`Invoice_${o.customerName}.pdf`);
+            doc.text([`Order ID: ${id}`, `Customer: ${o.customerName}`, `Phone: ${o.phone}`, `Address: ${o.address}`, 
+                      `---------------------------------------`, `Product: ${o.item}`, `Qty: ${o.qty}`, `Color: ${o.color}`,
+                      `Total: Rs. ${o.total}/=`, `Payment: ${o.payment || 'Verified'}`], 20, 40);
+            doc.save(`Lochi_Invoice_${o.customerName}.pdf`);
         }
     </script>
 </body>
