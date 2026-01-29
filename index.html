@@ -3,89 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Lochi Creation | Ultimate Neon App</title>
-    
-    <!-- Cordova Core for Hardware Access -->
+    <title>Lochi Creation | Valentine Neon App</title>
     <script src="cordova.js"></script>
-
-    <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <style>
         :root { 
-            --neon-blue: #00f3ff; 
-            --neon-dark: #0077ff; 
-            --bg-black: #050505; 
-            --glass: rgba(255, 255, 255, 0.03); 
-            --border: rgba(255, 255, 255, 0.1);
+            --neon-rose: #ff007f; 
+            --neon-dark: #b30059; 
+            --bg-black: #080205; 
+            --glass: rgba(255, 0, 127, 0.05); 
+            --border: rgba(255, 0, 127, 0.2);
         }
 
         body { 
             font-family: 'Poppins', sans-serif; 
             background-color: var(--bg-black); 
-            background-image: radial-gradient(circle at 50% 50%, #001f3f 0%, #050505 100%);
+            background-image: radial-gradient(circle at 50% 50%, #2b0014 0%, #080205 100%);
             color: white; overflow-x: hidden; user-select: none; -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none;
         }
 
         .orbitron { font-family: 'Orbitron', sans-serif; }
-        .neon-text { color: var(--neon-blue); text-shadow: 0 0 15px var(--neon-blue); }
+        .neon-text { color: var(--neon-rose); text-shadow: 0 0 15px var(--neon-rose); }
         .glass-card { background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border); }
         
-        .blue-btn { 
-            background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-dark) 100%) !important; 
-            color: #000 !important; font-weight: 800; transition: 0.4s; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+        .rose-btn { 
+            background: linear-gradient(135deg, var(--neon-rose) 0%, var(--neon-dark) 100%) !important; 
+            color: #fff !important; font-weight: 800; transition: 0.4s; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
         }
-        .blue-btn:active { transform: scale(0.95); }
 
         .auth-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; padding: 14px 20px; border-radius: 18px; outline: none; transition: 0.3s; font-size: 13px; }
-        .auth-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
+        .auth-input:focus { border-color: var(--neon-rose); box-shadow: 0 0 10px rgba(255, 0, 127, 0.2); }
 
-        .ticker-container { background: rgba(0, 243, 255, 0.1); border-bottom: 1px solid var(--neon-blue); overflow: hidden; white-space: nowrap; padding: 8px 0; }
-        .ticker-content { display: inline-block; animation: scroll-ticker 30s linear infinite; font-size: 11px; font-weight: bold; color: var(--neon-blue); }
+        .ticker-container { background: rgba(255, 0, 127, 0.1); border-bottom: 1px solid var(--neon-rose); overflow: hidden; white-space: nowrap; padding: 8px 0; }
+        .ticker-content { display: inline-block; animation: scroll-ticker 30s linear infinite; font-size: 11px; font-weight: bold; color: var(--neon-rose); }
         @keyframes scroll-ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .update-item { min-width: 280px; height: 320px; border-radius: 25px; overflow: hidden; border: 1px solid var(--border); position: relative; background: #000; }
-        .update-caption-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 20px 15px; }
+        .free-deli-badge { position: absolute; top: 10px; left: 10px; background: var(--neon-rose); color: white; font-size: 8px; padding: 4px 8px; border-radius: 50px; font-weight: bold; z-index: 10; box-shadow: 0 0 10px var(--neon-rose); }
 
-        /* Sidebar Menu */
-        #side-menu { position: fixed; top: 0; right: -100%; width: 85%; height: 100%; background: rgba(5, 5, 5, 0.98); z-index: 5000; transition: 0.5s; border-left: 1px solid var(--neon-blue); }
+        /* Rose Petal Animation */
+        .petal { position: fixed; color: #ff007f; font-size: 20px; z-index: 3500; pointer-events: none; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
+
+        .update-item { min-width: 280px; height: 320px; border-radius: 25px; overflow: hidden; border: 1px solid var(--border); position: relative; background: #000; cursor: pointer; }
+        .update-caption-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(20,0,10,0.95)); padding: 25px 15px; border-top: 1px solid rgba(255,0,127,0.2); }
+
+        #side-menu { position: fixed; top: 0; right: -100%; width: 85%; height: 100%; background: rgba(10, 0, 5, 0.98); z-index: 5000; transition: 0.5s; border-left: 1px solid var(--neon-rose); }
         .menu-open { right: 0 !important; }
-        .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: #aaa; font-weight: 600; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .menu-item i { color: var(--neon-blue); width: 20px; text-align: center; }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: #aaa; font-weight: 600; font-size: 13px; border-bottom: 1px solid rgba(255,0,127,0.1); }
+        .menu-item i { color: var(--neon-rose); width: 20px; text-align: center; }
 
-        .toast { background: var(--neon-blue); color: black; padding: 12px 20px; border-radius: 50px; text-align: center; font-weight: bold; font-size: 12px; position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 80%; animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from { transform: translate(-50%, 50px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
-
-        .bank-page { position: fixed; inset: 0; background: #050505; z-index: 4000; padding: 25px; overflow-y: auto; }
-        .premium-card { background: linear-gradient(135deg, #111 0%, #000 100%); border: 1px solid var(--neon-blue); border-radius: 30px; padding: 30px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
-
-        .wa-channel-banner { background: linear-gradient(90deg, #25D366 0%, #128C7E 100%); border-radius: 20px; padding: 15px; display: flex; align-items: center; gap: 15px; margin-top: 20px; }
+        .toast { background: var(--neon-rose); color: white; padding: 12px 20px; border-radius: 50px; text-align: center; font-weight: bold; font-size: 12px; position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 80%; }
+        .premium-card { background: linear-gradient(135deg, #2b0014 0%, #080205 100%); border: 1px solid var(--neon-rose); border-radius: 30px; padding: 30px; position: relative; box-shadow: 0 10px 30px rgba(255,0,127,0.3); }
 
         .hidden { display: none !important; }
         .fade-in { animation: fadeIn 0.6s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body onload="initApp()">
 
+    <div id="petal-container"></div>
     <div id="toast-container"></div>
 
     <!-- AUTH SECTION -->
     <section id="page-auth" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
         <div class="fade-in w-full max-w-md">
-            <img src="https://res.cloudinary.com/deljgkppf/image/upload/v1769218185/Gemini_Generated_Image_r90uezr90uezr90u_canlmu.png" class="w-28 h-28 rounded-full border-2 border-cyan-400 mx-auto mb-8 shadow-2xl">
+            <img src="https://res.cloudinary.com/deljgkppf/image/upload/v1769218185/Gemini_Generated_Image_r90uezr90uezr90u_canlmu.png" class="w-28 h-28 rounded-full border-2 border-[#ff007f] mx-auto mb-8 shadow-2xl">
             <div id="login-section" class="glass-card p-8 rounded-[2.5rem] space-y-5">
                 <h1 class="orbitron text-2xl font-bold neon-text">SIGN IN</h1>
-                <input type="text" id="lUser" placeholder="Email or Mobile" class="auth-input">
+                <input type="text" id="lUser" placeholder="Mobile Number" class="auth-input">
                 <input type="password" id="lPass" placeholder="Password" class="auth-input">
-                <button onclick="login(); haptic(40);" class="w-full blue-btn py-4 rounded-2xl">Enter Shop</button>
-                <p class="text-xs text-gray-500 mt-4" onclick="toggleAuth(true)">New? <span class="text-cyan-400 font-bold">Register</span></p>
+                <button onclick="login(); haptic(40);" class="w-full rose-btn py-4 rounded-2xl">Open Boutique</button>
+                <p class="text-xs text-gray-500 mt-4" onclick="toggleAuth(true)">New? <span class="text-[#ff007f] font-bold">Register</span></p>
             </div>
             <div id="register-section" class="hidden glass-card p-8 rounded-[2.5rem] space-y-4">
                 <h1 class="orbitron text-2xl font-bold neon-text">REGISTER</h1>
@@ -93,8 +87,8 @@
                 <input type="email" id="sEmail" placeholder="Email Address" class="auth-input">
                 <input type="text" id="sPhone" placeholder="Mobile Number" class="auth-input">
                 <input type="password" id="sPass" placeholder="Password" class="auth-input">
-                <button onclick="register(); haptic(40);" class="w-full blue-btn py-4 rounded-2xl">Create Account</button>
-                <p class="text-xs text-gray-500 mt-4" onclick="toggleAuth(false)">Member? <span class="text-cyan-400 font-bold">Sign In</span></p>
+                <button onclick="register(); haptic(40);" class="w-full rose-btn py-4 rounded-2xl">Create Account</button>
+                <p class="text-xs text-gray-500 mt-4" onclick="toggleAuth(false)">Sign In Instead</p>
             </div>
         </div>
     </section>
@@ -104,10 +98,10 @@
         <div class="ticker-container"><div id="moving-ticker" class="ticker-content">Lochi Creation Boutique</div></div>
         <nav class="p-5 glass-card sticky top-0 z-50 flex justify-between items-center px-8 border-b border-white/5">
             <div>
-                <h1 class="orbitron text-xl font-bold neon-text" onclick="navigateTo('home')">LOCHI</h1>
-                <div class="text-[9px] font-bold text-cyan-400 mt-1"><i class="fas fa-bolt"></i> Battery: <span id="battery-status">--%</span></div>
+                <h1 class="orbitron text-xl font-bold neon-text" onclick="navigateTo('home')">LOCHI 🌹</h1>
+                <div class="text-[9px] font-bold text-[#ff007f] mt-1"><i class="fas fa-bolt"></i> Battery: <span id="battery-status">--%</span></div>
             </div>
-            <button onclick="toggleMenu(); haptic(20);" class="text-cyan-400 text-2xl"><i class="fas fa-bars-staggered"></i></button>
+            <button onclick="toggleMenu(); haptic(20);" class="text-[#ff007f] text-2xl"><i class="fas fa-bars-staggered"></i></button>
         </nav>
 
         <div id="content-views" class="flex-grow pb-24">
@@ -123,14 +117,20 @@
                     </div>
                 </a>
 
-                <h3 class="orbitron text-lg font-bold mb-8 mt-10 border-l-4 border-cyan-400 pl-4 uppercase tracking-widest">Store Catalog</h3>
+                <h3 class="orbitron text-lg font-bold mb-8 mt-10 border-l-4 border-[#ff007f] pl-4 uppercase tracking-widest">Store Catalog</h3>
                 <div id="product-grid" class="grid grid-cols-2 gap-4"></div>
             </main>
 
-            <!-- CUSTOMER SERVICE -->
+            <!-- UPDATE DETAILS VIEW -->
+            <main id="view-update-details" class="hidden p-6 fade-in">
+                <button onclick="navigateTo('home')" class="mb-6 text-white text-sm"><i class="fas fa-arrow-left mr-2"></i> Back to Store</button>
+                <div id="update-details-content" class="glass-card p-6 rounded-[2.5rem] border-[#ff007f]/30 shadow-2xl"></div>
+            </main>
+
+            <!-- SERVICE/CHAT -->
             <main id="view-service" class="hidden p-6 h-[75vh] flex flex-col fade-in">
-                <div id="chat-box" class="flex-grow glass-card p-6 overflow-y-auto flex flex-col no-scrollbar"></div>
-                <div class="p-4 flex gap-3"><input type="text" id="chatInput" placeholder="Message..." class="auth-input"><button onclick="sendMsg(); haptic(30);" class="blue-btn px-6 rounded-2xl"><i class="fas fa-paper-plane"></i></button></div>
+                <div id="chat-box" class="flex-grow glass-card p-6 overflow-y-auto flex flex-col no-scrollbar mb-4 rounded-3xl"></div>
+                <div class="flex gap-3"><input type="text" id="chatInput" placeholder="Message..." class="auth-input"><button onclick="sendMsg(); haptic(30);" class="rose-btn px-6 rounded-2xl"><i class="fas fa-paper-plane"></i></button></div>
             </main>
 
             <!-- HISTORY -->
@@ -138,44 +138,37 @@
 
             <!-- HELP CENTER -->
             <main id="view-help" class="hidden p-6 fade-in text-center">
-                <div class="glass-card p-10 rounded-[3rem] neon-border space-y-6">
+                <div class="glass-card p-10 rounded-[3rem] space-y-6 border-[#ff007f]/30">
                     <h2 class="orbitron text-xl font-bold neon-text uppercase">Help Center</h2>
-                    <a href="https://wa.me/94755235773?text=Can%20you%20help%20me%3F" target="_blank" class="block bg-white/5 p-5 rounded-2xl border border-white/5"><i class="fab fa-whatsapp text-green-500 mr-2"></i> WhatsApp 1</a>
-                    <a href="https://wa.me/94722014353?text=Can%20you%20help%20me%3F" target="_blank" class="block bg-white/5 p-5 rounded-2xl border border-white/5"><i class="fab fa-whatsapp text-green-500 mr-2"></i> WhatsApp 2</a>
-                    <a href="https://t.me/+94775497858" target="_blank" class="block bg-white/5 p-5 rounded-2xl border border-white/5"><i class="fab fa-telegram text-blue-400 mr-2"></i> Telegram</a>
+                    <a href="https://wa.me/94775497858" target="_blank" class="block bg-white/5 p-5 rounded-2xl border border-white/5"><i class="fab fa-whatsapp text-green-500 mr-2"></i> WhatsApp Official</a>
+                    <a href="https://t.me/+94775497858" target="_blank" class="block bg-white/5 p-5 rounded-2xl border border-white/5"><i class="fab fa-telegram text-blue-400 mr-2"></i> Telegram Channel</a>
                 </div>
             </main>
 
-            <!-- PROFILE VIEW (UPDATED) -->
+            <!-- PROFILE -->
             <main id="view-profile" class="hidden p-6 fade-in">
-                <div class="glass-card p-6 rounded-[2.5rem] text-center shadow-2xl border border-white/5">
+                <div class="glass-card p-6 rounded-[2.5rem] text-center border-[#ff007f]/20 shadow-2xl">
                     <div class="relative w-32 h-32 mx-auto mb-10">
-                        <img id="mainProfilePic" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-full h-full rounded-full border-4 border-cyan-400 object-cover p-1">
+                        <img id="mainProfilePic" src="" class="w-full h-full rounded-full border-4 border-[#ff007f] object-cover p-1">
                         <label class="absolute bottom-1 right-1 bg-white text-black w-10 h-10 flex items-center justify-center rounded-full cursor-pointer shadow-lg">
                             <i class="fas fa-camera"></i>
                             <input type="file" class="hidden" accept="image/*" onchange="uploadProfilePic(event)">
                         </label>
                     </div>
-                    
                     <div class="space-y-4 text-left">
-                        <div><label class="text-[10px] text-gray-500 font-bold uppercase ml-2">Display Name</label><input type="text" id="editName" class="auth-input"></div>
-                        <div><label class="text-[10px] text-gray-500 font-bold uppercase ml-2">Email Address</label><input type="email" id="editEmail" class="auth-input"></div>
-                        <div><label class="text-[10px] text-gray-500 font-bold uppercase ml-2">WhatsApp Number</label><input type="text" id="editPhone" class="auth-input"></div>
-                        <div><label class="text-[10px] text-gray-500 font-bold uppercase ml-2">Delivery Address</label><textarea id="editAddress" class="auth-input h-24"></textarea></div>
-                        
-                        <div class="grid grid-cols-2 gap-3 mt-6">
-                           <div class="bg-white/5 p-3 rounded-2xl border border-white/5"><i class="fab fa-facebook text-blue-500 mr-2"></i><input type="text" id="editFb" placeholder="Facebook Link" class="bg-transparent border-none outline-none text-[10px] w-full mt-1"></div>
-                           <div class="bg-white/5 p-3 rounded-2xl border border-white/5"><i class="fab fa-tiktok text-white mr-2"></i><input type="text" id="editTt" placeholder="TikTok Link" class="bg-transparent border-none outline-none text-[10px] w-full mt-1"></div>
-                           <div class="bg-white/5 p-3 rounded-2xl border border-white/5"><i class="col-span-2 fab fa-youtube text-red-600 mr-2"></i><input type="text" id="editYt" placeholder="YouTube Link" class="bg-transparent border-none outline-none text-[10px] w-full mt-1"></div>
+                        <input type="text" id="editName" class="auth-input" placeholder="Display Name">
+                        <textarea id="editAddress" class="auth-input h-24" placeholder="Delivery Address"></textarea>
+                        <div class="grid grid-cols-2 gap-3">
+                           <div class="bg-white/5 p-3 rounded-2xl border border-white/5"><i class="fab fa-facebook text-blue-500 mr-2"></i><input type="text" id="editFb" placeholder="FB Link" class="bg-transparent text-[10px] w-full border-none outline-none"></div>
+                           <div class="bg-white/5 p-3 rounded-2xl border border-white/5"><i class="fab fa-tiktok text-white mr-2"></i><input type="text" id="editTt" placeholder="TikTok Link" class="bg-transparent text-[10px] w-full border-none outline-none"></div>
                         </div>
                     </div>
-                    
-                    <button onclick="updateProfile(); haptic(100);" class="w-full blue-btn py-4 rounded-2xl mt-10">Update Account</button>
+                    <button onclick="updateProfile(); haptic(100);" class="w-full rose-btn py-4 rounded-2xl mt-10">Update Account</button>
                 </div>
             </main>
         </div>
 
-        <footer class="fixed bottom-0 w-full glass-card flex justify-around p-5 border-t border-white/5 z-[100]">
+        <footer class="fixed bottom-0 w-full glass-card flex justify-around p-5 border-t border-[#ff007f]/10 z-[100]">
             <i class="fas fa-home text-2xl" id="nav-home" onclick="navigateTo('home'); haptic(20);"></i>
             <i class="fas fa-shopping-bag text-2xl text-gray-600" id="nav-history" onclick="navigateTo('history'); haptic(20);"></i>
             <i class="fas fa-user-circle text-2xl text-gray-600" id="nav-profile" onclick="navigateTo('profile'); haptic(20);"></i>
@@ -184,75 +177,65 @@
 
     <!-- BANK PAGE -->
     <div id="view-bank-pay" class="hidden bank-page fade-in">
-        <header class="flex justify-between items-center mb-10"><h2 class="orbitron text-lg font-bold text-yellow-500 uppercase">Bank Transfer</h2><button onclick="closeBankPage()" class="text-white text-2xl"><i class="fas fa-times"></i></button></header>
+        <header class="flex justify-between items-center mb-10"><h2 class="orbitron text-lg font-bold text-[#ff007f] uppercase">Bank Transfer</h2><button onclick="closeBankPage()" class="text-white text-2xl"><i class="fas fa-times"></i></button></header>
         <div class="premium-card mb-10">
             <p class="text-[10px] text-gray-400 uppercase">H.V.M.PEHESARA</p>
             <p class="text-white font-bold text-3xl tracking-[4px] neon-text mt-3">9563 7863</p>
-            <p class="mt-8 text-yellow-500 font-bold uppercase text-[10px]">Bank of Ceylon (BOC)</p>
+            <p class="mt-8 text-pink-300 font-bold uppercase text-[10px]">Bank of Ceylon (BOC)</p>
         </div>
         <div class="glass-card p-8 rounded-[2.5rem] text-center space-y-6">
             <label for="bank-slip-input" class="cursor-pointer block">
-                <div class="border-2 border-dashed border-cyan-400/30 rounded-2xl p-8 bg-cyan-400/5 min-h-[160px] flex flex-col items-center justify-center">
-                    <div id="slip-placeholder"><i class="fas fa-camera text-4xl mb-2 text-gray-500"></i><p class="text-xs font-bold text-gray-400">CAPTURE SLIP</p></div>
-                    <img id="slip-preview" class="hidden w-full max-h-80 object-contain rounded-lg border border-cyan-400">
+                <div class="border-2 border-dashed border-[#ff007f]/30 rounded-2xl p-8 bg-[#ff007f]/5 min-h-[160px] flex flex-col items-center justify-center">
+                    <div id="slip-placeholder"><i class="fas fa-camera text-4xl mb-2 text-gray-500"></i><p class="text-xs font-bold text-gray-400">UPLOAD SLIP</p></div>
+                    <img id="slip-preview" class="hidden w-full max-h-80 object-contain rounded-lg shadow-2xl">
                 </div>
                 <input type="file" id="bank-slip-input" accept="image/*" class="hidden" onchange="handleSlipSelected(event)">
             </label>
-            <button onclick="submitBankOrder(); haptic(100);" class="w-full blue-btn py-5 rounded-2xl">Confirm & Submit</button>
+            <button onclick="submitBankOrder(); haptic(100);" class="w-full rose-btn py-5 rounded-2xl">Confirm Payment</button>
         </div>
     </div>
 
     <!-- ORDER MODAL -->
     <div id="orderModal" class="hidden fixed inset-0 z-[3000] bg-black/95 flex items-center justify-center p-4">
-        <div class="glass-card w-full max-w-lg p-8 rounded-[3rem] border border-cyan-400/30">
-            <div id="checkoutForm" class="space-y-4">
-                <h2 class="orbitron text-xl font-bold neon-text text-center uppercase">Order Details</h2>
-                <p id="modalItemName" class="font-bold text-center text-cyan-400"></p>
+        <div class="glass-card w-full max-w-lg p-8 rounded-[3rem] border-[#ff007f]/30 relative overflow-hidden">
+            <h2 class="orbitron text-xl font-bold neon-text text-center uppercase mb-6">Order Details</h2>
+            <p id="modalItemName" class="font-bold text-center text-white mb-6"></p>
+            <div class="space-y-4">
                 <div class="grid grid-cols-2 gap-3">
-                    <select id="orderColor" class="auth-input !py-3 !text-xs"></select>
-                    <select id="orderType" class="auth-input !py-3 !text-xs"></select>
+                    <select id="orderColor" class="auth-input"></select>
+                    <select id="orderType" class="auth-input"></select>
                 </div>
-                
-                <textarea id="orderAddress" rows="2" placeholder="Verify Address" class="auth-input"></textarea>
-                
+                <div class="relative">
+                    <textarea id="orderAddress" rows="2" placeholder="Verify Address" class="auth-input pr-12"></textarea>
+                    <button onclick="getGPS()" class="absolute right-3 top-3 text-[#ff007f]"><i class="fas fa-location-dot"></i></button>
+                </div>
                 <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/10">
-                    <span class="text-xs font-bold text-gray-400 uppercase">Quantity</span>
+                    <span class="text-xs font-bold text-gray-400">Quantity</span>
                     <div class="flex items-center gap-6">
                         <button onclick="changeQty(-1)" class="w-8 h-8 glass-card rounded-full">-</button>
                         <span id="mQty" class="text-xl font-bold orbitron">1</span>
                         <button onclick="changeQty(1)" class="w-8 h-8 glass-card rounded-full">+</button>
                     </div>
                 </div>
-
-                <div class="flex flex-col pt-4 px-2">
-                    <div class="flex justify-between text-[10px] opacity-60"><span>Deli Fee:</span><span id="mDeli">Rs. 0</span></div>
-                    <div class="flex justify-between font-bold text-xl"><span>TOTAL:</span><span class="text-cyan-400">Rs. <span id="mTotal">0</span></span></div>
+                <div class="flex justify-between font-bold text-xl p-2">
+                    <span>TOTAL:</span><span class="neon-text">Rs. <span id="mTotal">0</span></span>
                 </div>
                 <select id="mPay" class="auth-input"><option value="cod">Cash on Delivery</option><option value="bank">Bank Deposit</option></select>
-                <button onclick="finalizeProcess(); haptic(60);" class="w-full blue-btn py-4 rounded-2xl">Place Order</button>
-                <button onclick="closeModal()" class="w-full text-xs text-gray-500 uppercase mt-2">Go Back</button>
+                <button onclick="finalizeProcess(); haptic(60);" class="w-full rose-btn py-5 rounded-2xl">Place Order</button>
+                <button onclick="closeModal()" class="w-full text-xs text-gray-500 uppercase mt-4 text-center">Go Back</button>
             </div>
         </div>
     </div>
 
     <!-- SIDE MENU -->
     <div id="side-menu" class="p-8 flex flex-col">
-        <div class="flex items-center gap-4 mb-10 pb-6 border-b border-white/5">
-            <img src="https://res.cloudinary.com/deljgkppf/image/upload/v1769218185/Gemini_Generated_Image_r90uezr90uezr90u_canlmu.png" class="w-12 h-12 rounded-full border border-cyan-400">
-            <div>
-                <h2 class="orbitron text-sm font-bold neon-text">LOCHI CREATION</h2>
-                <p class="text-[9px] text-gray-500 tracking-widest uppercase">Premium Membership</p>
-            </div>
-        </div>
+        <h2 class="orbitron text-sm font-bold neon-text mb-10">LOCHI CREATION</h2>
         <nav class="flex flex-col">
             <span onclick="navigateTo('home'); toggleMenu(); haptic(20);" class="menu-item"><i class="fas fa-home"></i> HOME</span>
             <span onclick="navigateTo('history'); toggleMenu(); haptic(20);" class="menu-item"><i class="fas fa-shopping-bag"></i> ORDERS</span>
             <span onclick="navigateTo('service'); toggleMenu(); haptic(20);" class="menu-item"><i class="fas fa-headset"></i> SUPPORT</span>
             <span onclick="navigateTo('help'); toggleMenu(); haptic(20);" class="menu-item"><i class="fas fa-question-circle"></i> HELP</span>
             <span onclick="navigateTo('profile'); toggleMenu(); haptic(20);" class="menu-item"><i class="fas fa-user-circle"></i> PROFILE</span>
-            
-            <a href="https://whatsapp.com/channel/0029Vb6Za3m60eBniEBj5X31" target="_blank" class="menu-item mt-10 text-green-500 border-none"><i class="fab fa-whatsapp"></i> WA CHANNEL</a>
-            
             <span onclick="signOut()" class="text-red-500 mt-auto pt-10 menu-item border-none"><i class="fas fa-sign-out-alt"></i> Logout</span>
         </nav>
     </div>
@@ -262,7 +245,7 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let user = null; let currentOrder = { item: "", price: 0, qty: 1, deli: 0 }; let slipData = "";
+        let user = null; let currentOrder = { price: 0, qty: 1, deli: 0 }; let slipData = "";
 
         function haptic(ms) { if(navigator.vibrate) navigator.vibrate(ms); }
         function showToast(m) { const c=document.getElementById('toast-container'); const t=document.createElement('div'); t.className='toast'; t.innerText=m; c.appendChild(t); setTimeout(()=>t.remove(), 3000); }
@@ -275,80 +258,72 @@
 
         function register() {
             const d = { name: sName.value, email: sEmail.value, phone: sPhone.value, pass: sPass.value, address: "", pic: "", fb: "", tt: "", yt: "" };
-            if(!d.name || !d.phone) return showToast("Enter all details!");
-            database.ref('users/'+d.phone).set(d).then(() => { user=d; save(); showMain(); });
+            database.ref('users/'+d.phone).set(d).then(() => { user=d; localStorage.setItem('lochi_session', JSON.stringify(user)); showMain(); });
         }
 
         function login() {
             const input = lUser.value; const pass = lPass.value;
             database.ref('users').once('value', s => {
                 const users = s.val(); let found = false;
-                for(let id in users) { if((users[id].phone === input || users[id].email === input) && users[id].pass === pass) { user = users[id]; found = true; break; } }
-                if(found) { save(); showMain(); } else showToast("Wrong details!");
+                if(users) {
+                    for(let id in users) { if(users[id].phone === input && users[id].pass === pass) { user = users[id]; found = true; break; } }
+                    if(found) { localStorage.setItem('lochi_session', JSON.stringify(user)); showMain(); } else alert("Invalid Login!");
+                }
             });
         }
 
-        function save() { localStorage.setItem('lochi_session', JSON.stringify(user)); }
         function showMain() { 
             document.getElementById('page-auth').classList.add('hidden'); 
             document.getElementById('main-app').classList.remove('hidden'); 
             document.getElementById('mainProfilePic').src = user.pic || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
             document.getElementById('editName').value = user.name || "";
-            document.getElementById('editEmail').value = user.email || "";
-            document.getElementById('editPhone').value = user.phone || "";
             document.getElementById('editAddress').value = user.address || "";
-            document.getElementById('editFb').value = user.fb || "";
-            document.getElementById('editTt').value = user.tt || "";
-            document.getElementById('editYt').value = user.yt || "";
             navigateTo('home'); 
         }
 
-        function getGPS() {
-            navigator.geolocation.getCurrentPosition(p => {
-                document.getElementById('orderAddress').value = `GPS: ${p.coords.latitude}, ${p.coords.longitude} (Verified)`;
-                showToast("Location Updated!");
-            }, () => showToast("Turn on GPS Permissions"));
+        function startRoseRain() {
+            const container = document.getElementById('petal-container');
+            container.innerHTML = "";
+            for(let i=0; i<18; i++) {
+                const p = document.createElement('div');
+                p.className = 'petal'; p.innerHTML = '🌹';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                p.style.opacity = Math.random();
+                container.appendChild(p);
+            }
         }
 
         function compressImage(file, callback) {
             const reader = new FileReader();
-            reader.readAsDataURL(file);
             reader.onload = (res) => {
                 const img = new Image(); img.src = res.target.result;
                 img.onload = () => {
                     const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
                     const MAX_WIDTH = 500; const scale = MAX_WIDTH / img.width;
                     canvas.width = MAX_WIDTH; canvas.height = img.height * scale;
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
                     callback(canvas.toDataURL('image/jpeg', 0.6));
                 };
             };
+            reader.readAsDataURL(file);
         }
 
         function uploadProfilePic(e) {
             const file = e.target.files[0];
-            if(file) {
-                compressImage(file, (base64) => {
-                    user.pic = base64;
-                    database.ref('users/'+user.phone).update({pic: base64});
-                    document.getElementById('mainProfilePic').src = base64;
-                    save(); showToast("Photo Saved!");
-                });
-            }
+            if(file) compressImage(file, (base64) => {
+                user.pic = base64; database.ref('users/'+user.phone).update({pic: base64});
+                document.getElementById('mainProfilePic').src = base64; showToast("Photo Saved!");
+            });
         }
 
         function handleSlipSelected(e) {
             const file = e.target.files[0];
-            if(file) {
-                compressImage(file, (base64) => {
-                    slipData = base64;
-                    document.getElementById('slip-placeholder').classList.add('hidden');
-                    document.getElementById('slip-preview').classList.remove('hidden');
-                    document.getElementById('slip-preview').src = base64;
-                    haptic(50);
-                });
-            }
+            if(file) compressImage(file, (base64) => {
+                slipData = base64; document.getElementById('slip-placeholder').classList.add('hidden');
+                document.getElementById('slip-preview').classList.remove('hidden');
+                document.getElementById('slip-preview').src = base64;
+            });
         }
 
         function finalizeProcess() {
@@ -371,12 +346,13 @@
             calculateTotal();
             document.getElementById('orderAddress').value = user.address || "";
             document.getElementById('orderModal').classList.remove('hidden');
+            startRoseRain();
+            haptic(50);
         }
 
         function calculateTotal() {
             const total = (currentOrder.price * currentOrder.qty) + currentOrder.deli;
             document.getElementById('mQty').innerText = currentOrder.qty;
-            document.getElementById('mDeli').innerText = "Rs. " + currentOrder.deli;
             document.getElementById('mTotal').innerText = total.toLocaleString();
         }
 
@@ -391,20 +367,44 @@
             database.ref('orders').push(data).then(() => { showToast("Success!"); closeModal(); navigateTo('history'); });
         }
 
+        function getGPS() {
+            navigator.geolocation.getCurrentPosition(p => {
+                document.getElementById('orderAddress').value = `GPS: ${p.coords.latitude}, ${p.coords.longitude} (Verified)`;
+                showToast("GPS Updated!");
+            }, () => alert("Enable GPS Permissions!"));
+        }
+
         function initApp() {
             const saved = localStorage.getItem('lochi_session');
             if(saved) { user = JSON.parse(saved); showMain(); }
-            loadProducts(); updateStats();
+            loadProducts(); updateStats(); loadUpdates();
+        }
+
+        function loadUpdates() {
             database.ref('updates').on('value', s => {
                 const u = s.val(); if(!u) return;
                 document.getElementById('moving-ticker').innerText = Object.values(u).map(x => x.caption).join(' • ');
-                document.getElementById('photo-updates-scroller').innerHTML = Object.values(u).map(x => `
-                    <div class="update-item shadow-2xl">
+                document.getElementById('photo-updates-scroller').innerHTML = Object.entries(u).reverse().map(([id, x]) => `
+                    <div class="update-item shadow-2xl" onclick="viewUpdate('${id}')">
                         <img src="${x.image}" class="w-full h-full object-cover">
                         <div class="update-caption-overlay">
-                            <p class="text-[11px] text-cyan-400 font-bold italic line-clamp-2">${x.caption}</p>
+                            <p class="text-[11px] text-[#ff007f] font-bold italic line-clamp-1">${x.caption}</p>
+                            <p class="text-[8px] text-gray-400 mt-1 uppercase">Read Details...</p>
                         </div>
                     </div>`).join('');
+            });
+        }
+
+        function viewUpdate(id) {
+            database.ref('updates/'+id).once('value', s => {
+                const u = s.val();
+                document.getElementById('update-details-content').innerHTML = `
+                    <img src="${u.image}" class="w-full rounded-3xl mb-6 shadow-xl border border-white/5">
+                    <h2 class="orbitron text-lg font-bold neon-text mb-4 uppercase">${u.caption}</h2>
+                    <p class="text-xs text-gray-400 leading-relaxed mb-6 whitespace-pre-line">${u.desc || "Happy Valentine's Day!"}</p>
+                    ${u.link ? `<button onclick="window.open('${u.link}')" class="rose-btn w-full py-4 rounded-xl">Visit Link</button>` : ''}
+                `;
+                navigateTo('update-details');
             });
         }
 
@@ -412,11 +412,12 @@
             database.ref('products').on('value', s => {
                 const p = s.val(); if(!p) return;
                 document.getElementById('product-grid').innerHTML = Object.entries(p).map(([id, x]) => `
-                    <div class="glass-card p-4 rounded-[2rem] text-center">
-                        <img src="${x.image}" class="w-full h-32 object-cover rounded-2xl mb-4">
-                        <p class="text-[11px] font-bold uppercase truncate">${x.name}</p>
-                        <p class="text-cyan-400 font-bold mb-3">Rs. ${x.price}</p>
-                        <button onclick="startOrder('${id}', '${x.name}', ${x.price}, ${x.deliveryFee}, '${x.colors}', '${x.types}')" class="w-full blue-btn py-2 rounded-xl text-[10px]">Order</button>
+                    <div class="glass-card p-3 rounded-3xl text-center relative fade-in">
+                        ${x.deliveryFee == 0 ? `<div class="free-deli-badge">FREE DELIVERY</div>` : ''}
+                        <img src="${x.image}" class="w-full h-32 object-cover rounded-2xl mb-3 border border-pink-900/20">
+                        <p class="text-[10px] font-bold uppercase truncate">${x.name}</p>
+                        <p class="neon-text font-bold text-xs mb-3">Rs. ${x.price}</p>
+                        <button onclick="startOrder('${id}', '${x.name}', ${x.price}, ${x.deliveryFee}, '${x.colors}', '${x.types}')" class="w-full rose-btn py-2 rounded-xl text-[9px]">Buy</button>
                     </div>`).join('');
             });
         }
@@ -426,9 +427,9 @@
                 const d = s.val();
                 document.getElementById('historyList').innerHTML = d ? Object.values(d).reverse().map(o => `
                     <div class="glass-card p-5 rounded-3xl flex justify-between border-l-4 ${o.status==='Pending'?'border-yellow-500':'border-green-500'}">
-                        <div><p class="font-bold text-sm uppercase">${o.item}</p><p class="text-[9px] opacity-40">${o.time}</p></div>
-                        <p class="text-[10px] font-bold uppercase">${o.status}</p>
-                    </div>`).join('') : '<p class="text-center opacity-30">No orders.</p>';
+                        <div><p class="font-bold text-xs uppercase">${o.item}</p><p class="text-[9px] opacity-40">${o.time}</p></div>
+                        <p class="text-[10px] font-bold uppercase text-pink-400">${o.status}</p>
+                    </div>`).join('') : '<p class="text-center opacity-30 text-xs">No orders yet.</p>';
             });
         }
 
@@ -437,29 +438,29 @@
             database.ref('chats/'+user.phone).on('value', s => {
                 const d = s.val(); const box = document.getElementById('chat-box');
                 box.innerHTML = d ? Object.values(d).map(m => `
-                    <div class="flex ${m.sender==='user'?'justify-end':'justify-start'}"><div class="p-3 rounded-2xl max-w-[80%] text-xs ${m.sender==='user'?'bg-[#0077ff]':'glass-card border-cyan-400/30'}">${m.text}</div></div>`).join('') : '';
+                    <div class="flex ${m.sender==='user'?'justify-end':'justify-start'}"><div class="p-3 rounded-2xl max-w-[80%] text-xs ${m.sender==='user'?'bg-[#ff007f] text-white shadow-lg':'glass-card border-[#ff007f]/30'}">${m.text}</div></div>`).join('') : '';
                 box.scrollTop = box.scrollHeight;
             });
         }
 
         function updateProfile() {
-            const up = { name: editName.value, email: editEmail.value, phone: editPhone.value, address: editAddress.value, fb: editFb.value, tt: editTt.value, yt: editYt.value };
-            database.ref('users/'+user.phone).update(up);
-            Object.assign(user, up); save(); showToast("Profile Saved!");
+            const up = { name: editName.value, address: editAddress.value };
+            database.ref('users/'+user.phone).update(up); Object.assign(user, up);
+            localStorage.setItem('lochi_session', JSON.stringify(user)); alert("Saved!");
         }
 
         function navigateTo(p) {
-            ['home','service','profile','history','help'].forEach(v => document.getElementById('view-'+v)?.classList.add('hidden'));
+            ['home','service','profile','history','help','update-details'].forEach(v => document.getElementById('view-'+v)?.classList.add('hidden'));
             document.getElementById('view-'+p).classList.remove('hidden');
             document.querySelectorAll('footer i').forEach(i => i.style.color = '#444');
             const icon = document.getElementById('nav-'+(p==='history'?'history':p==='profile'?'profile':'home'));
-            if(icon) icon.style.color = '#00f3ff';
+            if(icon) icon.style.color = '#ff007f';
             if(p === 'history') loadHistory();
             if(p === 'service') loadChat();
         }
 
+        function closeModal() { document.getElementById('orderModal').classList.add('hidden'); document.getElementById('petal-container').innerHTML = ""; }
         function closeBankPage() { document.getElementById('view-bank-pay').classList.add('hidden'); slipData=""; document.getElementById('slip-preview').classList.add('hidden'); document.getElementById('slip-placeholder').classList.remove('hidden'); }
-        function closeModal() { document.getElementById('orderModal').classList.add('hidden'); }
         function toggleMenu() { document.getElementById('side-menu').classList.toggle('menu-open'); haptic(20); }
         function signOut() { localStorage.clear(); location.reload(); }
     </script>
