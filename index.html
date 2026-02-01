@@ -3,66 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Lochi Creation | Valentine Neon App</title>
+    <title>Lochi Store | Professional Gift Boutique</title>
     <script src="cordova.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <style>
         :root { 
-            --neon-rose: #ff007f; 
-            --neon-dark: #b30059; 
-            --bg-black: #080205; 
-            --glass: rgba(255, 0, 127, 0.05); 
-            --border: rgba(255, 0, 127, 0.2);
+            --primary: #d81b60; 
+            --primary-dark: #ad1457; 
+            --bg-light: #f9fafb; 
+            --text-main: #1f2937;
         }
 
         body { 
             font-family: 'Poppins', sans-serif; 
-            background-color: var(--bg-black); 
-            background-image: radial-gradient(circle at 50% 50%, #2b0014 0%, #080205 100%);
-            color: white; overflow-x: hidden; user-select: none; -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none;
+            background-color: var(--bg-light); 
+            color: var(--text-main); 
+            overflow-x: hidden; 
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: none;
         }
 
-        .orbitron { font-family: 'Orbitron', sans-serif; }
-        .neon-text { color: var(--neon-rose); text-shadow: 0 0 15px var(--neon-rose); }
-        .glass-card { background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border); }
+        .rose-text { color: var(--primary); }
+        .standard-card { background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; }
         
         .rose-btn { 
-            background: linear-gradient(135deg, var(--neon-rose) 0%, var(--neon-dark) 100%) !important; 
-            color: #fff !important; font-weight: 800; transition: 0.4s; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%) !important; 
+            color: #fff !important; font-weight: 700; transition: 0.3s; cursor: pointer; border-radius: 14px;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
 
-        .auth-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: white; padding: 14px 20px; border-radius: 18px; outline: none; transition: 0.3s; font-size: 13px; }
-        .auth-input:focus { border-color: var(--neon-rose); box-shadow: 0 0 10px rgba(255, 0, 127, 0.2); }
+        .auth-input { width: 100%; background: #ffffff; border: 1px solid #e2e8f0; color: var(--text-main); padding: 15px 20px; border-radius: 14px; outline: none; transition: 0.3s; font-size: 14px; }
+        .auth-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.1); }
 
-        .ticker-container { background: rgba(255, 0, 127, 0.1); border-bottom: 1px solid var(--neon-rose); overflow: hidden; white-space: nowrap; padding: 8px 0; }
-        .ticker-content { display: inline-block; animation: scroll-ticker 30s linear infinite; font-size: 11px; font-weight: bold; color: var(--neon-rose); }
+        /* Ticker Styled to fit below updates */
+        .ticker-container { background: var(--primary); overflow: hidden; white-space: nowrap; padding: 10px 0; border-radius: 12px; margin: 15px 0; }
+        .ticker-content { display: inline-block; animation: scroll-ticker 15s linear infinite; font-size: 13px; font-weight: 800; color: white; text-transform: uppercase; letter-spacing: 1.5px; }
         @keyframes scroll-ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .free-deli-badge { position: absolute; top: 10px; left: 10px; background: var(--neon-rose); color: white; font-size: 8px; padding: 4px 8px; border-radius: 50px; font-weight: bold; z-index: 10; box-shadow: 0 0 10px var(--neon-rose); }
+        .free-deli-badge { position: absolute; top: 10px; left: 10px; background: #10b981; color: white; font-size: 9px; padding: 4px 10px; border-radius: 8px; font-weight: 800; z-index: 10; box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2); }
 
-        /* Rose Petal Animation */
-        .petal { position: fixed; color: #ff007f; font-size: 20px; z-index: 3500; pointer-events: none; animation: fall linear infinite; }
+        .petal { position: fixed; color: #ff80ab; font-size: 22px; z-index: 3500; pointer-events: none; animation: fall linear infinite; opacity: 0.7; }
         @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
 
-        .update-item { min-width: 280px; height: 320px; border-radius: 25px; overflow: hidden; border: 1px solid var(--border); position: relative; background: #000; cursor: pointer; }
-        .update-caption-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(20,0,10,0.95)); padding: 25px 15px; border-top: 1px solid rgba(255,0,127,0.2); }
+        .update-item { min-width: 290px; height: 340px; border-radius: 25px; overflow: hidden; position: relative; background: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.08); border: 1px solid #eee; cursor: pointer; }
+        .update-caption-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 25px 15px; color: white; }
 
-        #side-menu { position: fixed; top: 0; right: -100%; width: 85%; height: 100%; background: rgba(10, 0, 5, 0.98); z-index: 5000; transition: 0.5s; border-left: 1px solid var(--neon-rose); }
+        #side-menu { position: fixed; top: 0; right: -100%; width: 85%; height: 100%; background: white; z-index: 5000; transition: 0.5s; box-shadow: -10px 0 30px rgba(0,0,0,0.1); }
         .menu-open { right: 0 !important; }
-        .menu-item { display: flex; align-items: center; gap: 15px; padding: 15px 25px; color: #aaa; font-weight: 600; font-size: 13px; border-bottom: 1px solid rgba(255,0,127,0.1); }
-        .menu-item i { color: var(--neon-rose); width: 20px; text-align: center; }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 20px 25px; color: #4b5563; font-weight: 600; font-size: 15px; border-bottom: 1px solid #f3f4f6; }
+        .menu-item i { color: var(--primary); width: 25px; text-align: center; font-size: 18px; }
 
-        .toast { background: var(--neon-rose); color: white; padding: 12px 20px; border-radius: 50px; text-align: center; font-weight: bold; font-size: 12px; position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 80%; }
-        .premium-card { background: linear-gradient(135deg, #2b0014 0%, #080205 100%); border: 1px solid var(--neon-rose); border-radius: 30px; padding: 30px; position: relative; box-shadow: 0 10px 30px rgba(255,0,127,0.3); }
+        .toast { background: #1f2937; color: white; padding: 14px 28px; border-radius: 50px; text-align: center; font-size: 13px; position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 9999; width: 80%; box-shadow: 0 10px 25px rgba(0,0,0,0.2); font-weight: 600; }
+        
+        .wa-channel-banner { background: #25D366; display: flex; align-items: center; gap: 15px; padding: 18px; border-radius: 20px; margin: 20px 0; color: white; text-decoration: none; box-shadow: 0 6px 15px rgba(37, 211, 102, 0.2); }
+
+        .nav-icon { color: #9ca3af; font-size: 22px; transition: 0.3s; cursor: pointer; }
+        .active-nav { color: var(--primary) !important; transform: scale(1.1); }
 
         .hidden { display: none !important; }
-        .fade-in { animation: fadeIn 0.6s ease-in-out; }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Bank UI */
+        .bank-card { border: 2px solid #f3f4f6; border-radius: 20px; padding: 18px; display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s; background: white; }
+        .bank-card:active { background: #fff5f8; border-color: var(--primary); }
+        .bank-table { width: 100%; font-size: 14px; border-spacing: 0 10px; border-collapse: separate; }
+        .bank-table td { padding: 12px 15px; }
+        .bank-table td:first-child { background: #f8fafc; border-radius: 12px 0 0 12px; color: #64748b; font-weight: 600; width: 40%; }
+        .bank-table td:last-child { background: #f8fafc; border-radius: 0 12px 12px 0; color: #1e293b; font-weight: 800; }
     </style>
 </head>
 <body onload="initApp()">
@@ -71,172 +85,202 @@
     <div id="toast-container"></div>
 
     <!-- AUTH SECTION -->
-    <section id="page-auth" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+    <section id="page-auth" class="min-h-screen flex flex-col items-center justify-center p-8 text-center">
         <div class="fade-in w-full max-w-md">
-            <img src="https://res.cloudinary.com/deljgkppf/image/upload/v1769218185/Gemini_Generated_Image_r90uezr90uezr90u_canlmu.png" class="w-28 h-28 rounded-full border-2 border-[#ff007f] mx-auto mb-8 shadow-2xl">
-            <div id="login-section" class="glass-card p-8 rounded-[2.5rem] space-y-5">
-                <h1 class="orbitron text-2xl font-bold neon-text">SIGN IN</h1>
+            <img src="https://res.cloudinary.com/deljgkppf/image/upload/v1769218185/Gemini_Generated_Image_r90uezr90uezr90u_canlmu.png" class="w-28 h-28 rounded-full mx-auto mb-10 shadow-2xl border-4 border-white">
+            <div id="login-section" class="standard-card p-10 space-y-6">
+                <h1 class="text-3xl font-bold rose-text">Welcome!</h1>
+                <p class="text-gray-400 text-sm">Sign in to start shopping</p>
                 <input type="text" id="lUser" placeholder="Mobile Number" class="auth-input">
                 <input type="password" id="lPass" placeholder="Password" class="auth-input">
-                <button onclick="login(); haptic(40);" class="w-full rose-btn py-4 rounded-2xl">Open Boutique</button>
-                <p class="text-xs text-gray-500 mt-4" onclick="toggleAuth(true)">New? <span class="text-[#ff007f] font-bold">Register</span></p>
+                <button onclick="login(); haptic(40);" class="w-full rose-btn py-5">Login</button>
+                <p class="text-sm text-gray-500 mt-4" onclick="toggleAuth(true)">New here? <span class="rose-text font-bold">Register Now</span></p>
             </div>
-            <div id="register-section" class="hidden glass-card p-8 rounded-[2.5rem] space-y-4">
-                <h1 class="orbitron text-2xl font-bold neon-text">REGISTER</h1>
+            
+            <div id="register-section" class="hidden standard-card p-10 space-y-4">
+                <h1 class="text-2xl font-bold rose-text">Create Account</h1>
                 <input type="text" id="sName" placeholder="Full Name" class="auth-input">
-                <input type="email" id="sEmail" placeholder="Email Address" class="auth-input">
                 <input type="text" id="sPhone" placeholder="Mobile Number" class="auth-input">
                 <input type="password" id="sPass" placeholder="Password" class="auth-input">
-                <button onclick="register(); haptic(40);" class="w-full rose-btn py-4 rounded-2xl">Create Account</button>
-                <p class="text-xs text-gray-500 mt-4" onclick="toggleAuth(false)">Sign In Instead</p>
+                <button onclick="register(); haptic(40);" class="w-full rose-btn py-5">Register</button>
+                <p class="text-sm text-gray-500 mt-4" onclick="toggleAuth(false)">Back to <span class="rose-text font-bold">Login</span></p>
             </div>
         </div>
     </section>
 
     <!-- MAIN APP -->
     <div id="main-app" class="hidden min-h-screen flex flex-col">
-        <div class="ticker-container"><div id="moving-ticker" class="ticker-content">Lochi Creation Boutique</div></div>
-        <nav class="p-5 glass-card sticky top-0 z-50 flex justify-between items-center px-8 border-b border-white/5">
+        <nav class="p-5 bg-white sticky top-0 z-50 flex justify-between items-center px-8 shadow-sm border-b border-gray-100">
             <div>
-                <h1 class="orbitron text-xl font-bold neon-text" onclick="navigateTo('home')">LOCHI 🌹</h1>
-                <div class="text-[9px] font-bold text-[#ff007f] mt-1"><i class="fas fa-bolt"></i> Battery: <span id="battery-status">--%</span></div>
+                <h1 class="text-2xl font-black rose-text tracking-tighter" onclick="navigateTo('home')">LOCHI STORE</h1>
+                <div class="text-[10px] font-bold text-gray-400 mt-1 uppercase letter-spacing-1"><i class="fas fa-bolt text-yellow-500"></i> Battery: <span id="battery-status">--%</span></div>
             </div>
-            <button onclick="toggleMenu(); haptic(20);" class="text-[#ff007f] text-2xl"><i class="fas fa-bars-staggered"></i></button>
+            <button onclick="toggleMenu(); haptic(20);" class="text-gray-800 text-2xl"><i class="fas fa-bars-staggered"></i></button>
         </nav>
 
-        <div id="content-views" class="flex-grow pb-24">
+        <div id="content-views" class="flex-grow pb-28">
             <!-- HOME VIEW -->
             <main id="view-home" class="p-6 fade-in">
-                <div id="photo-updates-scroller" class="flex overflow-x-auto gap-4 pb-6 no-scrollbar"></div>
+                <!-- Updates Scroller -->
+                <div id="photo-updates-scroller" class="flex overflow-x-auto gap-5 pb-6 no-scrollbar"></div>
                 
+                <!-- Ticker Below Updates -->
+                <div class="ticker-container">
+                    <div class="ticker-content">VALENTINE SPECIAL • VALENTINE SPECIAL • VALENTINE SPECIAL • VALENTINE SPECIAL</div>
+                </div>
+
                 <a href="https://whatsapp.com/channel/0029Vb6Za3m60eBniEBj5X31" target="_blank" class="wa-channel-banner">
-                    <i class="fab fa-whatsapp text-4xl text-white"></i>
+                    <i class="fab fa-whatsapp text-4xl"></i>
                     <div>
-                        <p class="text-[11px] font-bold text-white uppercase tracking-wider">Join WhatsApp Channel</p>
-                        <p class="text-[9px] text-white/80">Follow Lochi Creation LK</p>
+                        <p class="text-sm font-bold uppercase tracking-wider">Join Official Channel</p>
+                        <p class="text-[11px] opacity-90 font-medium">Get latest updates & discounts</p>
                     </div>
                 </a>
 
-                <h3 class="orbitron text-lg font-bold mb-8 mt-10 border-l-4 border-[#ff007f] pl-4 uppercase tracking-widest">Store Catalog</h3>
-                <div id="product-grid" class="grid grid-cols-2 gap-4"></div>
+                <h3 class="text-xl font-bold mb-8 mt-8 border-l-6 border-[#d81b60] pl-4">Collection</h3>
+                <div id="product-grid" class="grid grid-cols-2 gap-5"></div>
             </main>
 
             <!-- UPDATE DETAILS VIEW -->
             <main id="view-update-details" class="hidden p-6 fade-in">
-                <button onclick="navigateTo('home')" class="mb-6 text-white text-sm"><i class="fas fa-arrow-left mr-2"></i> Back to Store</button>
-                <div id="update-details-content" class="glass-card p-6 rounded-[2.5rem] border-[#ff007f]/30 shadow-2xl"></div>
+                <button onclick="navigateTo('home')" class="mb-6 text-gray-500 font-bold text-sm flex items-center"><i class="fas fa-chevron-left mr-2"></i> GO BACK</button>
+                <div id="update-details-content" class="standard-card p-6 overflow-hidden"></div>
             </main>
 
             <!-- SERVICE/CHAT -->
             <main id="view-service" class="hidden p-6 h-[75vh] flex flex-col fade-in">
-                <div id="chat-box" class="flex-grow glass-card p-6 overflow-y-auto flex flex-col no-scrollbar mb-4 rounded-3xl"></div>
-                <div class="flex gap-3"><input type="text" id="chatInput" placeholder="Message..." class="auth-input"><button onclick="sendMsg(); haptic(30);" class="rose-btn px-6 rounded-2xl"><i class="fas fa-paper-plane"></i></button></div>
+                <div id="chat-box" class="flex-grow standard-card p-6 overflow-y-auto flex flex-col gap-4 mb-5 no-scrollbar"></div>
+                <div class="flex gap-4">
+                    <input type="text" id="chatInput" placeholder="Write something..." class="auth-input">
+                    <button onclick="sendMsg(); haptic(30);" class="rose-btn px-8"><i class="fas fa-paper-plane"></i></button>
+                </div>
             </main>
 
             <!-- HISTORY -->
-            <main id="view-history" class="hidden p-8 fade-in"><div id="historyList" class="space-y-4"></div></main>
-
-            <!-- HELP CENTER -->
-            <main id="view-help" class="hidden p-6 fade-in text-center">
-                <div class="glass-card p-10 rounded-[3rem] space-y-6 border-[#ff007f]/30">
-                    <h2 class="orbitron text-xl font-bold neon-text uppercase">Help Center</h2>
-                    <a href="https://wa.me/94775497858" target="_blank" class="block bg-white/5 p-5 rounded-2xl border border-white/5"><i class="fab fa-whatsapp text-green-500 mr-2"></i> WhatsApp Official</a>
-                    <a href="https://t.me/+94775497858" target="_blank" class="block bg-white/5 p-5 rounded-2xl border border-white/5"><i class="fab fa-telegram text-blue-400 mr-2"></i> Telegram Channel</a>
-                </div>
-            </main>
+            <main id="view-history" class="hidden p-6 fade-in"><div id="historyList" class="space-y-5"></div></main>
 
             <!-- PROFILE -->
             <main id="view-profile" class="hidden p-6 fade-in">
-                <div class="glass-card p-6 rounded-[2.5rem] text-center border-[#ff007f]/20 shadow-2xl">
-                    <div class="relative w-32 h-32 mx-auto mb-10">
-                        <img id="mainProfilePic" src="" class="w-full h-full rounded-full border-4 border-[#ff007f] object-cover p-1">
-                        <label class="absolute bottom-1 right-1 bg-white text-black w-10 h-10 flex items-center justify-center rounded-full cursor-pointer shadow-lg">
-                            <i class="fas fa-camera"></i>
+                <div class="standard-card p-10 text-center shadow-xl">
+                    <div class="relative w-36 h-36 mx-auto mb-10">
+                        <img id="mainProfilePic" src="" class="w-full h-full rounded-full border-4 border-white shadow-xl object-cover p-1">
+                        <label class="absolute bottom-1 right-1 bg-white text-gray-800 w-11 h-11 flex items-center justify-center rounded-full cursor-pointer shadow-lg border border-gray-100">
+                            <i class="fas fa-camera text-sm"></i>
                             <input type="file" class="hidden" accept="image/*" onchange="uploadProfilePic(event)">
                         </label>
                     </div>
-                    <div class="space-y-4 text-left">
-                        <input type="text" id="editName" class="auth-input" placeholder="Display Name">
-                        <textarea id="editAddress" class="auth-input h-24" placeholder="Delivery Address"></textarea>
-                        <div class="grid grid-cols-2 gap-3">
-                           <div class="bg-white/5 p-3 rounded-2xl border border-white/5"><i class="fab fa-facebook text-blue-500 mr-2"></i><input type="text" id="editFb" placeholder="FB Link" class="bg-transparent text-[10px] w-full border-none outline-none"></div>
-                           <div class="bg-white/5 p-3 rounded-2xl border border-white/5"><i class="fab fa-tiktok text-white mr-2"></i><input type="text" id="editTt" placeholder="TikTok Link" class="bg-transparent text-[10px] w-full border-none outline-none"></div>
+                    <div class="space-y-5 text-left">
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-400 uppercase ml-2">Your Name</label>
+                            <input type="text" id="editName" class="auth-input" placeholder="Display Name">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-400 uppercase ml-2">Phone Number</label>
+                            <input type="text" id="editPhone" class="auth-input" placeholder="07xxxxxxxx">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-400 uppercase ml-2">Delivery Address</label>
+                            <textarea id="editAddress" class="auth-input h-28" placeholder="Street, City, Province"></textarea>
                         </div>
                     </div>
-                    <button onclick="updateProfile(); haptic(100);" class="w-full rose-btn py-4 rounded-2xl mt-10">Update Account</button>
+                    <button onclick="updateProfile(); haptic(100);" class="w-full rose-btn py-5 mt-10">Save Profile</button>
+                </div>
+            </main>
+            
+            <!-- HELP -->
+            <main id="view-help" class="hidden p-6 fade-in text-center">
+                <div class="standard-card p-10 space-y-8">
+                    <h2 class="text-2xl font-bold rose-text">Support Center</h2>
+                    <div class="space-y-4">
+                        <a href="https://wa.me/94775497858" target="_blank" class="block bg-gray-50 p-6 rounded-2xl border border-gray-100 text-sm font-bold flex items-center justify-center gap-3"><i class="fab fa-whatsapp text-green-500 text-2xl"></i> WHATSAPP SUPPORT</a>
+                        <a href="https://t.me/+94775497858" target="_blank" class="block bg-gray-50 p-6 rounded-2xl border border-gray-100 text-sm font-bold flex items-center justify-center gap-3"><i class="fab fa-telegram text-blue-400 text-2xl"></i> TELEGRAM CHANNEL</a>
+                    </div>
                 </div>
             </main>
         </div>
 
-        <footer class="fixed bottom-0 w-full glass-card flex justify-around p-5 border-t border-[#ff007f]/10 z-[100]">
-            <i class="fas fa-home text-2xl" id="nav-home" onclick="navigateTo('home'); haptic(20);"></i>
-            <i class="fas fa-shopping-bag text-2xl text-gray-600" id="nav-history" onclick="navigateTo('history'); haptic(20);"></i>
-            <i class="fas fa-user-circle text-2xl text-gray-600" id="nav-profile" onclick="navigateTo('profile'); haptic(20);"></i>
+        <footer class="fixed bottom-0 w-full bg-white flex justify-around p-5 border-t border-gray-100 z-[100] shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+            <i class="fas fa-house nav-icon active-nav" id="nav-home" onclick="navigateTo('home'); haptic(20);"></i>
+            <i class="fas fa-shopping-bag nav-icon" id="nav-history" onclick="navigateTo('history'); haptic(20);"></i>
+            <i class="fas fa-headset nav-icon" id="nav-service" onclick="navigateTo('service'); haptic(20);"></i>
+            <i class="fas fa-user-circle nav-icon" id="nav-profile" onclick="navigateTo('profile'); haptic(20);"></i>
         </footer>
     </div>
 
-    <!-- BANK PAGE -->
-    <div id="view-bank-pay" class="hidden bank-page fade-in">
-        <header class="flex justify-between items-center mb-10"><h2 class="orbitron text-lg font-bold text-[#ff007f] uppercase">Bank Transfer</h2><button onclick="closeBankPage()" class="text-white text-2xl"><i class="fas fa-times"></i></button></header>
-        <div class="premium-card mb-10">
-            <p class="text-[10px] text-gray-400 uppercase">H.V.M.PEHESARA</p>
-            <p class="text-white font-bold text-3xl tracking-[4px] neon-text mt-3">9563 7863</p>
-            <p class="mt-8 text-pink-300 font-bold uppercase text-[10px]">Bank of Ceylon (BOC)</p>
-        </div>
-        <div class="glass-card p-8 rounded-[2.5rem] text-center space-y-6">
-            <label for="bank-slip-input" class="cursor-pointer block">
-                <div class="border-2 border-dashed border-[#ff007f]/30 rounded-2xl p-8 bg-[#ff007f]/5 min-h-[160px] flex flex-col items-center justify-center">
-                    <div id="slip-placeholder"><i class="fas fa-camera text-4xl mb-2 text-gray-500"></i><p class="text-xs font-bold text-gray-400">UPLOAD SLIP</p></div>
-                    <img id="slip-preview" class="hidden w-full max-h-80 object-contain rounded-lg shadow-2xl">
-                </div>
-                <input type="file" id="bank-slip-input" accept="image/*" class="hidden" onchange="handleSlipSelected(event)">
-            </label>
-            <button onclick="submitBankOrder(); haptic(100);" class="w-full rose-btn py-5 rounded-2xl">Confirm Payment</button>
+    <!-- BANK SELECTION PAGE -->
+    <div id="view-bank-pay" class="hidden fixed inset-0 bg-white z-[6000] p-6 fade-in overflow-y-auto">
+        <header class="flex justify-between items-center mb-10">
+            <h2 class="text-2xl font-black rose-text uppercase">Select Bank</h2>
+            <button onclick="closeBankPage()" class="text-gray-400 text-3xl"><i class="fas fa-times"></i></button>
+        </header>
+
+        <div id="bank-selection-list" class="space-y-5"></div>
+
+        <div id="bank-transfer-details" class="hidden mt-6 fade-in">
+            <button onclick="showBankList()" class="mb-6 text-xs font-bold text-gray-400 uppercase flex items-center"><i class="fas fa-arrow-left mr-2"></i> Back to bank list</button>
+            <div id="bank-info-box" class="standard-card p-8 bg-gray-50 mb-8"></div>
+
+            <div class="standard-card p-8 text-center space-y-6">
+                <label for="bank-slip-input" class="cursor-pointer block">
+                    <div class="border-2 border-dashed border-gray-300 rounded-3xl p-10 bg-white min-h-[180px] flex flex-col items-center justify-center">
+                        <div id="slip-placeholder"><i class="fas fa-camera text-5xl mb-4 text-gray-200"></i><p class="text-xs font-bold text-gray-400">UPLOAD DEPOSIT SLIP</p></div>
+                        <img id="slip-preview" class="hidden w-full max-h-80 object-contain rounded-2xl shadow-lg">
+                    </div>
+                    <input type="file" id="bank-slip-input" accept="image/*" class="hidden" onchange="handleSlipSelected(event)">
+                </label>
+                <button onclick="submitBankOrder(); haptic(100);" class="w-full rose-btn py-5">Submit Order</button>
+            </div>
         </div>
     </div>
 
     <!-- ORDER MODAL -->
-    <div id="orderModal" class="hidden fixed inset-0 z-[3000] bg-black/95 flex items-center justify-center p-4">
-        <div class="glass-card w-full max-w-lg p-8 rounded-[3rem] border-[#ff007f]/30 relative overflow-hidden">
-            <h2 class="orbitron text-xl font-bold neon-text text-center uppercase mb-6">Order Details</h2>
-            <p id="modalItemName" class="font-bold text-center text-white mb-6"></p>
-            <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-3">
-                    <select id="orderColor" class="auth-input"></select>
-                    <select id="orderType" class="auth-input"></select>
+    <div id="orderModal" class="hidden fixed inset-0 z-[3000] bg-black/60 backdrop-blur-sm flex items-end justify-center">
+        <div class="bg-white w-full max-w-lg p-10 rounded-t-[3.5rem] fade-in shadow-2xl">
+            <div class="w-16 h-1.5 bg-gray-200 mx-auto mb-8 rounded-full"></div>
+            <h2 class="text-2xl font-black text-gray-800 text-center mb-2" id="modalItemName"></h2>
+            <div class="space-y-5 mt-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <select id="orderColor" class="auth-input font-bold"></select>
+                    <select id="orderType" class="auth-input font-bold"></select>
                 </div>
                 <div class="relative">
-                    <textarea id="orderAddress" rows="2" placeholder="Verify Address" class="auth-input pr-12"></textarea>
-                    <button onclick="getGPS()" class="absolute right-3 top-3 text-[#ff007f]"><i class="fas fa-location-dot"></i></button>
+                    <textarea id="orderAddress" rows="2" placeholder="Delivery Address" class="auth-input pr-12"></textarea>
+                    <button onclick="getGPS()" class="absolute right-4 top-4 text-blue-500 text-lg"><i class="fas fa-location-crosshairs"></i></button>
                 </div>
-                <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/10">
-                    <span class="text-xs font-bold text-gray-400">Quantity</span>
-                    <div class="flex items-center gap-6">
-                        <button onclick="changeQty(-1)" class="w-8 h-8 glass-card rounded-full">-</button>
-                        <span id="mQty" class="text-xl font-bold orbitron">1</span>
-                        <button onclick="changeQty(1)" class="w-8 h-8 glass-card rounded-full">+</button>
+                <div class="flex justify-between items-center bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                    <span class="text-sm font-bold text-gray-500 uppercase">Quantity</span>
+                    <div class="flex items-center gap-8">
+                        <button onclick="changeQty(-1)" class="w-10 h-10 bg-white border border-gray-200 rounded-full shadow-sm flex items-center justify-center font-bold">-</button>
+                        <span id="mQty" class="text-xl font-black">1</span>
+                        <button onclick="changeQty(1)" class="w-10 h-10 bg-white border border-gray-200 rounded-full shadow-sm flex items-center justify-center font-bold">+</button>
                     </div>
                 </div>
-                <div class="flex justify-between font-bold text-xl p-2">
-                    <span>TOTAL:</span><span class="neon-text">Rs. <span id="mTotal">0</span></span>
+                <div class="flex justify-between font-black text-2xl py-6 border-t border-gray-100">
+                    <span>TOTAL:</span><span class="rose-text">Rs. <span id="mTotal">0</span></span>
                 </div>
-                <select id="mPay" class="auth-input"><option value="cod">Cash on Delivery</option><option value="bank">Bank Deposit</option></select>
-                <button onclick="finalizeProcess(); haptic(60);" class="w-full rose-btn py-5 rounded-2xl">Place Order</button>
-                <button onclick="closeModal()" class="w-full text-xs text-gray-500 uppercase mt-4 text-center">Go Back</button>
+                <select id="mPay" class="auth-input font-bold">
+                    <option value="cod">Cash on Delivery</option>
+                    <option value="bank">Bank Deposit</option>
+                </select>
+                <button onclick="finalizeProcess(); haptic(60);" class="w-full rose-btn py-5 shadow-xl">Confirm Order</button>
+                <button onclick="closeModal()" class="w-full text-xs text-gray-400 font-bold uppercase mt-8 text-center tracking-widest">Cancel</button>
             </div>
         </div>
     </div>
 
     <!-- SIDE MENU -->
-    <div id="side-menu" class="p-8 flex flex-col">
-        <h2 class="orbitron text-sm font-bold neon-text mb-10">LOCHI CREATION</h2>
+    <div id="side-menu" class="p-10 flex flex-col">
+        <div class="flex items-center gap-4 mb-14">
+            <img src="https://res.cloudinary.com/deljgkppf/image/upload/v1769218185/Gemini_Generated_Image_r90uezr90uezr90u_canlmu.png" class="w-12 h-12 rounded-full shadow-lg">
+            <h2 class="font-black text-xl text-gray-800">Lochi Store</h2>
+        </div>
         <nav class="flex flex-col">
-            <span onclick="navigateTo('home'); toggleMenu(); haptic(20);" class="menu-item"><i class="fas fa-home"></i> HOME</span>
-            <span onclick="navigateTo('history'); toggleMenu(); haptic(20);" class="menu-item"><i class="fas fa-shopping-bag"></i> ORDERS</span>
-            <span onclick="navigateTo('service'); toggleMenu(); haptic(20);" class="menu-item"><i class="fas fa-headset"></i> SUPPORT</span>
-            <span onclick="navigateTo('help'); toggleMenu(); haptic(20);" class="menu-item"><i class="fas fa-question-circle"></i> HELP</span>
-            <span onclick="navigateTo('profile'); toggleMenu(); haptic(20);" class="menu-item"><i class="fas fa-user-circle"></i> PROFILE</span>
-            <span onclick="signOut()" class="text-red-500 mt-auto pt-10 menu-item border-none"><i class="fas fa-sign-out-alt"></i> Logout</span>
+            <span onclick="navigateTo('home'); toggleMenu();" class="menu-item"><i class="fas fa-home"></i> Home Page</span>
+            <span onclick="navigateTo('history'); toggleMenu();" class="menu-item"><i class="fas fa-box"></i> My Orders</span>
+            <span onclick="navigateTo('service'); toggleMenu();" class="menu-item"><i class="fas fa-comment-dots"></i> Support Chat</span>
+            <span onclick="navigateTo('help'); toggleMenu();" class="menu-item"><i class="fas fa-question-circle"></i> Help Center</span>
+            <span onclick="navigateTo('profile'); toggleMenu();" class="menu-item"><i class="fas fa-user-circle"></i> My Profile</span>
+            <span onclick="signOut()" class="text-red-500 mt-16 menu-item border-none"><i class="fas fa-power-off"></i> Logout Account</span>
         </nav>
     </div>
 
@@ -245,152 +289,43 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let user = null; let currentOrder = { price: 0, qty: 1, deli: 0 }; let slipData = "";
+        let user = null; let currentOrder = { price: 0, qty: 1, deli: 0 }; let slipData = ""; let selectedBank = null;
 
         function haptic(ms) { if(navigator.vibrate) navigator.vibrate(ms); }
         function showToast(m) { const c=document.getElementById('toast-container'); const t=document.createElement('div'); t.className='toast'; t.innerText=m; c.appendChild(t); setTimeout(()=>t.remove(), 3000); }
-        
-        function updateStats() {
-            if(navigator.getBattery) navigator.getBattery().then(b => document.getElementById('battery-status').innerText = Math.floor(b.level*100) + "%");
-        }
-
+        function updateStats() { if(navigator.getBattery) navigator.getBattery().then(b => document.getElementById('battery-status').innerText = Math.floor(b.level*100) + "%"); }
         function toggleAuth(reg) { document.getElementById('login-section').classList.toggle('hidden', reg); document.getElementById('register-section').classList.toggle('hidden', !reg); }
-
+        
         function register() {
-            const d = { name: sName.value, email: sEmail.value, phone: sPhone.value, pass: sPass.value, address: "", pic: "", fb: "", tt: "", yt: "" };
+            const d = { name: sName.value, phone: sPhone.value, pass: sPass.value, address: "", pic: "" };
+            if(!d.name || !d.phone || !d.pass) return alert("All fields are required!");
             database.ref('users/'+d.phone).set(d).then(() => { user=d; localStorage.setItem('lochi_session', JSON.stringify(user)); showMain(); });
         }
-
         function login() {
             const input = lUser.value; const pass = lPass.value;
             database.ref('users').once('value', s => {
                 const users = s.val(); let found = false;
-                if(users) {
-                    for(let id in users) { if(users[id].phone === input && users[id].pass === pass) { user = users[id]; found = true; break; } }
-                    if(found) { localStorage.setItem('lochi_session', JSON.stringify(user)); showMain(); } else alert("Invalid Login!");
-                }
+                if(users) { for(let id in users) { if(users[id].phone === input && users[id].pass === pass) { user = users[id]; found = true; break; } } }
+                if(found) { localStorage.setItem('lochi_session', JSON.stringify(user)); showMain(); } else alert("Invalid mobile or password!");
             });
         }
-
         function showMain() { 
             document.getElementById('page-auth').classList.add('hidden'); 
             document.getElementById('main-app').classList.remove('hidden'); 
             document.getElementById('mainProfilePic').src = user.pic || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
             document.getElementById('editName').value = user.name || "";
+            document.getElementById('editPhone').value = user.phone || "";
             document.getElementById('editAddress').value = user.address || "";
             navigateTo('home'); 
-        }
-
-        function startRoseRain() {
-            const container = document.getElementById('petal-container');
-            container.innerHTML = "";
-            for(let i=0; i<18; i++) {
-                const p = document.createElement('div');
-                p.className = 'petal'; p.innerHTML = '🌹';
-                p.style.left = Math.random() * 100 + 'vw';
-                p.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                p.style.opacity = Math.random();
-                container.appendChild(p);
-            }
-        }
-
-        function compressImage(file, callback) {
-            const reader = new FileReader();
-            reader.onload = (res) => {
-                const img = new Image(); img.src = res.target.result;
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 500; const scale = MAX_WIDTH / img.width;
-                    canvas.width = MAX_WIDTH; canvas.height = img.height * scale;
-                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                    callback(canvas.toDataURL('image/jpeg', 0.6));
-                };
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function uploadProfilePic(e) {
-            const file = e.target.files[0];
-            if(file) compressImage(file, (base64) => {
-                user.pic = base64; database.ref('users/'+user.phone).update({pic: base64});
-                document.getElementById('mainProfilePic').src = base64; showToast("Photo Saved!");
-            });
-        }
-
-        function handleSlipSelected(e) {
-            const file = e.target.files[0];
-            if(file) compressImage(file, (base64) => {
-                slipData = base64; document.getElementById('slip-placeholder').classList.add('hidden');
-                document.getElementById('slip-preview').classList.remove('hidden');
-                document.getElementById('slip-preview').src = base64;
-            });
-        }
-
-        function finalizeProcess() {
-            if(document.getElementById('mPay').value === 'bank') {
-                document.getElementById('orderModal').classList.add('hidden');
-                document.getElementById('view-bank-pay').classList.remove('hidden');
-            } else { saveToDb('COD', ''); }
-        }
-
-        function submitBankOrder() {
-            if(!slipData) return showToast("Upload receipt!");
-            saveToDb('Bank Deposit', slipData); closeBankPage();
-        }
-
-        function startOrder(id, name, price, deli, colors, types) {
-            currentOrder = { id, item: name, price: price, qty: 1, deli: deli || 0 };
-            document.getElementById('modalItemName').innerText = name;
-            document.getElementById('orderColor').innerHTML = colors.split(',').map(c => `<option value="${c.trim()}">${c.trim()}</option>`).join('');
-            document.getElementById('orderType').innerHTML = types.split(',').map(t => `<option value="${t.trim()}">${t.trim()}</option>`).join('');
-            calculateTotal();
-            document.getElementById('orderAddress').value = user.address || "";
-            document.getElementById('orderModal').classList.remove('hidden');
-            startRoseRain();
-            haptic(50);
-        }
-
-        function calculateTotal() {
-            const total = (currentOrder.price * currentOrder.qty) + currentOrder.deli;
-            document.getElementById('mQty').innerText = currentOrder.qty;
-            document.getElementById('mTotal').innerText = total.toLocaleString();
-        }
-
-        function changeQty(n) { currentOrder.qty = Math.max(1, currentOrder.qty + n); calculateTotal(); }
-
-        function saveToDb(m, s) {
-            const data = {
-                item: currentOrder.item, qty: currentOrder.qty, total: (currentOrder.price * currentOrder.qty) + currentOrder.deli,
-                color: document.getElementById('orderColor').value, type: document.getElementById('orderType').value,
-                customerName: user.name, phone: user.phone, address: orderAddress.value, payment: m, slip: s, status: 'Pending', time: new Date().toLocaleString()
-            };
-            database.ref('orders').push(data).then(() => { showToast("Success!"); closeModal(); navigateTo('history'); });
-        }
-
-        function getGPS() {
-            navigator.geolocation.getCurrentPosition(p => {
-                document.getElementById('orderAddress').value = `GPS: ${p.coords.latitude}, ${p.coords.longitude} (Verified)`;
-                showToast("GPS Updated!");
-            }, () => alert("Enable GPS Permissions!"));
-        }
-
-        function initApp() {
-            const saved = localStorage.getItem('lochi_session');
-            if(saved) { user = JSON.parse(saved); showMain(); }
-            loadProducts(); updateStats(); loadUpdates();
         }
 
         function loadUpdates() {
             database.ref('updates').on('value', s => {
                 const u = s.val(); if(!u) return;
-                document.getElementById('moving-ticker').innerText = Object.values(u).map(x => x.caption).join(' • ');
                 document.getElementById('photo-updates-scroller').innerHTML = Object.entries(u).reverse().map(([id, x]) => `
-                    <div class="update-item shadow-2xl" onclick="viewUpdate('${id}')">
+                    <div class="update-item" onclick="viewUpdate('${id}')">
                         <img src="${x.image}" class="w-full h-full object-cover">
-                        <div class="update-caption-overlay">
-                            <p class="text-[11px] text-[#ff007f] font-bold italic line-clamp-1">${x.caption}</p>
-                            <p class="text-[8px] text-gray-400 mt-1 uppercase">Read Details...</p>
-                        </div>
+                        <div class="update-caption-overlay"><p class="text-[13px] font-bold line-clamp-1">${x.caption}</p></div>
                     </div>`).join('');
             });
         }
@@ -399,10 +334,10 @@
             database.ref('updates/'+id).once('value', s => {
                 const u = s.val();
                 document.getElementById('update-details-content').innerHTML = `
-                    <img src="${u.image}" class="w-full rounded-3xl mb-6 shadow-xl border border-white/5">
-                    <h2 class="orbitron text-lg font-bold neon-text mb-4 uppercase">${u.caption}</h2>
-                    <p class="text-xs text-gray-400 leading-relaxed mb-6 whitespace-pre-line">${u.desc || "Happy Valentine's Day!"}</p>
-                    ${u.link ? `<button onclick="window.open('${u.link}')" class="rose-btn w-full py-4 rounded-xl">Visit Link</button>` : ''}
+                    <img src="${u.image}" class="w-full rounded-2xl mb-6 shadow-md">
+                    <h2 class="text-2xl font-black rose-text mb-4 uppercase">${u.caption}</h2>
+                    <p class="text-sm text-gray-500 leading-relaxed mb-6 whitespace-pre-line">${u.desc || "Limited Valentine Offer!"}</p>
+                    ${u.link ? `<button onclick="window.open('${u.link}')" class="rose-btn w-full py-5">View Details</button>` : ''}
                 `;
                 navigateTo('update-details');
             });
@@ -412,24 +347,119 @@
             database.ref('products').on('value', s => {
                 const p = s.val(); if(!p) return;
                 document.getElementById('product-grid').innerHTML = Object.entries(p).map(([id, x]) => `
-                    <div class="glass-card p-3 rounded-3xl text-center relative fade-in">
+                    <div class="standard-card p-5 text-center relative fade-in">
                         ${x.deliveryFee == 0 ? `<div class="free-deli-badge">FREE DELIVERY</div>` : ''}
-                        <img src="${x.image}" class="w-full h-32 object-cover rounded-2xl mb-3 border border-pink-900/20">
-                        <p class="text-[10px] font-bold uppercase truncate">${x.name}</p>
-                        <p class="neon-text font-bold text-xs mb-3">Rs. ${x.price}</p>
-                        <button onclick="startOrder('${id}', '${x.name}', ${x.price}, ${x.deliveryFee}, '${x.colors}', '${x.types}')" class="w-full rose-btn py-2 rounded-xl text-[9px]">Buy</button>
+                        <img src="${x.image}" class="w-full h-36 object-cover rounded-2xl mb-4">
+                        <p class="text-[12px] font-bold text-gray-700 uppercase truncate">${x.name}</p>
+                        <p class="rose-text font-black text-base mb-4">Rs. ${x.price}</p>
+                        <button onclick="startOrder('${id}', '${x.name}', ${x.price}, ${x.deliveryFee}, '${x.colors}', '${x.types}')" class="w-full rose-btn py-3 text-[11px]">Buy Now</button>
                     </div>`).join('');
             });
         }
 
+        function updateProfile() {
+            const up = { name: editName.value, phone: editPhone.value, address: editAddress.value };
+            database.ref('users/'+user.phone).update(up).then(() => { 
+                Object.assign(user, up); 
+                localStorage.setItem('lochi_session', JSON.stringify(user)); 
+                showToast("Profile Updated!"); 
+            });
+        }
+
+        function uploadProfilePic(e) {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = (res) => {
+                    const base64 = res.target.result;
+                    user.pic = base64;
+                    database.ref('users/'+user.phone).update({pic: base64});
+                    document.getElementById('mainProfilePic').src = base64;
+                    showToast("Photo Uploaded!");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function finalizeProcess() {
+            if(document.getElementById('mPay').value === 'bank') {
+                document.getElementById('orderModal').classList.add('hidden');
+                document.getElementById('view-bank-pay').classList.remove('hidden');
+                loadBanks();
+            } else { saveToDb('COD', ''); }
+        }
+
+        function loadBanks() {
+            database.ref('banks').once('value', s => {
+                const b = s.val(); const list = document.getElementById('bank-selection-list');
+                list.innerHTML = b ? Object.entries(b).map(([id, x]) => `
+                    <div class="bank-card" onclick="selectBank(${JSON.stringify(x).replace(/"/g, '&quot;')})">
+                        <img src="${x.logo}" class="w-12 h-12 object-contain bg-gray-50 p-1 rounded-lg">
+                        <div><p class="font-black text-sm uppercase">${x.name}</p><p class="text-[11px] text-gray-400 font-bold">${x.number}</p></div>
+                    </div>`).join('') : '<p class="text-center text-gray-300 py-10">No bank accounts added.</p>';
+                showBankList();
+            });
+        }
+
+        function selectBank(bank) {
+            selectedBank = bank;
+            document.getElementById('bank-selection-list').classList.add('hidden');
+            document.getElementById('bank-transfer-details').classList.remove('hidden');
+            document.getElementById('bank-info-box').innerHTML = `
+                <div class="flex items-center gap-4 mb-6">
+                    <img src="${bank.logo}" class="w-14 h-14 rounded-xl object-contain bg-white p-2">
+                    <div><h3 class="font-black text-xl">${bank.name}</h3><p class="text-xs text-gray-400 uppercase font-bold">${bank.branch}</p></div>
+                </div>
+                <table class="bank-table">
+                    <tr><td>A/C Holder</td><td>${bank.holder}</td></tr>
+                    <tr><td>A/C Number</td><td>${bank.number}</td></tr>
+                </table>`;
+        }
+
+        function showBankList() {
+            document.getElementById('bank-selection-list').classList.remove('hidden');
+            document.getElementById('bank-transfer-details').classList.add('hidden');
+            slipData = ""; document.getElementById('slip-preview').classList.add('hidden'); document.getElementById('slip-placeholder').classList.remove('hidden');
+        }
+
+        function submitBankOrder() {
+            if(!slipData) return showToast("Please upload payment slip!");
+            saveToDb(`Bank (${selectedBank.name})`, slipData); closeBankPage();
+        }
+
+        function startOrder(id, name, price, deli, colors, types) {
+            currentOrder = { id, item: name, price: price, qty: 1, deli: deli || 0 };
+            document.getElementById('modalItemName').innerText = name;
+            document.getElementById('orderColor').innerHTML = colors.split(',').map(c => `<option value="${c.trim()}">${c.trim()}</option>`).join('');
+            document.getElementById('orderType').innerHTML = types.split(',').map(t => `<option value="${t.trim()}">${t.trim()}</option>`).join('');
+            calculateTotal(); document.getElementById('orderAddress').value = user.address || "";
+            document.getElementById('orderModal').classList.remove('hidden'); startRoseRain(); haptic(50);
+        }
+
+        function startRoseRain() {
+            const container = document.getElementById('petal-container'); container.innerHTML = "";
+            for(let i=0; i<15; i++) {
+                const p = document.createElement('div'); p.className = 'petal'; p.innerHTML = '🌸';
+                p.style.left = Math.random() * 100 + 'vw'; p.style.animationDuration = (Math.random() * 3 + 2) + 's'; p.style.opacity = Math.random();
+                container.appendChild(p);
+            }
+        }
+
+        function calculateTotal() { const total = (currentOrder.price * currentOrder.qty) + currentOrder.deli; document.getElementById('mQty').innerText = currentOrder.qty; document.getElementById('mTotal').innerText = total.toLocaleString(); }
+        function changeQty(n) { currentOrder.qty = Math.max(1, currentOrder.qty + n); calculateTotal(); }
+        
+        function saveToDb(m, s) {
+            const data = { item: currentOrder.item, qty: currentOrder.qty, total: (currentOrder.price * currentOrder.qty) + currentOrder.deli, color: document.getElementById('orderColor').value, type: document.getElementById('orderType').value, customerName: user.name, phone: user.phone, address: orderAddress.value, payment: m, slip: s, status: 'Pending', time: new Date().toLocaleString() };
+            database.ref('orders').push(data).then(() => { showToast("Order Successful!"); closeModal(); navigateTo('history'); });
+        }
+
         function loadHistory() {
             database.ref('orders').orderByChild('phone').equalTo(user.phone).on('value', s => {
-                const d = s.val();
-                document.getElementById('historyList').innerHTML = d ? Object.values(d).reverse().map(o => `
-                    <div class="glass-card p-5 rounded-3xl flex justify-between border-l-4 ${o.status==='Pending'?'border-yellow-500':'border-green-500'}">
-                        <div><p class="font-bold text-xs uppercase">${o.item}</p><p class="text-[9px] opacity-40">${o.time}</p></div>
-                        <p class="text-[10px] font-bold uppercase text-pink-400">${o.status}</p>
-                    </div>`).join('') : '<p class="text-center opacity-30 text-xs">No orders yet.</p>';
+                const d = s.val(); document.getElementById('historyList').innerHTML = d ? Object.values(d).reverse().map(o => `
+                    <div class="standard-card p-6 flex justify-between items-center border-l-8 ${o.status==='Pending'?'border-orange-400':'border-green-500'}">
+                        <div><p class="font-black text-sm uppercase">${o.item}</p><p class="text-[10px] text-gray-400 font-bold">${o.time}</p></div>
+                        <div class="text-right"><p class="text-[11px] font-black uppercase text-gray-400 mb-1">${o.status}</p><p class="rose-text font-black text-base">Rs. ${o.total}</p></div>
+                    </div>`).join('') : '<p class="text-center text-gray-300 py-20">No orders found.</p>';
             });
         }
 
@@ -438,31 +468,38 @@
             database.ref('chats/'+user.phone).on('value', s => {
                 const d = s.val(); const box = document.getElementById('chat-box');
                 box.innerHTML = d ? Object.values(d).map(m => `
-                    <div class="flex ${m.sender==='user'?'justify-end':'justify-start'}"><div class="p-3 rounded-2xl max-w-[80%] text-xs ${m.sender==='user'?'bg-[#ff007f] text-white shadow-lg':'glass-card border-[#ff007f]/30'}">${m.text}</div></div>`).join('') : '';
+                    <div class="flex ${m.sender==='user'?'justify-end':'justify-start'}"><div class="p-3 rounded-2xl max-w-[80%] text-sm ${m.sender==='user'?'bg-[#d81b60] text-white shadow-md':'bg-gray-100 text-gray-800'}">${m.text}</div></div>`).join('') : '';
                 box.scrollTop = box.scrollHeight;
             });
         }
 
-        function updateProfile() {
-            const up = { name: editName.value, address: editAddress.value };
-            database.ref('users/'+user.phone).update(up); Object.assign(user, up);
-            localStorage.setItem('lochi_session', JSON.stringify(user)); alert("Saved!");
+        function handleSlipSelected(e) { 
+            const f = e.target.files[0]; 
+            const reader = new FileReader(); 
+            reader.onload = (res) => { 
+                slipData = res.target.result; 
+                document.getElementById('slip-placeholder').classList.add('hidden'); 
+                document.getElementById('slip-preview').classList.remove('hidden'); 
+                document.getElementById('slip-preview').src = slipData; 
+            }; 
+            reader.readAsDataURL(f); 
         }
 
         function navigateTo(p) {
-            ['home','service','profile','history','help','update-details'].forEach(v => document.getElementById('view-'+v)?.classList.add('hidden'));
+            ['home','service','profile','history','update-details','help'].forEach(v => document.getElementById('view-'+v)?.classList.add('hidden'));
             document.getElementById('view-'+p).classList.remove('hidden');
-            document.querySelectorAll('footer i').forEach(i => i.style.color = '#444');
-            const icon = document.getElementById('nav-'+(p==='history'?'history':p==='profile'?'profile':'home'));
-            if(icon) icon.style.color = '#ff007f';
-            if(p === 'history') loadHistory();
-            if(p === 'service') loadChat();
+            document.querySelectorAll('footer i').forEach(i => i.classList.remove('active-nav'));
+            const icon = document.getElementById('nav-'+p); if(icon) icon.classList.add('active-nav');
+            if(p === 'history') loadHistory(); if(p === 'service') loadChat();
+            window.scrollTo(0,0);
         }
 
+        function initApp() { const s = localStorage.getItem('lochi_session'); if(s) { user = JSON.parse(s); showMain(); } loadProducts(); updateStats(); loadUpdates(); }
+        function toggleMenu() { document.getElementById('side-menu').classList.toggle('menu-open'); }
         function closeModal() { document.getElementById('orderModal').classList.add('hidden'); document.getElementById('petal-container').innerHTML = ""; }
-        function closeBankPage() { document.getElementById('view-bank-pay').classList.add('hidden'); slipData=""; document.getElementById('slip-preview').classList.add('hidden'); document.getElementById('slip-placeholder').classList.remove('hidden'); }
-        function toggleMenu() { document.getElementById('side-menu').classList.toggle('menu-open'); haptic(20); }
+        function closeBankPage() { document.getElementById('view-bank-pay').classList.add('hidden'); }
         function signOut() { localStorage.clear(); location.reload(); }
+        function getGPS() { navigator.geolocation.getCurrentPosition(p => { document.getElementById('orderAddress').value = `GPS: ${p.coords.latitude}, ${p.coords.longitude} (Verified)`; }, () => alert("Enable GPS!")); }
     </script>
 </body>
 </html>
