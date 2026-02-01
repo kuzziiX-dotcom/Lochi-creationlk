@@ -3,115 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Lochi Master | Super Valentine Admin</title>
+    <title>Lochi Master | Super Admin Console</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        :root { --neon-rose: #ff007f; --neon-glow: rgba(255, 0, 127, 0.5); }
-        body { background-color: #050002; color: white; font-family: 'Poppins', sans-serif; overflow-x: hidden; }
-        .orbitron { font-family: 'Orbitron', sans-serif; }
-        .neon-text { color: var(--neon-rose); text-shadow: 0 0 15px var(--neon-rose); }
-        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        :root { --primary: #d81b60; --primary-dark: #ad1457; --bg: #f8f9fa; }
+        body { background-color: var(--bg); color: #2d3436; font-family: 'Poppins', sans-serif; }
         
-        /* Navigation Tabs */
-        .tab-btn { padding: 12px 20px; border-radius: 50px; font-size: 10px; font-weight: bold; transition: 0.3s; color: #888; white-space: nowrap; border: 1px solid transparent; text-transform: uppercase; }
-        .active-tab { background: var(--neon-rose); color: white !important; box-shadow: 0 0 15px var(--neon-rose); }
+        .standard-card { background: white; border-radius: 20px; border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        
+        /* Styled Navigation Tabs */
+        .tab-btn { padding: 12px 18px; border-radius: 12px; font-size: 11px; font-weight: 700; color: #636e72; background: white; border: 1px solid #e1e1e1; transition: 0.3s; text-transform: uppercase; white-space: nowrap; }
+        .active-tab { background: var(--primary) !important; color: white !important; border-color: var(--primary); box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2); }
 
-        /* Modern Inputs */
-        input, select, textarea { background: rgba(255,255,255,0.05) !important; border: 1px solid #3d001e !important; color: white !important; padding: 14px !important; border-radius: 15px !important; outline: none; width: 100%; margin-bottom: 12px; font-size: 13px; transition: 0.3s; }
-        input:focus { border-color: var(--neon-rose) !important; box-shadow: 0 0 10px var(--neon-glow); }
+        /* Professional Inputs */
+        input, select, textarea { background: #fff !important; border: 1px solid #ddd !important; padding: 12px 15px !important; border-radius: 12px !important; outline: none; width: 100%; margin-bottom: 12px; font-size: 14px; transition: 0.3s; }
+        input:focus { border-color: var(--primary) !important; box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.1) !important; }
 
-        .rose-btn { background: var(--neon-rose); color: white !important; font-weight: 900 !important; cursor: pointer; transition: 0.3s; text-transform: uppercase; border-radius: 15px; }
-        .rose-btn:active { transform: scale(0.95); }
+        /* Professional Buttons */
+        .rose-btn { background: var(--primary); color: white !important; font-weight: 700; padding: 14px; border-radius: 12px; transition: 0.2s; cursor: pointer; text-align: center; display: block; width: 100%; text-transform: uppercase; letter-spacing: 1px; }
+        .rose-btn:active { transform: scale(0.97); }
 
-        .status-badge { font-size: 8px; padding: 3px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+        /* Professional Upload Box */
+        .upload-label { display: block; border: 2px dashed #ddd; border-radius: 15px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; background: #fafafa; margin-bottom: 15px; }
+        .upload-label:hover { border-color: var(--primary); background: #fff5f8; }
+        .upload-label i { font-size: 24px; color: #b2bec3; margin-bottom: 8px; }
+        .upload-label p { font-size: 11px; font-weight: 700; color: #636e72; text-transform: uppercase; }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .fade-in { animation: fadeIn 0.5s ease-out; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .status-badge { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 8px; text-transform: uppercase; }
     </style>
 </head>
 <body onload="checkAuth()">
 
     <!-- 1. LOGIN SCREEN -->
-    <div id="adminAuth" class="fixed inset-0 bg-black z-[2000] flex items-center justify-center p-6">
-        <div class="glass-card p-10 rounded-[3rem] border border-[#ff007f]/30 w-full max-w-sm text-center shadow-2xl fade-in">
-            <h2 class="orbitron text-2xl font-bold neon-text mb-2 uppercase italic">MASTER</h2>
-            <p class="text-[9px] text-gray-500 mb-8 uppercase tracking-[3px]">Lochi Creation Control</p>
-            <input type="password" id="adminPass" placeholder="ENTER MASTER KEY" class="text-center orbitron">
-            <button onclick="login()" class="w-full rose-btn py-4 shadow-lg">UNLOCK SYSTEM</button>
+    <div id="adminAuth" class="fixed inset-0 bg-gray-100 z-[2000] flex items-center justify-center p-6">
+        <div class="standard-card p-10 w-full max-w-sm text-center shadow-2xl">
+            <h2 class="text-2xl font-black text-gray-800 mb-2">MASTER ACCESS</h2>
+            <p class="text-xs text-gray-400 mb-10 font-bold uppercase tracking-widest">Lochi Store Security</p>
+            <input type="password" id="adminPass" placeholder="ENTER MASTER KEY" class="text-center font-bold tracking-widest">
+            <button onclick="login()" class="rose-btn">Unlock System</button>
         </div>
     </div>
 
     <!-- 2. MAIN DASHBOARD -->
     <div id="adminDashboard" class="hidden min-h-screen flex flex-col">
-        <header class="p-6 glass-card sticky top-0 z-[100] border-b border-[#ff007f]/20">
+        <header class="p-6 bg-white sticky top-0 z-[100] border-b shadow-sm">
             <div class="flex justify-between items-center mb-6">
-                <h1 class="orbitron text-xl font-bold neon-text italic">LOCHI MASTER 🌹</h1>
-                <button onclick="signOut()" class="text-red-500 text-[10px] font-bold border border-red-500/20 px-3 py-1 rounded-lg">EXIT</button>
+                <h1 class="text-xl font-black text-gray-800 tracking-tighter">LOCHI <span class="text-rose-600">MASTER</span></h1>
+                <button onclick="signOut()" class="text-red-500 text-xs font-bold bg-red-50 px-4 py-2 rounded-lg">LOGOUT</button>
             </div>
-            <!-- Scrollable Tabs -->
+            <!-- Tabs -->
             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                 <button onclick="switchTab('orders')" id="tab-orders" class="tab-btn active-tab">Orders</button>
-                <button onclick="switchTab('edit')" id="tab-edit" class="tab-btn">Edit/Offers</button>
-                <button onclick="switchTab('add')" id="tab-add" class="tab-btn">Add Product</button>
-                <button onclick="switchTab('updates')" id="tab-updates" class="tab-btn">Post Update</button>
-                <button onclick="switchTab('chats')" id="tab-chats" class="tab-btn">Messages</button>
+                <button onclick="switchTab('edit')" id="tab-edit" class="tab-btn">Catalog</button>
+                <button onclick="switchTab('add')" id="tab-add" class="tab-btn">Add New</button>
+                <button onclick="switchTab('banks')" id="tab-banks" class="tab-btn">Banks</button>
+                <button onclick="switchTab('updates')" id="tab-updates" class="tab-btn">Updates</button>
+                <button onclick="switchTab('chats')" id="tab-chats" class="tab-btn">Chats</button>
             </div>
         </header>
 
-        <div class="p-4 flex-grow">
+        <div class="p-4 flex-grow max-w-5xl mx-auto w-full">
             
-            <!-- ORDERS VIEW -->
+            <!-- VIEW: ORDERS -->
             <main id="view-orders" class="grid grid-cols-1 md:grid-cols-2 gap-4 fade-in"></main>
 
-            <!-- EDIT/OFFERS VIEW -->
+            <!-- VIEW: CATALOG (EDIT PRICE/DELI) -->
             <main id="view-edit" class="hidden space-y-4 fade-in">
-                <p class="orbitron text-center text-xs text-gray-500 mb-6">Price & Delivery Management</p>
+                <div class="text-center mb-6">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Manage Current Inventory</p>
+                </div>
                 <div id="edit-list" class="space-y-4"></div>
             </main>
 
-            <!-- ADD PRODUCT VIEW -->
-            <main id="view-add" class="hidden max-w-lg mx-auto glass-card p-8 rounded-[2.5rem] border border-[#ff007f]/20 fade-in">
-                <h2 class="orbitron text-center text-lg font-bold neon-text mb-6">Publish New Product</h2>
-                <div class="space-y-2">
-                    <input type="file" id="pImg" accept="image/*" onchange="handleImg(event, 'p')">
-                    <input type="text" id="pName" placeholder="Product Name">
-                    <div class="grid grid-cols-2 gap-3">
-                        <input type="number" id="pPrice" placeholder="Price (Rs)">
-                        <input type="number" id="pDeli" placeholder="Deli Fee (0=Free)">
-                    </div>
-                    <input type="text" id="pColors" placeholder="Colors (Ex: Red, Pink)">
-                    <input type="text" id="pTypes" placeholder="Types (Ex: Ribbon, Box)">
-                    <button onclick="uploadProduct()" id="addBtn" class="w-full rose-btn py-4 mt-4">Publish Now</button>
+            <!-- VIEW: ADD NEW PRODUCT -->
+            <main id="view-add" class="hidden max-w-lg mx-auto standard-card p-8 fade-in">
+                <h2 class="text-center font-black text-gray-800 mb-8 uppercase text-sm tracking-widest">Publish New Product</h2>
+                <label for="pImg" class="upload-label" id="pImgLabel">
+                    <i class="fas fa-camera"></i>
+                    <p>Select Product Image</p>
+                    <img id="pPreview" class="hidden w-full h-40 object-contain mt-2 rounded-lg">
+                </label>
+                <input type="file" id="pImg" accept="image/*" class="hidden" onchange="handleImg(event, 'p')">
+                
+                <input type="text" id="pName" placeholder="Product Name (Ex: Red Ribbon Box)">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="number" id="pPrice" placeholder="Price (Rs)">
+                    <input type="number" id="pDeli" placeholder="Delivery (0=Free)">
                 </div>
+                <input type="text" id="pColors" placeholder="Colors (Ex: Red, Pink, Blue)">
+                <input type="text" id="pTypes" placeholder="Types (Ex: Box, Bouquet, Card)">
+                <button onclick="uploadProduct()" id="addBtn" class="rose-btn mt-4">Publish Now</button>
             </main>
 
-            <!-- POST UPDATE VIEW -->
-            <main id="view-updates" class="hidden max-w-lg mx-auto glass-card p-8 rounded-[2.5rem] border border-[#ff007f]/20 fade-in">
-                <h2 class="orbitron text-center text-lg font-bold text-yellow-500 mb-6">Create Life Update</h2>
-                <div class="space-y-2">
-                    <input type="file" id="uImg" accept="image/*" onchange="handleImg(event, 'u')">
-                    <input type="text" id="uCaption" placeholder="Update Title (for scroller)">
-                    <textarea id="uDesc" placeholder="Full Details for users..." rows="4"></textarea>
-                    <input type="text" id="uLink" placeholder="External Link (Optional)">
-                    <button onclick="uploadUpdate()" id="updBtn" class="w-full rose-btn bg-yellow-600 py-4 mt-4">Post Live</button>
+            <!-- VIEW: MANAGE BANKS -->
+            <main id="view-banks" class="hidden space-y-6 fade-in">
+                <div class="max-w-lg mx-auto standard-card p-8">
+                    <h2 class="text-center font-black text-gray-800 mb-8 uppercase text-sm">Add New Bank Account</h2>
+                    <label for="bLogo" class="upload-label" id="bLogoLabel">
+                        <i class="fas fa-university"></i>
+                        <p>Upload Bank Logo</p>
+                        <img id="bPreview" class="hidden w-16 h-16 mx-auto object-contain mt-2">
+                    </label>
+                    <input type="file" id="bLogo" accept="image/*" class="hidden" onchange="handleImg(event, 'b')">
+                    
+                    <input type="text" id="bName" placeholder="Bank Name (Ex: BOC)">
+                    <input type="text" id="bHolder" placeholder="Account Holder Name">
+                    <input type="text" id="bNumber" placeholder="Account Number">
+                    <input type="text" id="bBranch" placeholder="Branch Name">
+                    <button onclick="uploadBank()" class="rose-btn mt-4">Save Account</button>
                 </div>
-                <div id="admin-up-list" class="mt-8 space-y-3"></div>
+                <div id="admin-bank-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8"></div>
             </main>
 
-            <!-- CHATS VIEW -->
-            <main id="view-chats" class="hidden flex flex-col gap-4 h-[70vh]">
+            <!-- VIEW: LIFE UPDATES -->
+            <main id="view-updates" class="hidden max-w-lg mx-auto standard-card p-8 fade-in">
+                <h2 class="text-center font-black text-gray-800 mb-8 uppercase text-sm">Post Life Update</h2>
+                <label for="uImg" class="upload-label" id="uImgLabel">
+                    <i class="fas fa-image"></i>
+                    <p>Select Update Photo</p>
+                    <img id="uPreview" class="hidden w-full h-40 object-contain mt-2 rounded-lg">
+                </label>
+                <input type="file" id="uImg" accept="image/*" class="hidden" onchange="handleImg(event, 'u')">
+                
+                <input type="text" id="uCaption" placeholder="Update Title (Scroller)">
+                <textarea id="uDesc" placeholder="Full Details Description..." rows="4"></textarea>
+                <input type="text" id="uLink" placeholder="Link (Optional)">
+                <button onclick="uploadUpdate()" class="rose-btn mt-4">Post Live</button>
+                
+                <div id="admin-up-list" class="mt-10 space-y-3"></div>
+            </main>
+
+            <!-- VIEW: CHATS -->
+            <main id="view-chats" class="hidden flex flex-col gap-4 h-[75vh] fade-in">
                 <div id="chatUsers" class="flex gap-2 overflow-x-auto no-scrollbar pb-2"></div>
-                <div class="flex-grow glass-card rounded-[2rem] flex flex-col overflow-hidden relative">
-                    <div id="chatWith" class="p-4 bg-white/5 font-bold text-[10px] uppercase neon-text border-b border-white/5">Select User</div>
+                <div class="flex-grow standard-card flex flex-col overflow-hidden relative">
+                    <div id="chatWith" class="p-4 bg-gray-50 font-bold text-xs uppercase text-rose-600 border-b">Select a user to chat</div>
                     <div id="chatMsgs" class="flex-grow p-4 overflow-y-auto no-scrollbar flex flex-col gap-3"></div>
-                    <div class="p-4 flex gap-3"><input type="text" id="repInput" class="!mb-0"><button onclick="adminSend()" class="rose-btn px-6">Send</button></div>
+                    <div class="p-4 flex gap-3 border-t">
+                        <input type="text" id="repInput" placeholder="Type reply..." class="!mb-0">
+                        <button onclick="adminSend()" class="rose-btn !w-32">Send</button>
+                    </div>
                 </div>
             </main>
 
@@ -119,134 +161,154 @@
     </div>
 
     <script>
+        // FIREBASE CONFIGURATION
         const firebaseConfig = { apiKey: "AIzaSyAHP6jCiOZ3yBTMogJ-8lGWb26U_SfeXts", authDomain: "lochi-creation-bc929.firebaseapp.com", databaseURL: "https://lochi-creation-bc929-default-rtdb.firebaseio.com", projectId: "lochi-creation-bc929", storageBucket: "lochi-creation-bc929.firebasestorage.app", messagingSenderId: "636349455142", appId: "1:636349455142:web:01964aef83ad25fb59ffe7" };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let pBase64 = "", uBase64 = "", curChat = "";
+        let pBase64 = "", uBase64 = "", bBase64 = "", curChat = "";
 
-        function login() { if(adminPass.value === "lochi2026") { localStorage.setItem('lochi_master', 'true'); location.reload(); } else alert("Wrong Key!"); }
+        // AUTH LOGIC
+        function login() { if(adminPass.value === "lochi2026") { localStorage.setItem('lochi_master', 'true'); location.reload(); } else alert("Access Denied!"); }
         function checkAuth() { if(localStorage.getItem('lochi_master')) { adminAuth.classList.add('hidden'); adminDashboard.classList.remove('hidden'); initAdmin(); } }
         function signOut() { localStorage.removeItem('lochi_master'); location.reload(); }
 
+        // TAB SWITCHER
         function switchTab(t) {
-            ['orders','edit','add','updates','chats'].forEach(v => document.getElementById('view-'+v).classList.add('hidden'));
-            ['tab-orders','tab-edit','tab-add','tab-updates','tab-chats'].forEach(b => document.getElementById(b).classList.remove('active-tab'));
+            ['orders','edit','add','banks','updates','chats'].forEach(v => document.getElementById('view-'+v).classList.add('hidden'));
+            ['tab-orders','tab-edit','tab-add','tab-banks','tab-updates','tab-chats'].forEach(b => document.getElementById(b).classList.remove('active-tab'));
             document.getElementById('view-'+t).classList.remove('hidden');
             document.getElementById('tab-'+t).classList.add('active-tab');
         }
 
+        // IMAGE HANDLER
         function handleImg(e, mode) {
             const file = e.target.files[0];
             const reader = new FileReader();
             reader.onload = (res) => {
-                if(mode === 'p') pBase64 = res.target.result;
-                else uBase64 = res.target.result;
+                const base = res.target.result;
+                if(mode === 'p') { pBase64 = base; pPreview.src = base; pPreview.classList.remove('hidden'); pImgLabel.querySelector('i').classList.add('hidden'); pImgLabel.querySelector('p').classList.add('hidden'); }
+                else if(mode === 'u') { uBase64 = base; uPreview.src = base; uPreview.classList.remove('hidden'); uImgLabel.querySelector('i').classList.add('hidden'); }
+                else if(mode === 'b') { bBase64 = base; bPreview.src = base; bPreview.classList.remove('hidden'); bLogoLabel.querySelector('i').classList.add('hidden'); }
             };
             reader.readAsDataURL(file);
         }
 
+        // INITIALIZE DATA
         function initAdmin() {
-            // LIVE ORDERS
+            // Live Orders
             database.ref('orders').on('value', s => {
                 const data = s.val(); if(!data) return;
                 document.getElementById('view-orders').innerHTML = Object.entries(data).reverse().map(([id, o]) => `
-                    <div class="glass-card p-5 rounded-3xl relative border-white/5">
-                        <span class="status-badge bg-pink-900/40 text-pink-400 absolute top-4 right-4">${o.status}</span>
-                        <h3 class="font-bold text-sm uppercase mb-1">${o.item}</h3>
-                        <p class="text-[10px] text-gray-400 mb-3">${o.customerName} (${o.phone})</p>
-                        <div class="bg-white/5 p-3 rounded-xl text-[9px] space-y-1 mb-4">
-                            <p>COLOR: ${o.color} | QTY: ${o.qty}</p>
-                            <p class="text-pink-400 font-bold">TOTAL: Rs. ${o.total}</p>
-                            <p class="opacity-60">ADDR: ${o.address}</p>
+                    <div class="standard-card p-6 relative">
+                        <span class="status-badge absolute top-4 right-4 ${o.status==='Pending'?'bg-orange-100 text-orange-600':'bg-green-100 text-green-600'}">${o.status}</span>
+                        <h3 class="font-bold text-gray-800 uppercase text-sm mb-1">${o.item}</h3>
+                        <p class="text-[10px] text-gray-400 font-bold uppercase mb-4">${o.customerName} | ${o.phone}</p>
+                        <div class="bg-gray-50 p-4 rounded-xl text-xs space-y-1 mb-4 text-gray-600">
+                            <p><strong>Option:</strong> ${o.color} (${o.type}) | Qty: ${o.qty}</p>
+                            <p class="text-rose-600"><strong>Payment:</strong> Rs. ${o.total} (${o.payment})</p>
+                            <p><strong>Address:</strong> ${o.address}</p>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
-                            ${o.slip ? `<button onclick="viewSlip('${id}')" class="col-span-2 bg-yellow-600 text-black py-2 rounded-xl font-bold text-[9px]">VIEW BANK SLIP</button>` : ''}
-                            <button onclick="updateStatus('${id}', 'Shipped')" class="bg-blue-600 py-2 rounded-xl font-bold text-[9px]">SHIP</button>
-                            <button onclick="downloadInvoice('${id}', ${JSON.stringify(o).replace(/"/g, '&quot;')})" class="bg-white text-black py-2 rounded-xl font-bold text-[9px]">INVOICE</button>
-                            <button onclick="database.ref('orders/${id}').remove()" class="col-span-2 text-red-500 font-bold text-[9px] mt-2">DELETE ORDER</button>
+                            ${o.slip ? `<button onclick="window.open().document.write('<img src=\\'${o.slip}\\'>')" class="col-span-2 bg-blue-500 text-white py-2 rounded-lg text-[10px] font-bold">VIEW PAYMENT SLIP</button>` : ''}
+                            <button onclick="database.ref('orders/${id}').update({status:'Shipped'})" class="bg-gray-800 text-white py-2 rounded-lg text-[10px] font-bold">MARK SHIPPED</button>
+                            <button onclick="downloadInvoice('${id}', ${JSON.stringify(o).replace(/"/g, '&quot;')})" class="bg-gray-200 text-gray-700 py-2 rounded-lg text-[10px] font-bold">INVOICE</button>
+                            <button onclick="if(confirm('Delete Order?')) database.ref('orders/${id}').remove()" class="col-span-2 text-red-500 text-[10px] font-bold py-2">DELETE ORDER</button>
                         </div>
                     </div>`).join('');
             });
 
-            // EDIT/CATALOG
+            // Edit Products (Catalog)
             database.ref('products').on('value', s => {
                 const d = s.val(); if(!d) return;
                 document.getElementById('edit-list').innerHTML = Object.entries(d).map(([id, p]) => `
-                    <div class="glass-card p-4 rounded-2xl flex items-center gap-4">
-                        <img src="${p.image}" class="w-12 h-12 rounded-lg object-cover border border-white/10">
+                    <div class="standard-card p-4 flex items-center gap-4">
+                        <img src="${p.image}" class="w-14 h-14 rounded-xl object-cover border">
                         <div class="flex-grow">
-                            <input type="text" id="en-${id}" value="${p.name}" class="!p-1 !mb-1 !text-[10px] !border-none">
+                            <input type="text" id="en-${id}" value="${p.name}" class="!p-1 !mb-1 !text-sm !border-none font-bold !bg-transparent">
                             <div class="flex gap-2">
-                                <div class="w-1/2"><label class="text-[8px] opacity-40">PRICE</label><input type="number" id="ep-${id}" value="${p.price}" class="!p-1 !mb-0 !text-[10px]"></div>
-                                <div class="w-1/2"><label class="text-[8px] opacity-40">DELI</label><input type="number" id="ed-${id}" value="${p.deliveryFee}" class="!p-1 !mb-0 !text-[10px]"></div>
+                                <div class="w-1/2"><label class="text-[8px] font-bold uppercase text-gray-400">Price</label><input type="number" id="ep-${id}" value="${p.price}" class="!p-1 !mb-0 !text-xs"></div>
+                                <div class="w-1/2"><label class="text-[8px] font-bold uppercase text-gray-400">Deli Fee</label><input type="number" id="ed-${id}" value="${p.deliveryFee}" class="!p-1 !mb-0 !text-xs"></div>
                             </div>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <button onclick="saveEdit('${id}')" class="bg-green-600 p-2 rounded-lg"><i class="fas fa-check"></i></button>
-                            <button onclick="database.ref('products/${id}').remove()" class="bg-red-600 p-2 rounded-lg"><i class="fas fa-trash"></i></button>
+                            <button onclick="saveEdit('${id}')" class="text-green-600 p-2"><i class="fas fa-check-circle fa-lg"></i></button>
+                            <button onclick="if(confirm('Delete Product?')) database.ref('products/${id}').remove()" class="text-red-400 p-2"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </div>`).join('');
             });
 
-            // LIVE UPDATES LIST
-            database.ref('updates').on('value', s => {
-                const d = s.val(); if(!d) return;
-                document.getElementById('admin-up-list').innerHTML = Object.entries(d).reverse().map(([id, u]) => `
-                    <div class="flex items-center justify-between bg-white/5 p-3 rounded-2xl">
-                        <p class="text-[10px] truncate w-40">${u.caption}</p>
-                        <button onclick="database.ref('updates/${id}').remove()" class="text-red-500 text-[10px]">Delete</button>
-                    </div>`).join('');
+            // Banks
+            database.ref('banks').on('value', s => {
+                const b = s.val();
+                document.getElementById('admin-bank-list').innerHTML = b ? Object.entries(b).map(([id, x]) => `
+                    <div class="standard-card p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="${x.logo}" class="w-10 h-10 object-contain p-1 border rounded-lg">
+                            <div><p class="font-bold text-xs uppercase">${x.name}</p><p class="text-[10px] text-gray-400">${x.number}</p></div>
+                        </div>
+                        <button onclick="database.ref('banks/${id}').remove()" class="text-red-500 p-2"><i class="fas fa-trash"></i></button>
+                    </div>`).join('') : '';
             });
 
-            // CHAT USERS
+            // Chat Users
             database.ref('chats').on('value', s => {
                 const chats = s.val(); if(!chats) return;
                 document.getElementById('chatUsers').innerHTML = Object.keys(chats).map(ph => `
-                    <div onclick="openChat('${ph}')" class="px-4 py-2 bg-white/5 rounded-full cursor-pointer border border-pink-900/30 transition ${curChat === ph ? 'active-tab' : ''}">
-                        <p class="text-[10px] font-bold">${ph}</p>
+                    <div onclick="openChat('${ph}')" class="px-5 py-2 bg-white rounded-full cursor-pointer border border-gray-200 text-xs font-bold ${curChat === ph ? 'active-tab' : 'text-gray-500'}">
+                        ${ph}
+                    </div>`).join('');
+            });
+
+            // Updates List
+            database.ref('updates').on('value', s => {
+                const d = s.val(); if(!d) return;
+                document.getElementById('admin-up-list').innerHTML = Object.entries(d).reverse().map(([id, u]) => `
+                    <div class="flex items-center justify-between bg-white p-3 rounded-xl border">
+                        <p class="text-xs font-bold text-gray-600 truncate w-48">${u.caption}</p>
+                        <button onclick="database.ref('updates/${id}').remove()" class="text-red-500 text-xs font-bold">Remove</button>
                     </div>`).join('');
             });
         }
 
-        // ACTIONS
-        function saveEdit(id) {
-            const name = document.getElementById('en-'+id).value;
-            const price = document.getElementById('ep-'+id).value;
-            const deli = document.getElementById('ed-'+id).value;
-            database.ref('products/'+id).update({ name, price: parseInt(price), deliveryFee: parseInt(deli) });
-            alert("Changes Saved!");
-        }
+        // --- ACTIONS ---
 
         function uploadProduct() {
-            if(!pBase64 || !pName.value) return alert("Photo & Name Required!");
-            const d = { name: pName.value, price: parseInt(pPrice.value), deliveryFee: parseInt(pDeli.value), colors: pColors.value, types: pTypes.value, image: pBase64 };
-            database.ref('products').push(d).then(() => { alert("Published!"); location.reload(); });
+            if(!pBase64 || !pName.value || !pPrice.value) return alert("Fill Name, Price & Image!");
+            const d = { name: pName.value, price: parseInt(pPrice.value), deliveryFee: parseInt(pDeli.value || 0), colors: pColors.value || "Default", types: pTypes.value || "Default", image: pBase64 };
+            database.ref('products').push(d).then(() => { alert("Product Published Successfully!"); location.reload(); });
+        }
+
+        function saveEdit(id) {
+            const up = { 
+                name: document.getElementById('en-'+id).value, 
+                price: parseInt(document.getElementById('ep-'+id).value), 
+                deliveryFee: parseInt(document.getElementById('ed-'+id).value) 
+            };
+            database.ref('products/'+id).update(up).then(() => alert("Catalog Updated!"));
+        }
+
+        function uploadBank() {
+            if(!bBase64 || !bName.value || !bNumber.value) return alert("Fill Bank Details!");
+            const d = { name: bName.value, holder: bHolder.value, number: bNumber.value, branch: bBranch.value, logo: bBase64 };
+            database.ref('banks').push(d).then(() => { alert("Bank Account Added!"); location.reload(); });
         }
 
         function uploadUpdate() {
-            if(!uBase64 || !uCaption.value) return alert("Caption & Photo Required!");
+            if(!uBase64 || !uCaption.value) return alert("Add Title & Photo!");
             const d = { image: uBase64, caption: uCaption.value, desc: uDesc.value, link: uLink.value, time: new Date().toLocaleDateString() };
-            database.ref('updates').push(d).then(() => { alert("Post Added!"); location.reload(); });
-        }
-
-        function updateStatus(id, s) { database.ref('orders/' + id).update({ status: s }); }
-
-        function viewSlip(id) {
-            database.ref('orders/'+id+'/slip').once('value', s => {
-                const slip = s.val(); if(slip) { const w = window.open(); w.document.write('<img src="'+slip+'" style="width:100%">'); }
-            });
+            database.ref('updates').push(d).then(() => { alert("Update Posted!"); location.reload(); });
         }
 
         function openChat(ph) {
-            curChat = ph; document.getElementById('chatWith').innerText = "CHAT WITH: " + ph;
+            curChat = ph; document.getElementById('chatWith').innerText = "CHATTING WITH: " + ph;
             database.ref('chats/'+ph).on('value', s => {
                 const d = s.val(); if(!d) return;
                 document.getElementById('chatMsgs').innerHTML = Object.values(d).map(m => `
                     <div class="flex ${m.sender==='admin'?'justify-end':'justify-start'}">
-                        <div class="p-3 rounded-2xl max-w-[85%] text-[10px] ${m.sender==='admin'?'bg-pink-600':'glass-card border-pink-900/30'}">${m.text}</div>
+                        <div class="p-3 rounded-2xl max-w-[85%] text-xs ${m.sender==='admin'?'bg-rose-600 text-white shadow-md':'bg-gray-100 text-gray-800'}">${m.text}</div>
                     </div>`).join('');
-                document.getElementById('chatMsgs').scrollTop = document.getElementById('chatMsgs').scrollHeight;
+                const box = document.getElementById('chatMsgs'); box.scrollTop = box.scrollHeight;
             });
         }
 
@@ -257,12 +319,14 @@
 
         async function downloadInvoice(id, o) {
             const { jsPDF } = window.jspdf; const doc = new jsPDF();
-            doc.setFontSize(22); doc.setTextColor(255, 0, 127); doc.text("LOCHI CREATION", 105, 20, null, null, "center");
-            doc.setFontSize(10); doc.setTextColor(0,0,0);
-            doc.text([`Order ID: ${id}`, `Customer: ${o.customerName}`, `Phone: ${o.phone}`, `Address: ${o.address}`, 
-                      `---------------------------------------`, `Product: ${o.item}`, `Qty: ${o.qty}`, `Color: ${o.color}`,
-                      `Total: Rs. ${o.total}/=`, `Payment: ${o.payment || 'Verified'}`], 20, 40);
-            doc.save(`Lochi_Invoice_${o.customerName}.pdf`);
+            doc.setFontSize(22); doc.setTextColor(216, 27, 96); doc.text("LOCHI STORE", 105, 20, null, null, "center");
+            doc.setFontSize(10); doc.setTextColor(50,50,50);
+            doc.text([`ORDER INVOICE`, `Order ID: ${id}`, `---------------------------------------`,
+                      `Customer: ${o.customerName}`, `Phone: ${o.phone}`, `Address: ${o.address}`, 
+                      `---------------------------------------`, `Product: ${o.item}`, `Quantity: ${o.qty}`, `Color: ${o.color}`,
+                      `---------------------------------------`, `TOTAL: Rs. ${o.total}/=`, `Payment: ${o.payment}`,
+                      `Date: ${o.time}`], 20, 40);
+            doc.save(`Invoice_${o.customerName}.pdf`);
         }
     </script>
 </body>
