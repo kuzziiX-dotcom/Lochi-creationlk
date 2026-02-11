@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -41,7 +41,6 @@
         .auth-input { width: 100%; background: #ffffff; border: 1px solid #e2e8f0; color: var(--text-main); padding: 15px 20px; border-radius: 14px; outline: none; transition: 0.3s; font-size: 14px; }
         .auth-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.1); }
 
-        /* Ticker Styled to fit below updates */
         .ticker-container { background: var(--primary); overflow: hidden; white-space: nowrap; padding: 10px 0; border-radius: 12px; margin: 15px 0; }
         .ticker-content { display: inline-block; animation: scroll-ticker 15s linear infinite; font-size: 13px; font-weight: 800; color: white; text-transform: uppercase; letter-spacing: 1.5px; }
         @keyframes scroll-ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
@@ -77,6 +76,15 @@
         .bank-table td { padding: 12px 15px; }
         .bank-table td:first-child { background: #f8fafc; border-radius: 12px 0 0 12px; color: #64748b; font-weight: 600; width: 40%; }
         .bank-table td:last-child { background: #f8fafc; border-radius: 0 12px 12px 0; color: #1e293b; font-weight: 800; }
+
+        /* About Page Styles */
+        .lang-card { padding: 20px; border-radius: 18px; background: #fff; margin-bottom: 15px; border: 1px solid #f0f0f0; }
+        .lang-title { font-weight: 800; font-size: 12px; color: var(--primary); text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .social-icon-btn { height: 55px; width: 55px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .store-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: #000; color: white; padding: 15px; border-radius: 15px; font-weight: 700; width: 100%; margin-top: 10px; }
+        .stats-container { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 25px; padding: 25px; color: white; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px; text-align: center; }
+        .stat-value { font-size: 24px; font-weight: 900; color: #fbbf24; display: block; }
+        .stat-label { font-size: 10px; text-transform: uppercase; opacity: 0.7; font-weight: 700; letter-spacing: 1px; }
     </style>
 </head>
 <body onload="initApp()">
@@ -121,10 +129,8 @@
         <div id="content-views" class="flex-grow pb-28">
             <!-- HOME VIEW -->
             <main id="view-home" class="p-6 fade-in">
-                <!-- Updates Scroller -->
                 <div id="photo-updates-scroller" class="flex overflow-x-auto gap-5 pb-6 no-scrollbar"></div>
                 
-                <!-- Ticker Below Updates -->
                 <div class="ticker-container">
                     <div class="ticker-content">VALENTINE SPECIAL • VALENTINE SPECIAL • VALENTINE SPECIAL • VALENTINE SPECIAL</div>
                 </div>
@@ -139,6 +145,62 @@
 
                 <h3 class="text-xl font-bold mb-8 mt-8 border-l-6 border-[#d81b60] pl-4">Collection</h3>
                 <div id="product-grid" class="grid grid-cols-2 gap-5"></div>
+            </main>
+
+            <!-- ABOUT VIEW -->
+            <main id="view-about" class="hidden p-6 fade-in">
+                <div class="text-center mb-10">
+                    <img src="https://res.cloudinary.com/deljgkppf/image/upload/v1769218185/Gemini_Generated_Image_r90uezr90uezr90u_canlmu.png" class="w-24 h-24 rounded-3xl mx-auto shadow-xl mb-4 border-4 border-white">
+                    <h2 class="text-2xl font-black text-gray-800">Lochi Creation LK</h2>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Premium Gift Experience</p>
+                </div>
+
+                <div class="lang-card shadow-sm">
+                    <span class="lang-title">English</span>
+                    <p class="text-sm text-gray-600 leading-relaxed">Lochi Store is your premier destination for unique gifts and professional creations. We bring magic to your special moments with premium quality and heart-touching designs. Download our official app now.</p>
+                </div>
+
+                <div class="lang-card shadow-sm">
+                    <span class="lang-title">සිංහල</span>
+                    <p class="text-sm text-gray-600 leading-relaxed">Lochi Store යනු සුවිශේෂී තෑගි සහ නිර්මාණ සඳහා වන ඔබගේ ප්‍රමුඛතම ගමනාන්තයයි. උසස් තත්ත්වයේ නිර්මාණ හරහා ඔබගේ විශේෂ අවස්ථා වඩාත් අර්ථවත් කිරීමට අප කැපවී සිටින්නෙමු. අපගේ නිල App එක දැන්ම බාගත කරගන්න.</p>
+                </div>
+
+                <div class="lang-card shadow-sm">
+                    <span class="lang-title">한국어 (Korean)</span>
+                    <p class="text-sm text-gray-600 leading-relaxed">Lochi Store는 독특한 선물과 전문적인 창작물을 위한 최고의 장소입니다. 프리미엄 품질과 감동적인 디자인으로 당신의 특별한 순간에 마법을 더해드립니다. 지금 공식 앱을 다운로드하세요.</p>
+                </div>
+
+                <div class="lang-card shadow-sm">
+                    <span class="lang-title">日本語 (Japanese)</span>
+                    <p class="text-sm text-gray-600 leading-relaxed">Lochi Storeは、ユニークなギフトとプロフェッショナルな創作のための最高の目的地です。プレミアムな品質と心に響くデザインで、あなたの特別な瞬間に魔法をかけます。公式アプリを今すぐダウンロード。</p>
+                </div>
+
+                <!-- App Store Buttons -->
+                <div class="grid grid-cols-2 gap-3 mt-8">
+                    <a href="https://kodular.app/MQU-IPI" target="_blank" class="store-btn"><i class="fab fa-google-play"></i> Play Store</a>
+                    <a href="https://kodular.app/MQU-IPI" target="_blank" class="store-btn"><i class="fab fa-apple"></i> App Store</a>
+                </div>
+
+                <!-- Social Links -->
+                <div class="flex justify-center gap-5 mt-10">
+                    <a href="https://whatsapp.com/channel/0029Vb6Za3m60eBniEBj5X31" target="_blank" class="social-icon-btn bg-green-500"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="social-icon-btn bg-blue-600"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon-btn bg-red-600"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-icon-btn bg-black"><i class="fab fa-tiktok"></i></a>
+                </div>
+
+                <!-- Live Stats -->
+                <div class="stats-container">
+                    <div>
+                        <span id="stat-users" class="stat-value">0</span>
+                        <span class="stat-label">Happy Users</span>
+                    </div>
+                    <div>
+                        <span id="stat-orders" class="stat-value">0</span>
+                        <span class="stat-label">Total Orders</span>
+                    </div>
+                </div>
+                <p class="text-[10px] text-center text-gray-400 mt-6 font-bold uppercase tracking-widest">© 2024 Lochi Creation. All Rights Reserved.</p>
             </main>
 
             <!-- UPDATE DETAILS VIEW -->
@@ -170,31 +232,11 @@
                         </label>
                     </div>
                     <div class="space-y-5 text-left">
-                        <div>
-                            <label class="text-[11px] font-bold text-gray-400 uppercase ml-2">Your Name</label>
-                            <input type="text" id="editName" class="auth-input" placeholder="Display Name">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-gray-400 uppercase ml-2">Phone Number</label>
-                            <input type="text" id="editPhone" class="auth-input" placeholder="07xxxxxxxx">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-gray-400 uppercase ml-2">Delivery Address</label>
-                            <textarea id="editAddress" class="auth-input h-28" placeholder="Street, City, Province"></textarea>
-                        </div>
+                        <div><label class="text-[11px] font-bold text-gray-400 uppercase ml-2">Your Name</label><input type="text" id="editName" class="auth-input"></div>
+                        <div><label class="text-[11px] font-bold text-gray-400 uppercase ml-2">Phone Number</label><input type="text" id="editPhone" class="auth-input"></div>
+                        <div><label class="text-[11px] font-bold text-gray-400 uppercase ml-2">Delivery Address</label><textarea id="editAddress" class="auth-input h-28"></textarea></div>
                     </div>
                     <button onclick="updateProfile(); haptic(100);" class="w-full rose-btn py-5 mt-10">Save Profile</button>
-                </div>
-            </main>
-            
-            <!-- HELP -->
-            <main id="view-help" class="hidden p-6 fade-in text-center">
-                <div class="standard-card p-10 space-y-8">
-                    <h2 class="text-2xl font-bold rose-text">Support Center</h2>
-                    <div class="space-y-4">
-                        <a href="https://wa.me/94775497858" target="_blank" class="block bg-gray-50 p-6 rounded-2xl border border-gray-100 text-sm font-bold flex items-center justify-center gap-3"><i class="fab fa-whatsapp text-green-500 text-2xl"></i> WHATSAPP SUPPORT</a>
-                        <a href="https://t.me/+94775497858" target="_blank" class="block bg-gray-50 p-6 rounded-2xl border border-gray-100 text-sm font-bold flex items-center justify-center gap-3"><i class="fab fa-telegram text-blue-400 text-2xl"></i> TELEGRAM CHANNEL</a>
-                    </div>
                 </div>
             </main>
         </div>
@@ -202,7 +244,7 @@
         <footer class="fixed bottom-0 w-full bg-white flex justify-around p-5 border-t border-gray-100 z-[100] shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
             <i class="fas fa-house nav-icon active-nav" id="nav-home" onclick="navigateTo('home'); haptic(20);"></i>
             <i class="fas fa-shopping-bag nav-icon" id="nav-history" onclick="navigateTo('history'); haptic(20);"></i>
-            <i class="fas fa-headset nav-icon" id="nav-service" onclick="navigateTo('service'); haptic(20);"></i>
+            <i class="fas fa-info-circle nav-icon" id="nav-about" onclick="navigateTo('about'); haptic(20);"></i>
             <i class="fas fa-user-circle nav-icon" id="nav-profile" onclick="navigateTo('profile'); haptic(20);"></i>
         </footer>
     </div>
@@ -213,17 +255,14 @@
             <h2 class="text-2xl font-black rose-text uppercase">Select Bank</h2>
             <button onclick="closeBankPage()" class="text-gray-400 text-3xl"><i class="fas fa-times"></i></button>
         </header>
-
         <div id="bank-selection-list" class="space-y-5"></div>
-
         <div id="bank-transfer-details" class="hidden mt-6 fade-in">
-            <button onclick="showBankList()" class="mb-6 text-xs font-bold text-gray-400 uppercase flex items-center"><i class="fas fa-arrow-left mr-2"></i> Back to bank list</button>
+            <button onclick="showBankList()" class="mb-6 text-xs font-bold text-gray-400 uppercase flex items-center"><i class="fas fa-arrow-left mr-2"></i> Back</button>
             <div id="bank-info-box" class="standard-card p-8 bg-gray-50 mb-8"></div>
-
             <div class="standard-card p-8 text-center space-y-6">
                 <label for="bank-slip-input" class="cursor-pointer block">
                     <div class="border-2 border-dashed border-gray-300 rounded-3xl p-10 bg-white min-h-[180px] flex flex-col items-center justify-center">
-                        <div id="slip-placeholder"><i class="fas fa-camera text-5xl mb-4 text-gray-200"></i><p class="text-xs font-bold text-gray-400">UPLOAD DEPOSIT SLIP</p></div>
+                        <div id="slip-placeholder"><i class="fas fa-camera text-5xl mb-4 text-gray-200"></i><p class="text-xs font-bold text-gray-400">UPLOAD SLIP</p></div>
                         <img id="slip-preview" class="hidden w-full max-h-80 object-contain rounded-2xl shadow-lg">
                     </div>
                     <input type="file" id="bank-slip-input" accept="image/*" class="hidden" onchange="handleSlipSelected(event)">
@@ -277,8 +316,8 @@
         <nav class="flex flex-col">
             <span onclick="navigateTo('home'); toggleMenu();" class="menu-item"><i class="fas fa-home"></i> Home Page</span>
             <span onclick="navigateTo('history'); toggleMenu();" class="menu-item"><i class="fas fa-box"></i> My Orders</span>
+            <span onclick="navigateTo('about'); toggleMenu();" class="menu-item"><i class="fas fa-info-circle"></i> About Us</span>
             <span onclick="navigateTo('service'); toggleMenu();" class="menu-item"><i class="fas fa-comment-dots"></i> Support Chat</span>
-            <span onclick="navigateTo('help'); toggleMenu();" class="menu-item"><i class="fas fa-question-circle"></i> Help Center</span>
             <span onclick="navigateTo('profile'); toggleMenu();" class="menu-item"><i class="fas fa-user-circle"></i> My Profile</span>
             <span onclick="signOut()" class="text-red-500 mt-16 menu-item border-none"><i class="fas fa-power-off"></i> Logout Account</span>
         </nav>
@@ -294,11 +333,16 @@
         function haptic(ms) { if(navigator.vibrate) navigator.vibrate(ms); }
         function showToast(m) { const c=document.getElementById('toast-container'); const t=document.createElement('div'); t.className='toast'; t.innerText=m; c.appendChild(t); setTimeout(()=>t.remove(), 3000); }
         function updateStats() { if(navigator.getBattery) navigator.getBattery().then(b => document.getElementById('battery-status').innerText = Math.floor(b.level*100) + "%"); }
-        function toggleAuth(reg) { document.getElementById('login-section').classList.toggle('hidden', reg); document.getElementById('register-section').classList.toggle('hidden', !reg); }
         
+        function loadLiveStats() {
+            database.ref('users').on('value', s => { document.getElementById('stat-users').innerText = (s.numChildren() + 150) + "+"; });
+            database.ref('orders').on('value', s => { document.getElementById('stat-orders').innerText = (s.numChildren() + 85) + "+"; });
+        }
+
+        function toggleAuth(reg) { document.getElementById('login-section').classList.toggle('hidden', reg); document.getElementById('register-section').classList.toggle('hidden', !reg); }
         function register() {
             const d = { name: sName.value, phone: sPhone.value, pass: sPass.value, address: "", pic: "" };
-            if(!d.name || !d.phone || !d.pass) return alert("All fields are required!");
+            if(!d.name || !d.phone || !d.pass) return alert("All fields required!");
             database.ref('users/'+d.phone).set(d).then(() => { user=d; localStorage.setItem('lochi_session', JSON.stringify(user)); showMain(); });
         }
         function login() {
@@ -317,6 +361,7 @@
             document.getElementById('editPhone').value = user.phone || "";
             document.getElementById('editAddress').value = user.address || "";
             navigateTo('home'); 
+            loadLiveStats();
         }
 
         function loadUpdates() {
@@ -336,7 +381,7 @@
                 document.getElementById('update-details-content').innerHTML = `
                     <img src="${u.image}" class="w-full rounded-2xl mb-6 shadow-md">
                     <h2 class="text-2xl font-black rose-text mb-4 uppercase">${u.caption}</h2>
-                    <p class="text-sm text-gray-500 leading-relaxed mb-6 whitespace-pre-line">${u.desc || "Limited Valentine Offer!"}</p>
+                    <p class="text-sm text-gray-500 leading-relaxed mb-6 whitespace-pre-line">${u.desc || "Limited Offer!"}</p>
                     ${u.link ? `<button onclick="window.open('${u.link}')" class="rose-btn w-full py-5">View Details</button>` : ''}
                 `;
                 navigateTo('update-details');
@@ -355,76 +400,6 @@
                         <button onclick="startOrder('${id}', '${x.name}', ${x.price}, ${x.deliveryFee}, '${x.colors}', '${x.types}')" class="w-full rose-btn py-3 text-[11px]">Buy Now</button>
                     </div>`).join('');
             });
-        }
-
-        function updateProfile() {
-            const up = { name: editName.value, phone: editPhone.value, address: editAddress.value };
-            database.ref('users/'+user.phone).update(up).then(() => { 
-                Object.assign(user, up); 
-                localStorage.setItem('lochi_session', JSON.stringify(user)); 
-                showToast("Profile Updated!"); 
-            });
-        }
-
-        function uploadProfilePic(e) {
-            const file = e.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = (res) => {
-                    const base64 = res.target.result;
-                    user.pic = base64;
-                    database.ref('users/'+user.phone).update({pic: base64});
-                    document.getElementById('mainProfilePic').src = base64;
-                    showToast("Photo Uploaded!");
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function finalizeProcess() {
-            if(document.getElementById('mPay').value === 'bank') {
-                document.getElementById('orderModal').classList.add('hidden');
-                document.getElementById('view-bank-pay').classList.remove('hidden');
-                loadBanks();
-            } else { saveToDb('COD', ''); }
-        }
-
-        function loadBanks() {
-            database.ref('banks').once('value', s => {
-                const b = s.val(); const list = document.getElementById('bank-selection-list');
-                list.innerHTML = b ? Object.entries(b).map(([id, x]) => `
-                    <div class="bank-card" onclick="selectBank(${JSON.stringify(x).replace(/"/g, '&quot;')})">
-                        <img src="${x.logo}" class="w-12 h-12 object-contain bg-gray-50 p-1 rounded-lg">
-                        <div><p class="font-black text-sm uppercase">${x.name}</p><p class="text-[11px] text-gray-400 font-bold">${x.number}</p></div>
-                    </div>`).join('') : '<p class="text-center text-gray-300 py-10">No bank accounts added.</p>';
-                showBankList();
-            });
-        }
-
-        function selectBank(bank) {
-            selectedBank = bank;
-            document.getElementById('bank-selection-list').classList.add('hidden');
-            document.getElementById('bank-transfer-details').classList.remove('hidden');
-            document.getElementById('bank-info-box').innerHTML = `
-                <div class="flex items-center gap-4 mb-6">
-                    <img src="${bank.logo}" class="w-14 h-14 rounded-xl object-contain bg-white p-2">
-                    <div><h3 class="font-black text-xl">${bank.name}</h3><p class="text-xs text-gray-400 uppercase font-bold">${bank.branch}</p></div>
-                </div>
-                <table class="bank-table">
-                    <tr><td>A/C Holder</td><td>${bank.holder}</td></tr>
-                    <tr><td>A/C Number</td><td>${bank.number}</td></tr>
-                </table>`;
-        }
-
-        function showBankList() {
-            document.getElementById('bank-selection-list').classList.remove('hidden');
-            document.getElementById('bank-transfer-details').classList.add('hidden');
-            slipData = ""; document.getElementById('slip-preview').classList.add('hidden'); document.getElementById('slip-placeholder').classList.remove('hidden');
-        }
-
-        function submitBankOrder() {
-            if(!slipData) return showToast("Please upload payment slip!");
-            saveToDb(`Bank (${selectedBank.name})`, slipData); closeBankPage();
         }
 
         function startOrder(id, name, price, deli, colors, types) {
@@ -447,7 +422,36 @@
 
         function calculateTotal() { const total = (currentOrder.price * currentOrder.qty) + currentOrder.deli; document.getElementById('mQty').innerText = currentOrder.qty; document.getElementById('mTotal').innerText = total.toLocaleString(); }
         function changeQty(n) { currentOrder.qty = Math.max(1, currentOrder.qty + n); calculateTotal(); }
-        
+        function finalizeProcess() { if(document.getElementById('mPay').value === 'bank') { document.getElementById('orderModal').classList.add('hidden'); document.getElementById('view-bank-pay').classList.remove('hidden'); loadBanks(); } else { saveToDb('COD', ''); } }
+
+        function loadBanks() {
+            database.ref('banks').once('value', s => {
+                const b = s.val(); const list = document.getElementById('bank-selection-list');
+                list.innerHTML = b ? Object.entries(b).map(([id, x]) => `
+                    <div class="bank-card" onclick="selectBank(${JSON.stringify(x).replace(/"/g, '&quot;')})">
+                        <img src="${x.logo}" class="w-12 h-12 object-contain bg-gray-50 p-1 rounded-lg">
+                        <div><p class="font-black text-sm uppercase">${x.name}</p><p class="text-[11px] text-gray-400 font-bold">${x.number}</p></div>
+                    </div>`).join('') : '<p class="text-center text-gray-300 py-10">No banks.</p>';
+                showBankList();
+            });
+        }
+
+        function selectBank(bank) {
+            selectedBank = bank;
+            document.getElementById('bank-selection-list').classList.add('hidden');
+            document.getElementById('bank-transfer-details').classList.remove('hidden');
+            document.getElementById('bank-info-box').innerHTML = `
+                <table class="bank-table">
+                    <tr><td>Bank</td><td>${bank.name}</td></tr>
+                    <tr><td>A/C Holder</td><td>${bank.holder}</td></tr>
+                    <tr><td>A/C Number</td><td>${bank.number}</td></tr>
+                </table>`;
+        }
+
+        function showBankList() { document.getElementById('bank-selection-list').classList.remove('hidden'); document.getElementById('bank-transfer-details').classList.add('hidden'); }
+        function handleSlipSelected(e) { const f = e.target.files[0]; const reader = new FileReader(); reader.onload = (res) => { slipData = res.target.result; document.getElementById('slip-placeholder').classList.add('hidden'); document.getElementById('slip-preview').classList.remove('hidden'); document.getElementById('slip-preview').src = slipData; }; reader.readAsDataURL(f); }
+        function submitBankOrder() { if(!slipData) return showToast("Upload slip!"); saveToDb(`Bank (${selectedBank.name})`, slipData); closeBankPage(); }
+
         function saveToDb(m, s) {
             const data = { item: currentOrder.item, qty: currentOrder.qty, total: (currentOrder.price * currentOrder.qty) + currentOrder.deli, color: document.getElementById('orderColor').value, type: document.getElementById('orderType').value, customerName: user.name, phone: user.phone, address: orderAddress.value, payment: m, slip: s, status: 'Pending', time: new Date().toLocaleString() };
             database.ref('orders').push(data).then(() => { showToast("Order Successful!"); closeModal(); navigateTo('history'); });
@@ -459,47 +463,25 @@
                     <div class="standard-card p-6 flex justify-between items-center border-l-8 ${o.status==='Pending'?'border-orange-400':'border-green-500'}">
                         <div><p class="font-black text-sm uppercase">${o.item}</p><p class="text-[10px] text-gray-400 font-bold">${o.time}</p></div>
                         <div class="text-right"><p class="text-[11px] font-black uppercase text-gray-400 mb-1">${o.status}</p><p class="rose-text font-black text-base">Rs. ${o.total}</p></div>
-                    </div>`).join('') : '<p class="text-center text-gray-300 py-20">No orders found.</p>';
+                    </div>`).join('') : '<p class="text-center text-gray-300 py-20">No orders.</p>';
             });
-        }
-
-        function sendMsg() { const t=chatInput.value; if(!t) return; database.ref('chats/'+user.phone).push({ sender: 'user', text: t }); chatInput.value=""; }
-        function loadChat() {
-            database.ref('chats/'+user.phone).on('value', s => {
-                const d = s.val(); const box = document.getElementById('chat-box');
-                box.innerHTML = d ? Object.values(d).map(m => `
-                    <div class="flex ${m.sender==='user'?'justify-end':'justify-start'}"><div class="p-3 rounded-2xl max-w-[80%] text-sm ${m.sender==='user'?'bg-[#d81b60] text-white shadow-md':'bg-gray-100 text-gray-800'}">${m.text}</div></div>`).join('') : '';
-                box.scrollTop = box.scrollHeight;
-            });
-        }
-
-        function handleSlipSelected(e) { 
-            const f = e.target.files[0]; 
-            const reader = new FileReader(); 
-            reader.onload = (res) => { 
-                slipData = res.target.result; 
-                document.getElementById('slip-placeholder').classList.add('hidden'); 
-                document.getElementById('slip-preview').classList.remove('hidden'); 
-                document.getElementById('slip-preview').src = slipData; 
-            }; 
-            reader.readAsDataURL(f); 
         }
 
         function navigateTo(p) {
-            ['home','service','profile','history','update-details','help'].forEach(v => document.getElementById('view-'+v)?.classList.add('hidden'));
+            ['home','service','profile','history','update-details','about'].forEach(v => document.getElementById('view-'+v)?.classList.add('hidden'));
             document.getElementById('view-'+p).classList.remove('hidden');
             document.querySelectorAll('footer i').forEach(i => i.classList.remove('active-nav'));
             const icon = document.getElementById('nav-'+p); if(icon) icon.classList.add('active-nav');
-            if(p === 'history') loadHistory(); if(p === 'service') loadChat();
+            if(p === 'history') loadHistory();
             window.scrollTo(0,0);
         }
 
         function initApp() { const s = localStorage.getItem('lochi_session'); if(s) { user = JSON.parse(s); showMain(); } loadProducts(); updateStats(); loadUpdates(); }
         function toggleMenu() { document.getElementById('side-menu').classList.toggle('menu-open'); }
-        function closeModal() { document.getElementById('orderModal').classList.add('hidden'); document.getElementById('petal-container').innerHTML = ""; }
+        function closeModal() { document.getElementById('orderModal').classList.add('hidden'); }
         function closeBankPage() { document.getElementById('view-bank-pay').classList.add('hidden'); }
         function signOut() { localStorage.clear(); location.reload(); }
-        function getGPS() { navigator.geolocation.getCurrentPosition(p => { document.getElementById('orderAddress').value = `GPS: ${p.coords.latitude}, ${p.coords.longitude} (Verified)`; }, () => alert("Enable GPS!")); }
+        function getGPS() { navigator.geolocation.getCurrentPosition(p => { document.getElementById('orderAddress').value = `GPS: ${p.coords.latitude}, ${p.coords.longitude}`; }, () => alert("Enable GPS!")); }
     </script>
 </body>
 </html>
