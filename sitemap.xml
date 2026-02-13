@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- ප්‍රධාන පිටුව -->
+  <url>
+    <loc>https://kuzziix-dotcom.github.io/Lochi-creationlk/</loc>
+    <lastmod>2024-05-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Single Page App එකක් නිසා අනෙක් views (About, Profile ආදිය) 
+       වෙනම URL ලෙස නැති වුවත්, අනාගතයේදී වෙනම පිටු හැදුවහොත් මෙතැනට එක් කළ හැක -->
+</urlset
