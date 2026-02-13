@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kuzziix-dotcom.github.io/Lochi-creationlk/sitemap.xml
